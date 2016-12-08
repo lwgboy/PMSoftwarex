@@ -17,10 +17,59 @@
                 <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
                     <p th:text="${#fields.allErrors()[0]}">...</p>
                 </div>
-                <button type="submit" class="btn btn-default">Add</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Add</button>
+                </div>
             </form>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span>List of Categories</span>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form action="#" method="post" id="enquiry_form">
+                                <div id="enquiry_div" class="display_div">
+                                    <table id="category_table"
+                                           class="display table table-bordered dataTables-resp table-striped table-hover"
+                                           cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th align="left"><input type="checkbox" id="enquiry_select_all"/></th>
+                                            <th>ID</th>
+                                            <th>Category</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th><a href="#" id="enquiry_delete_trigger"><img
+                                                    src="../img/button_delete.png"/></a></th>
+                                            <th>ID</th>
+                                            <th>Category</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <input type="hidden" id="enquiry_ids" name="enquiry_ids"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script layout:fragment="footer_script">
+     $(document).ready(function()
+     {
+        var cTable = $('#category_table').dataTable();
+        populate_basic_table("/category/list",cTable,true);
+     });
+
+</script>
 </body>
 </html>

@@ -1,7 +1,5 @@
 package org.tarak.anu.models;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,7 +15,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique=true)
     @NotNull
     @Size(min=3,message ="Category should have minimum 3 characters")
     private String name;

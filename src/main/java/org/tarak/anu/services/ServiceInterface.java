@@ -1,8 +1,5 @@
 package org.tarak.anu.services;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
-import org.tarak.anu.models.Category;
 
 import java.io.Serializable;
 import java.util.List;

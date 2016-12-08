@@ -1,14 +1,9 @@
 package org.tarak.anu.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.tarak.anu.models.Category;
 import org.tarak.anu.repositories.CategoryRepository;
-
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 /**
@@ -16,7 +11,6 @@ import java.util.List;
  */
 
 @Service
-@Primary
 public class CategoryServiceImplementation implements ServiceInterface<Category, Long>
 {
     @Autowired
