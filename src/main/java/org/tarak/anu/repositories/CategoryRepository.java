@@ -8,5 +8,5 @@ import org.tarak.anu.models.Category;
  * Created by Tarak on 12/7/2016.
  */
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }

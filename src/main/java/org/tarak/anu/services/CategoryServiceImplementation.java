@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Service
-public class CategoryServiceImplementation implements ServiceInterface<Category, Long>
+public class CategoryServiceImplementation implements ServiceInterface<Category, Integer>
 {
     @Autowired
     private CategoryRepository repository;
@@ -27,17 +27,17 @@ public class CategoryServiceImplementation implements ServiceInterface<Category,
     }
 
     @Override
-    public Category getOne(Long id) {
+    public Category getOne(Integer id) {
         return repository.getOne(id);
     }
     
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public Category findOne(Long id) {
+    public Category findOne(Integer id) {
         return repository.findOne(id);
     }
 }

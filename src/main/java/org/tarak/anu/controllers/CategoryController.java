@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.anu.models.Category;
 import org.tarak.anu.services.ServiceInterface;
@@ -22,7 +23,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private ServiceInterface<Category, Long> categoryService;
+    private ServiceInterface<Category, Integer> categoryService;
 
     @RequestMapping("/")
     public String index(Model model)
@@ -50,4 +51,13 @@ public class CategoryController {
         return list;
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST )
+    public String deleteCategory(@RequestParam List<Integer> ids)
+    {
+        for(int id: ids)
+        {
+            categoryService.delete(id);
+        }
+        return "category/index";
+    }
 }
