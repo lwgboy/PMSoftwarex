@@ -31,12 +31,16 @@
 					</div>
 				</div>
 			</div>
-			<div id="confirm" class="modal hide fade">
-				<div class="modal-body">Are you sure?</div>
-				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-primary"
-						id="delete">Delete</button>
-					<button type="button" data-dismiss="modal" class="btn">Cancel</button>
+			<div class="modal" id="confirmModal"
+				style="display: none; z-index: 1050;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body" id="confirmMessage"></div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="confirmOk">Yes</button>
+							<button type="button" class="btn" id="confirmCancel">No</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -29,6 +29,18 @@ function populate_basic_table(url,table,delete_check_box)
 	});
 }
 
+function confirmDialog(message, onConfirm){
+    var fClose = function(){
+		modal.modal("hide");
+    };
+    var modal = $("#confirmModal");
+    modal.modal("show");
+    $("#confirmMessage").empty().append(message);
+    $("#confirmOk").one('click', onConfirm);
+    $("#confirmOk").one('click', fClose);
+    $("#confirmCancel").one("click", fClose);
+}
+
 $(document).ready(function() {
 
 
@@ -63,10 +75,9 @@ $(document).ready(function() {
 	$('.delete_img').on('click',function(e){
 		var $form=$(this).closest('form'); 
 	    e.preventDefault();
-	    $('#confirm').modal({ backdrop: 'static', keyboard: false })
-	        .one('click', '#delete', function() {
-	            $form.trigger('submit'); // submit the form
-	        });
+	    confirmDialog("Are you Sure?", function(){
+	    	$form.trigger('submit');
+		});
 	});
 	
 	
