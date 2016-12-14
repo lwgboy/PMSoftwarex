@@ -32,7 +32,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <form action="/category/delete/" method="post">
+                            <form th:action="@{/category/delete/}" method="post" th:object="${CheckBoxFormForDelete}">
                                 <div id="enquiry_div" class="display_div">
                                     <table id="category_table"
                                            class="display table table-bordered dataTables-resp table-striped table-hover"
@@ -46,15 +46,14 @@
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <th><a href="#" class="table_delete_trigger"><img
-                                                    src="../img/button_delete.png"/></a></th>
+                                            <th><input type="image" src="../img/button_delete.png" alt="Delete" class="delete_img" /></th>
                                             <th>ID</th>
                                             <th>Category</th>
                                         </tr>
                                         </tfoot>
                                     </table>
                                 </div>
-                                <input type="hidden" id="enquiry_ids" name="enquiry_ids"/>
+                                <input type="hidden" id="ids" name="ids"/>
                             </form>
                         </div>
                     </div>

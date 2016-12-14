@@ -1,9 +1,10 @@
-package org.tarak.anu.services;
+package org.tarak.pms.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tarak.anu.models.Category;
-import org.tarak.anu.repositories.CategoryRepository;
+import org.tarak.pms.models.Category;
+import org.tarak.pms.repositories.CategoryRepository;
+
 import java.util.List;
 
 /**

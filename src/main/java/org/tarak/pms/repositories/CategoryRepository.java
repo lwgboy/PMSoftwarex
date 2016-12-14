@@ -1,8 +1,8 @@
-package org.tarak.anu.repositories;
+package org.tarak.pms.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.tarak.anu.models.Category;
+import org.tarak.pms.models.Category;
 
 /**
  * Created by Tarak on 12/7/2016.

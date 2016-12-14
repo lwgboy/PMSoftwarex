@@ -1,4 +1,8 @@
-package org.tarak.anu.controllers;
+package org.tarak.pms.controllers;
+
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,13 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.anu.models.Category;
-import org.tarak.anu.services.ServiceInterface;
-
-import javax.validation.Valid;
-import java.util.List;
+import org.tarak.pms.beans.CheckBoxFormForDelete;
+import org.tarak.pms.models.Category;
+import org.tarak.pms.services.ServiceInterface;
 
 /**
  * Created by Tarak on 12/4/2016.
@@ -40,6 +41,7 @@ public class CategoryController {
             return "category/index";
         }
         categoryService.saveAndFlush(category);
+        model.addAttribute("category", new Category());
         return "category/index";
     }
 
@@ -52,12 +54,20 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST )
-    public String deleteCategory(@RequestParam List<Integer> ids)
+    public String deleteCategory(@Valid CheckBoxFormForDelete form, BindingResult bindingResult, Model model)
     {
-        for(int id: ids)
-        {
-            categoryService.delete(id);
-        }
-        return "category/index";
+    	List<String> ids=form.getDelete_item_ids();
+    	if(ids!=null && ids.size()>0)
+    	{
+    		for(String id: ids)
+            {
+                if(id!=null && !"".equals(id))
+                {
+                	int i=Integer.parseInt(id);
+                	categoryService.delete(i);
+                }
+            }
+    	}
+    	return "redirect:/category/";
     }
 }

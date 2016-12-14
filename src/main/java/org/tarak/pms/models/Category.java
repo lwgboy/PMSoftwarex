@@ -1,4 +1,4 @@
-package org.tarak.anu.models;
+package org.tarak.pms.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

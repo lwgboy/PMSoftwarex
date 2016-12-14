@@ -1,4 +1,4 @@
-package org.tarak.anu.controllers;
+package org.tarak.pms.controllers;
 
 /**
  * Created by Tarak on 12/1/2016.
@@ -6,12 +6,11 @@ package org.tarak.anu.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-@RequestMapping("/product")
+
 @Controller
-public class ProductController {
+public class HomeController {
     @RequestMapping("/")
-    public String index()
-    {
+    public String index() {
         return "index";
     }
 }

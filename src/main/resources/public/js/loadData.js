@@ -12,7 +12,7 @@ function populate_basic_table(url,table,delete_check_box)
                 var cols = new Array();
                 if(delete_check_box)
                 {
-                    var delete_b="<input type='checkbox' class='delete_check' th:field='*{features}' value="+x.id+" />";
+                    var delete_b="<input type='checkbox' name='delete_item_ids' class='delete_check' th:field='*{features}' value="+x.id+" />";
                     cols.push(delete_b);
                 }
 		        for(var column in x)
@@ -49,7 +49,7 @@ $(document).ready(function() {
 			form=table.closest("form");
 			$.ajax({
 			type: form.attr('method'),
-			url: form.attr('url'),
+			url: form.attr('action'),
 			data: form.serialize()
 			}).done(function(data) {
 				form.trigger("reset");
@@ -60,6 +60,16 @@ $(document).ready(function() {
 			alert("Please select record to be deleted");
 		}
 	});
+	$('.delete_img').on('click',function(e){
+		var $form=$(this).closest('form'); 
+	    e.preventDefault();
+	    $('#confirm').modal({ backdrop: 'static', keyboard: false })
+	        .one('click', '#delete', function() {
+	            $form.trigger('submit'); // submit the form
+	        });
+	});
+	
+	
 	
 
 	$('.select_all_check_box').change(function(){
