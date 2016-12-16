@@ -1,74 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="form" th:with="formHeading='Category Knowledge Base',formTitle='Category'">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Category Knowledge Base',formTitle='Category'">
 <head>
-    <title>Welcome to Spring MVC Blog</title>
+<title>Welcome to Spring MVC Blog</title>
 </head>
 <body>
-<div layout:fragment="form_fields">
-    <div class="row">
-        <div class="col-lg-6">
-            <form action="#" th:action="@{/category/add}" th:object="${category}" method="post">
-                <div class="form-group">
-                    <label>Category Name</label>
-                    <input type="text" th:field="*{name}" class="form-control"/>
-                </div>
-                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
-                    <p th:text="${#fields.allErrors()[0]}">...</p>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span>List of Categories</span>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <form th:action="@{/category/delete/}" method="post" th:object="${CheckBoxFormForDelete}">
-                                <div id="enquiry_div" class="display_div">
-                                    <table id="category_table"
-                                           class="display table table-bordered dataTables-resp table-striped table-hover"
-                                           cellspacing="0" width="100%">
-                                        <thead>
-                                        <tr>
-                                            <th align="left"><input type="checkbox" class="select_all_check_box"/></th>
-                                            <th>ID</th>
-                                            <th>Category</th>
-                                        </tr>
-                                        </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th><input type="image" src="../img/button_delete.png" alt="Delete" class="delete_img" /></th>
-                                            <th>ID</th>
-                                            <th>Category</th>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <input type="hidden" id="ids" name="ids"/>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script layout:fragment="footer_script">
-     $(document).ready(function()
-     {
-        var cTable = $('#category_table').dataTable();
-        populate_basic_table("/category/list",cTable,true);
-     });
-
-</script>
+	<div layout:fragment="form_fields">
+		<div class="row">
+			<div class="col-lg-6">
+				<form action="#" th:action="@{/category/add}"
+					th:object="${category}" method="post">
+					<div class="form-group">
+						<label>Category Name</label> <input type="text" th:field="*{name}"
+							class="form-control" />
+					</div>
+					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+						<p th:text="${#fields.allErrors()[0]}">...</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<label>List of Categories</label>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<form action="#" th:action="@{/category/delete/}" method="post"
+									th:object="${checkBoxFormForDelete}">
+									<div id="enquiry_div" class="display_div">
+										<table id="category_table"
+											class="display table table-bordered dataTables-resp table-striped table-hover"
+											cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<th align="left"><input type="checkbox"
+														class="select_all_check_box" /></th>
+													<th>ID</th>
+													<th>Category</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<th>
+														<button type="submit" class="btn btn-danger">
+															<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>Delete
+														</button>
+														<button type="submit" formaction="/category/edit/"
+															class="btn btn-default">
+															<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>Edit
+														</button>
+													</th>
+													<th>ID</th>
+													<th>Category</th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+									<div th:if="${#fields.hasAnyErrors()}"
+										class="alert alert-danger">
+										<p th:text="${#fields.allErrors()[0]}">...</p>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#category_table').dataTable();
+			populate_basic_table("/category/list", cTable, true);
+		});
+	</script>
 </body>
 </html>

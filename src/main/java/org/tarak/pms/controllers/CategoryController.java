@@ -29,7 +29,14 @@ public class CategoryController {
     @RequestMapping("/")
     public String index(Model model)
     {
-        model.addAttribute("category", new Category());
+    	if(!model.containsAttribute("category"))
+    	{
+            model.addAttribute("category", new Category());    		
+    	}
+    	if(!model.containsAttribute("checkBoxFormForDelete"))
+    	{
+            model.addAttribute("checkBoxFormForDelete", new CheckBoxFormForDelete());
+    	}
         return "category/index";
     }
 
@@ -38,9 +45,16 @@ public class CategoryController {
     {
         if (bindingResult.hasErrors())
         {
-            return "category/index";
+        	return index(model);
         }
-        categoryService.saveAndFlush(category);
+        try
+        {
+        	categoryService.saveAndFlush(category);
+        }
+        catch(Exception e)
+        {
+        	System.out.println("Hi"+e.getMessage());
+        }
         model.addAttribute("category", new Category());
         return "category/index";
     }
@@ -56,6 +70,10 @@ public class CategoryController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST )
     public String deleteCategory(@Valid CheckBoxFormForDelete form, BindingResult bindingResult, Model model)
     {
+    	if (bindingResult.hasErrors())
+        {
+    		return index(model);
+        }
     	List<String> ids=form.getDelete_item_ids();
     	if(ids!=null && ids.size()>0)
     	{

@@ -12,7 +12,7 @@ function populate_basic_table(url,table,delete_check_box)
                 var cols = new Array();
                 if(delete_check_box)
                 {
-                    var delete_b="<input type='checkbox' name='delete_item_ids' class='delete_check' th:field='*{features}' value="+x.id+" />";
+                    var delete_b="<input type='checkbox' name='delete_item_ids' class='delete_check' th:field='*{features}' value="+x.id+" /> ";
                     cols.push(delete_b);
                 }
 		        for(var column in x)

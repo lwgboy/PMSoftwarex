@@ -432,3 +432,16 @@ table.dataTable thead .sorting:after {
     border-left-width: 0;
   }
 }
+
+
+.table-striped>tbody>tr>td {
+	    padding-left: 18px;
+    padding-right: 18px;
+
+	}
+table.dataTable tfoot > tr > th {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+	
+

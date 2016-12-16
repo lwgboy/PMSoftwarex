@@ -1,11 +1,13 @@
 package org.tarak.pms.beans;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class CheckBoxFormForDelete {
 
-	List<String> delete_item_ids=new ArrayList<String>();
+	@NotEmpty(message="Select atleast one record")
+	List<String> delete_item_ids;
 
 	public List<String> getDelete_item_ids() {
 		return delete_item_ids;
