@@ -29,6 +29,12 @@ public class CategoryController {
     @RequestMapping("/")
     public String index(Model model)
     {
+    	prepareModel(model);
+        return "category/index";
+    }
+
+    private void prepareModel(Model model) 
+    {
     	if(!model.containsAttribute("category"))
     	{
             model.addAttribute("category", new Category());    		
@@ -37,15 +43,16 @@ public class CategoryController {
     	{
             model.addAttribute("checkBoxFormForDelete", new CheckBoxFormForDelete());
     	}
-        return "category/index";
-    }
+		
+	}
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST )
+	@RequestMapping(value = "/add", method = RequestMethod.POST )
     public String addCategory(@Valid Category category, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
         {
-        	return index(model);
+        	prepareModel(model);
+    		return "category/index";
         }
         try
         {
@@ -72,7 +79,8 @@ public class CategoryController {
     {
     	if (bindingResult.hasErrors())
         {
-    		return index(model);
+    		prepareModel(model);
+    		return "category/index";
         }
     	List<String> ids=form.getDelete_item_ids();
     	if(ids!=null && ids.size()>0)
