@@ -96,4 +96,24 @@ public class CategoryController {
     	}
     	return "redirect:/category/";
     }
+    
+    @RequestMapping(value = "/edit", method = RequestMethod.POST )
+    public String editCategory(@Valid CheckBoxFormForDelete form, BindingResult bindingResult, Model model)
+    {
+    	if (bindingResult.hasErrors())
+        {
+    		prepareModel(model);
+    		return "category/index";
+        }
+    	List<String> ids=form.getDelete_item_ids();
+    	if(ids!=null && ids.size()==1)
+    	{
+    		for(String id: ids)
+    		{
+    			Category category=categoryService.findOne((int) Long.parseLong(id));
+    			model.addAttribute("category", category);
+    		}
+    	}
+    	return "category/index";
+    }
 }
