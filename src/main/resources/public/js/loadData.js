@@ -14,8 +14,8 @@ function populate_basic_table(url,table,delete_check_box)
                 {
                     cols.push(x[column]);
                 }
-		        cols.push("<a href='/category/edit/"+x.id+"'><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
-		        cols.push("<a href='/category/delete/"+x.id+"'><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
+		        cols.push("<a href='/category/edit/"+x.id+"'  id=\"edit_action\""+x.id+" ><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        cols.push("<a href='/category/delete/"+x.id+"' id=\"delete_action\""+x.id+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
                 table.fnAddData(cols);
 		    });
 		},
@@ -69,17 +69,16 @@ $(document).ready(function() {
 			alert("Please select record to be deleted");
 		}
 	});
-	$('.delete_img').on('click',function(e){
+	
+	$('body').on('click', '.delete_action', function (e) {
 		var $form=$(this).closest('form'); 
 	    e.preventDefault();
+	    var link=e.currentTarget.href;
 	    confirmDialog("Are you Sure?", function(){
-	    	$form.trigger('submit');
+	    	window.location = link
 		});
-	});
+	   });
 	
-	
-	
-
 	$('.select_all_check_box').change(function(){
 	    table=$(this).parent().parent().parent().parent();
     		$.each(table.find('.delete_check'),function(i,element){

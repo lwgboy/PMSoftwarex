@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.beans.CheckBoxFormForDelete;
 import org.tarak.pms.models.Category;
 import org.tarak.pms.services.ServiceInterface;
 
@@ -40,11 +39,6 @@ public class CategoryController {
     	{
             model.addAttribute("category", new Category());    		
     	}
-    	if(!model.containsAttribute("checkBoxFormForDelete"))
-    	{
-            model.addAttribute("checkBoxFormForDelete", new CheckBoxFormForDelete());
-    	}
-		
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
@@ -75,27 +69,12 @@ public class CategoryController {
         return list;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST )
-    public String deleteCategory(@Valid CheckBoxFormForDelete form, BindingResult bindingResult, Model model)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
+    public String deleteCategory(@PathVariable Integer id, Model model)
     {
-    	if (bindingResult.hasErrors())
-        {
-    		prepareModel(model);
-    		return "category/index";
-        }
-    	List<String> ids=form.getDelete_item_ids();
-    	if(ids!=null && ids.size()>0)
-    	{
-    		for(String id: ids)
-            {
-                if(id!=null && !"".equals(id))
-                {
-                	int i=Integer.parseInt(id);
-                	categoryService.delete(i);
-                }
-            }
-    	}
-    	return "redirect:/category/";
+    	
+    	categoryService.delete(id);
+    	return index(model);
     }
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -105,4 +84,5 @@ public class CategoryController {
     	model.addAttribute("category", category);
     	return "category/edit";
     }
+   
 }

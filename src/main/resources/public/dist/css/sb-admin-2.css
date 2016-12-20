@@ -443,5 +443,8 @@ table.dataTable tfoot > tr > th {
     padding-left: 18px;
     padding-right: 18px;
 }
-	
+.delete_action
+{
+	color: red;
+}
 
