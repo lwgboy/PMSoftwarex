@@ -10,15 +10,12 @@ function populate_basic_table(url,table,delete_check_box)
 		    $.each(s, function(i, x)
 		    {
                 var cols = new Array();
-                if(delete_check_box)
-                {
-                    var delete_b="<input type='checkbox' name='delete_item_ids' class='delete_check' value="+x.id+" /> ";
-                    cols.push(delete_b);
-                }
 		        for(var column in x)
                 {
-                    cols.push(x[column])
+                    cols.push(x[column]);
                 }
+		        cols.push("<a href='/category/edit/"+x.id+"'><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        cols.push("<a href='/category/delete/"+x.id+"'><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
                 table.fnAddData(cols);
 		    });
 		},
