@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Category Knowledge Base',formTitle='Category'">
+	th:with="formHeading='Division Knowledge Base',formTitle='Division'">
 <head>
 <title>Welcome to Spring MVC Blog</title>
 </head>
@@ -10,10 +10,10 @@
 	<div layout:fragment="form_fields">
 		<div class="row">
 			<div class="col-lg-6">
-				<form action="#" th:action="@{/category/add}"
-					th:object="${category}" method="post">
+				<form action="#" th:action="@{/division/add}"
+					th:object="${division}" method="post">
 					<div class="form-group">
-						<label>Category Name</label> <input type="text" th:field="*{name}"
+						<label>Division Name</label> <input type="text" th:field="*{name}"
 							class="form-control" /><input type="hidden" th:field="*{id}"
 							class="form-control" />
 					</div>
@@ -32,7 +32,7 @@
 			<div class="col-sm-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<label>List of Categories</label>
+						<label>List of Divisions</label>
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-bordered table-hover"
@@ -40,7 +40,7 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Category</th>
+									<th>Division</th>
 									<th>Edit</th>
 									<th>Delete</th>
 								</tr>
@@ -48,7 +48,7 @@
 							<tfoot>
 								<tr>
 									<th>ID</th>
-									<th>Category</th>
+									<th>Division</th>
 									<th>Edit</th>
 									<th>Delete</th>
 								</tr>
@@ -62,7 +62,7 @@
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
 			var cTable = $('#dataTables-example').dataTable();
-			populate_basic_table("/category/list", cTable, "category");
+			populate_basic_table("/division/list", cTable, "division");
 		});
 	</script>
 </body>

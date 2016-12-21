@@ -1,4 +1,4 @@
-function populate_basic_table(url,table,delete_check_box)
+function populate_basic_table(url,table,type)
 {
     $.ajax(
     {
@@ -14,8 +14,8 @@ function populate_basic_table(url,table,delete_check_box)
                 {
                     cols.push(x[column]);
                 }
-		        cols.push("<a href='/category/edit/"+x.id+"'  id=\"edit_action\""+x.id+" ><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
-		        cols.push("<a href='/category/delete/"+x.id+"' id=\"delete_action\""+x.id+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
+		        cols.push("<a href='/"+type+"/edit/"+x.id+"'  id=\"edit_action\""+x.id+" ><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        cols.push("<a href='/"+type+"/delete/"+x.id+"' id=\"delete_action\""+x.id+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
                 table.fnAddData(cols);
 		    });
 		},
