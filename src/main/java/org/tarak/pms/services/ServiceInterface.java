@@ -14,7 +14,5 @@ public interface ServiceInterface<T, ID extends Serializable> {
 
     void delete(ID var1);
 
-    T getOne(ID var1);
-
     T findOne(ID var1);
 }

@@ -47,7 +47,6 @@ public class CategoryController {
     {
         if (bindingResult.hasErrors())
         {
-        	//prepareModel(model);
     		return "category/index";
         }
         try

@@ -28,11 +28,6 @@ public class CategoryServiceImplementation implements ServiceInterface<Category,
     }
 
     @Override
-    public Category getOne(Integer id) {
-        return repository.getOne(id);
-    }
-    
-    @Override
     public void delete(Integer id) {
         repository.delete(id);
     }
