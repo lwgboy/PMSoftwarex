@@ -20,6 +20,8 @@ public class Section {
     @Size(min=3,message ="Section should have minimum 3 characters")
     private String name;
 
+    private String description;
+    
     public Integer getId() {
         return id;
     }
@@ -35,4 +37,12 @@ public class Section {
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

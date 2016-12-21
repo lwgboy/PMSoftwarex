@@ -17,6 +17,10 @@
 							class="form-control" /><input type="hidden" th:field="*{id}"
 							class="form-control" />
 					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" rows="3" th:field="*{description}" ></textarea>
+					</div>
 					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 						<p th:text="${#fields.allErrors()[0]}">...</p>
 					</div>
@@ -41,7 +45,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Division</th>
-									<th>Edit</th>
+									<th>Description</th><th>Edit</th>
 									<th>Delete</th>
 								</tr>
 							</thead>
@@ -49,7 +53,7 @@
 								<tr>
 									<th>ID</th>
 									<th>Division</th>
-									<th>Edit</th>
+									<th>Description</th><th>Edit</th>
 									<th>Delete</th>
 								</tr>
 							</tfoot>
