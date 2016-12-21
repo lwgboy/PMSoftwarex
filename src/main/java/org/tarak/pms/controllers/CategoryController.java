@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.tarak.pms.models.Category;
 import org.tarak.pms.services.ServiceInterface;
 
@@ -46,16 +47,24 @@ public class CategoryController {
     {
         if (bindingResult.hasErrors())
         {
-        	prepareModel(model);
+        	//prepareModel(model);
     		return "category/index";
         }
         try
         {
         	categoryService.saveAndFlush(category);
         }
+        catch(DataIntegrityViolationException e)
+        {
+        	String args[]={"Category",category.getName()};
+        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Category with name "+category.getName()+" already exists");
+        	return "category/index";
+        }
         catch(Exception e)
         {
-        	System.out.println("Hi"+e.getMessage());
+        	String args[]={"Category",category.getName()};
+        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
+        	return "category/index";
         }
         model.addAttribute("category", new Category());
         return "category/index";
