@@ -1,5 +1,6 @@
 package org.tarak.pms.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.Brand;
+import org.tarak.pms.models.Tag;
+import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
@@ -27,6 +30,12 @@ public class BrandController {
     @Autowired
     private ServiceInterface<Brand, Integer> brandService;
 
+    @Autowired
+    private ServiceInterface<Variant, Integer> variantService;
+    
+    @Autowired
+    private ServiceInterface<Tag, Integer> tagService;
+    
     @RequestMapping("/")
     public String index(Model model)
     {
@@ -38,10 +47,33 @@ public class BrandController {
     {
     	if(!model.containsAttribute("brand"))
     	{
-            model.addAttribute("brand", new Brand());    		
+    		List<Variant> variants=new ArrayList<Variant>();
+    		variants.add(new Variant());
+    		List<Tag> tags=new ArrayList<Tag>();
+    		tags.add(new Tag());
+    		Brand brand=new Brand();
+    		brand.setVariants(variants);
+    		brand.setTags(tags);
+            model.addAttribute("brand", brand);    		
+    	}
+    	if(!model.containsAttribute("variant_list"))
+    	{
+    		List<Variant> variants=variantService.findAll();
+    		model.addAttribute("variant_list",variants);
+    	}
+    	if(!model.containsAttribute("tag_list"))
+    	{
+    		List<Tag> tags=tagService.findAll();
+    		model.addAttribute("tag_list",tags);
     	}
 	}
 
+    @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
+    public String addOption(@Valid Brand brand, BindingResult result) {
+        brand.getVariants().add(new Variant());
+        return "brand/index";
+    }
+    
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
     public String addBrand(@Valid Brand brand, BindingResult bindingResult, Model model)
     {

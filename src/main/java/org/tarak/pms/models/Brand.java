@@ -1,6 +1,17 @@
 package org.tarak.pms.models;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,6 +32,22 @@ public class Brand {
     private String name;
 
     private String description;
+    
+    @ManyToOne
+    @JoinColumn(name="Primary_Unit")
+    private Measurement primaryUnit;
+    
+    @ManyToOne
+    @JoinColumn(name="Secondary_Unit")
+    private Measurement SecondaryUnit;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Brand_Variants", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
+    private List<Variant> variants;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Brand_tags", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
+    private List<Tag> tags;
     
     public Integer getId() {
         return id;
@@ -45,4 +72,37 @@ public class Brand {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Measurement getPrimaryUnit() {
+		return primaryUnit;
+	}
+
+	public void setPrimaryUnit(Measurement primaryUnit) {
+		this.primaryUnit = primaryUnit;
+	}
+
+	public Measurement getSecondaryUnit() {
+		return SecondaryUnit;
+	}
+
+	public void setSecondaryUnit(Measurement secondaryUnit) {
+		SecondaryUnit = secondaryUnit;
+	}
+
+	public List<Variant> getVariants() {
+		return variants;
+	}
+
+	public void setVariants(List<Variant> variants) {
+		this.variants = variants;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	
 }
