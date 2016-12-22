@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.Brand;
+import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.ServiceInterface;
@@ -35,6 +36,9 @@ public class BrandController {
     
     @Autowired
     private ServiceInterface<Tag, Integer> tagService;
+    
+    @Autowired
+    private ServiceInterface<Measurement, Integer> measurementService;
     
     @RequestMapping("/")
     public String index(Model model)
@@ -66,11 +70,31 @@ public class BrandController {
     		List<Tag> tags=tagService.findAll();
     		model.addAttribute("tag_list",tags);
     	}
+    	if(!model.containsAttribute("measurement_list"))
+    	{
+    		List<Measurement> measurements=measurementService.findAll();
+    		model.addAttribute("measurement_list",measurements);
+    	}
 	}
 
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
-    public String addOption(@Valid Brand brand, BindingResult result) {
+    public String addVariant(Brand brand, BindingResult result,Model model) {
         brand.getVariants().add(new Variant());
+        prepareModel(model);
+        return "brand/index";
+    }
+    
+    @RequestMapping(value = "/add", params={"addTag"}, method = RequestMethod.POST )
+    public String addTag(Brand brand, BindingResult result,Model model) {
+        brand.getTags().add(new Tag());
+        prepareModel(model);
+        return "brand/index";
+    }
+
+    @RequestMapping(value = "/add", params={"removeVariant"}, method = RequestMethod.POST )
+    public String removeVariant(Brand brand, BindingResult result,Model model) {
+        brand.getVariants().add(new Variant());
+        prepareModel(model);
         return "brand/index";
     }
     

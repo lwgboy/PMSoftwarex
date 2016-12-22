@@ -10,11 +10,31 @@ function populate_basic_table(url,table,type)
 		    $.each(s, function(i, x)
 		    {
                 var cols = new Array();
+                var flag=false;
 		        for(var column in x)
                 {
-                    cols.push(x[column]);
+		        	if(!$.isArray(x[column]))
+		        	{
+		        		if(!$.isPlainObject(x[column]))
+		        		{
+		        			cols.push(x[column]);
+		        		}
+		        		else
+			        	{
+			        		flag=true;
+			        	}
+		        	}
+		        	else
+		        	{
+		        		flag=true;
+		        	}
+                    
                 }
-		        cols.push("<a href='/"+type+"/edit/"+x.id+"'  id=\"edit_action\""+x.id+" ><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        if(flag==true)
+		        {
+		        	cols.push("<a href='/"+type+"/view/"+x.id+"'  id=\"view_action\""+x.id+" class=\"view_action\"><i class=\"fa fa-eye fa-lg\" aria-hidden=\"true\"></i> View</a>");
+		        }
+		        cols.push("<a href='/"+type+"/edit/"+x.id+"'  id=\"edit_action\""+x.id+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
 		        cols.push("<a href='/"+type+"/delete/"+x.id+"' id=\"delete_action\""+x.id+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
                 table.fnAddData(cols);
 		    });

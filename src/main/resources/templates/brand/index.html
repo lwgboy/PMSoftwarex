@@ -21,15 +21,59 @@
 						<label>Description</label>
 						<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
 					</div>
+					
 					<div class="form-group" th:each="var, variantStat : *{variants}">
-						<label>Variant</label> 
-						<select class="form-control" th:field="*{variants[__${variantStat.index}__].id}" >
-							<option value="0" >Select Variant</option>
+						<label th:text="|Variant ${variantStat.count}|"></label>
+						<!-- <button type="submit" name="removeVariant" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+                            </button> --> 
+						<select class="form-control"
+							th:field="*{variants[__${variantStat.index}__]}">
+							<option value="0">Select Variant</option>
 							<option th:each="variant : ${variant_list}"
 								th:value="${variant.id}" th:text="${variant.name}"></option>
 						</select>
 					</div>
-					<button type="submit" name="addVariant"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant</button>
+					<div class="form-group">
+						<button type="submit" name="addVariant" class="btn btn-info btn-xs">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
+						</button>
+					</div>
+					
+					<div class="form-group" th:each="var, tagStat : *{tags}">
+						<label th:text="|Tag ${tagStat.count}|"></label>
+						<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+                            </button> --> 
+						<select class="form-control"
+							th:field="*{tags[__${tagStat.index}__]}">
+							<option value="0">Select Tag</option>
+							<option th:each="tag : ${tag_list}"
+								th:value="${tag.id}" th:text="${tag.name}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" name="addTag" class="btn btn-info btn-xs">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Tag
+						</button>
+					</div>
+					
+					<div class="form-group">
+						<label>Primary Unit of Measurement</label>
+						<select class="form-control"
+							th:field="*{primaryUnit}">
+							<option value="0">Select Measurement</option>
+							<option th:each="measurement : ${measurement_list}"
+								th:value="${measurement.id}" th:text="${measurement.name}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Secondary Unit of Measurement</label>
+						<select class="form-control"
+							th:field="*{secondaryUnit}">
+							<option value="0">Select Measurement</option>
+							<option th:each="measurement : ${measurement_list}"
+								th:value="${measurement.id}" th:text="${measurement.name}"></option>
+						</select>
+					</div>
 					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 						<p th:text="${#fields.allErrors()[0]}">...</p>
 					</div>
@@ -55,6 +99,7 @@
 									<th>ID</th>
 									<th>Brand</th>
 									<th>Description</th>
+									<th>View</th>
 									<th>Edit</th>
 									<th>Delete</th>
 								</tr>
@@ -64,6 +109,7 @@
 									<th>ID</th>
 									<th>Brand</th>
 									<th>Description</th>
+									<th>View</th>
 									<th>Edit</th>
 									<th>Delete</th>
 								</tr>
