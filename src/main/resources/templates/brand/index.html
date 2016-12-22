@@ -4,7 +4,7 @@
 	layout:decorator="form"
 	th:with="formHeading='Brand Knowledge Base',formTitle='Brand'">
 <head>
-<title>Welcome to Spring MVC Blog</title>
+<title>PMSoftware</title>
 </head>
 <body>
 	<div layout:fragment="form_fields">
@@ -22,20 +22,20 @@
 						<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
 					</div>
 					
-					<div class="form-group" th:each="var, variantStat : *{variants}">
-						<label th:text="|Variant ${variantStat.count}|"></label>
-						<!-- <button type="submit" name="removeVariant" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+					<div class="form-group" th:each="var, variantTypeStat : *{variantTypes}">
+						<label th:text="|VariantType ${variantTypeStat.count}|"></label>
+						<!-- <button type="submit" name="removeVariantType" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
                             </button> --> 
 						<select class="form-control"
-							th:field="*{variants[__${variantStat.index}__]}">
-							<option value="0">Select Variant</option>
-							<option th:each="variant : ${variant_list}"
-								th:value="${variant.id}" th:text="${variant.name}"></option>
+							th:field="*{variantTypes[__${variantTypeStat.index}__]}">
+							<option value="0">Select VariantType</option>
+							<option th:each="variantType : ${variantType_list}"
+								th:value="${variantType.id}" th:text="${variantType.name}"></option>
 						</select>
 					</div>
 					<div class="form-group">
-						<button type="submit" name="addVariant" class="btn btn-info btn-xs">
-							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
+						<button type="submit" name="addVariantType" class="btn btn-info btn-xs">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add VariantType
 						</button>
 					</div>
 					

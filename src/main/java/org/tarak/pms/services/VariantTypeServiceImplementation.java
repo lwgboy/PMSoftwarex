@@ -2,8 +2,8 @@ package org.tarak.pms.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tarak.pms.models.Variant;
-import org.tarak.pms.repositories.VariantRepository;
+import org.tarak.pms.models.VariantType;
+import org.tarak.pms.repositories.VariantTypeRepository;
 
 import java.util.List;
 
@@ -12,18 +12,18 @@ import java.util.List;
  */
 
 @Service
-public class VariantServiceImplementation implements ServiceInterface<Variant, Integer>
+public class VariantTypeServiceImplementation implements ServiceInterface<VariantType, Integer>
 {
     @Autowired
-    private VariantRepository repository;
+    private VariantTypeRepository repository;
 
     @Override
-    public List<Variant> findAll() {
+    public List<VariantType> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Variant saveAndFlush(Variant variant) {
+    public VariantType saveAndFlush(VariantType variant) {
         return repository.saveAndFlush(variant);
     }
 
@@ -33,7 +33,7 @@ public class VariantServiceImplementation implements ServiceInterface<Variant, I
     }
 
     @Override
-    public Variant findOne(Integer id) {
+    public VariantType findOne(Integer id) {
         return repository.findOne(id);
     }
 }

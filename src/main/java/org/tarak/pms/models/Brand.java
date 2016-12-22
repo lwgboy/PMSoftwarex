@@ -43,7 +43,7 @@ public class Brand {
     
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Brand_Variants", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
-    private List<Variant> variants;
+    private List<VariantType> variants;
     
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Brand_tags", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
@@ -89,11 +89,11 @@ public class Brand {
 		SecondaryUnit = secondaryUnit;
 	}
 
-	public List<Variant> getVariants() {
+	public List<VariantType> getVariants() {
 		return variants;
 	}
 
-	public void setVariants(List<Variant> variants) {
+	public void setVariants(List<VariantType> variants) {
 		this.variants = variants;
 	}
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.Brand;
 import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Tag;
-import org.tarak.pms.models.Variant;
+import org.tarak.pms.models.VariantType;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
@@ -32,7 +32,7 @@ public class BrandController {
     private ServiceInterface<Brand, Integer> brandService;
 
     @Autowired
-    private ServiceInterface<Variant, Integer> variantService;
+    private ServiceInterface<VariantType, Integer> variantService;
     
     @Autowired
     private ServiceInterface<Tag, Integer> tagService;
@@ -51,8 +51,8 @@ public class BrandController {
     {
     	if(!model.containsAttribute("brand"))
     	{
-    		List<Variant> variants=new ArrayList<Variant>();
-    		variants.add(new Variant());
+    		List<VariantType> variants=new ArrayList<VariantType>();
+    		variants.add(new VariantType());
     		List<Tag> tags=new ArrayList<Tag>();
     		tags.add(new Tag());
     		Brand brand=new Brand();
@@ -62,7 +62,7 @@ public class BrandController {
     	}
     	if(!model.containsAttribute("variant_list"))
     	{
-    		List<Variant> variants=variantService.findAll();
+    		List<VariantType> variants=variantService.findAll();
     		model.addAttribute("variant_list",variants);
     	}
     	if(!model.containsAttribute("tag_list"))
@@ -79,7 +79,7 @@ public class BrandController {
 
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
     public String addVariant(Brand brand, BindingResult result,Model model) {
-        brand.getVariants().add(new Variant());
+        brand.getVariants().add(new VariantType());
         prepareModel(model);
         return "brand/index";
     }
@@ -93,7 +93,7 @@ public class BrandController {
 
     @RequestMapping(value = "/add", params={"removeVariant"}, method = RequestMethod.POST )
     public String removeVariant(Brand brand, BindingResult result,Model model) {
-        brand.getVariants().add(new Variant());
+        brand.getVariants().add(new VariantType());
         prepareModel(model);
         return "brand/index";
     }

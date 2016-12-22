@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class Variant {
+public class VariantType {
 
     @Id
     @Column(name = "variant_id", columnDefinition = "serial")
@@ -17,7 +17,7 @@ public class Variant {
 
     @Column(nullable = false,unique=true)
     @NotNull
-    @Size(min=3,message ="Variant should have minimum 3 characters")
+    @Size(min=3,message ="VariantType should have minimum 3 characters")
     private String name;
 
     private String description;

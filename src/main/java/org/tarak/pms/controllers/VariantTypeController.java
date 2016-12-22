@@ -13,84 +13,84 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.Variant;
+import org.tarak.pms.models.VariantType;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
  * Created by Tarak on 12/4/2016.
  */
 
-@RequestMapping("/variant")
+@RequestMapping("/variantType")
 @Controller
-public class VariantController {
+public class VariantTypeController {
 
     @Autowired
-    private ServiceInterface<Variant, Integer> variantService;
+    private ServiceInterface<VariantType, Integer> variantTypeService;
 
     @RequestMapping("/")
     public String index(Model model)
     {
     	prepareModel(model);
-        return "variant/index";
+        return "variantType/index";
     }
 
     private void prepareModel(Model model) 
     {
-    	if(!model.containsAttribute("variant"))
+    	if(!model.containsAttribute("variantType"))
     	{
-            model.addAttribute("variant", new Variant());    		
+            model.addAttribute("variantType", new VariantType());    		
     	}
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
-    public String addVariant(@Valid Variant variant, BindingResult bindingResult, Model model)
+    public String addVariantType(@Valid VariantType variantType, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
         {
-    		return "variant/index";
+    		return "variantType/index";
         }
         try
         {
-        	variantService.saveAndFlush(variant);
+        	variantTypeService.saveAndFlush(variantType);
         }
         catch(DataIntegrityViolationException e)
         {
-        	String args[]={"Variant",variant.getName()};
-        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Variant with name "+variant.getName()+" already exists");
-        	return "variant/index";
+        	String args[]={"VariantType",variantType.getName()};
+        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"VariantType with name "+variantType.getName()+" already exists");
+        	return "variantType/index";
         }
         catch(Exception e)
         {
-        	String args[]={"Variant",variant.getName()};
+        	String args[]={"VariantType",variantType.getName()};
         	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
-        	return "variant/index";
+        	return "variantType/index";
         }
-        model.addAttribute("variant", new Variant());
-        return "variant/index";
+        model.addAttribute("variantType", new VariantType());
+        return "variantType/index";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
-    List<Variant> listCategories()
+    List<VariantType> listCategories()
     {
-        List<Variant> list=variantService.findAll();
+        List<VariantType> list=variantTypeService.findAll();
         return list;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
-    public String deleteVariant(@PathVariable Integer id, Model model)
+    public String deleteVariantType(@PathVariable Integer id, Model model)
     {
     	
-    	variantService.delete(id);
+    	variantTypeService.delete(id);
     	return index(model);
     }
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editVariant(@PathVariable Integer id, Model model)
+    public String editVariantType(@PathVariable Integer id, Model model)
     {
-    	Variant variant=variantService.findOne(id);
-    	model.addAttribute("variant", variant);
-    	return "variant/edit";
+    	VariantType variantType=variantTypeService.findOne(id);
+    	model.addAttribute("variantType", variantType);
+    	return "variantType/edit";
     }
    
 }
