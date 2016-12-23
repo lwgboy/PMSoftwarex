@@ -110,4 +110,21 @@ $(document).ready(function() {
     				$(element).prop("checked", set);
     			});
     	});
+	
+	// Sonstructs the suggestion engine
+    var variantTypes = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        // The url points to a json file that contains an array of country names
+        prefetch: '/variantType/variantTypes'
+    });
+    
+    // Initializing the typeahead with remote dataset without highlighting
+    $('.variantType').typeahead(null, {
+        name: 'variantTypes',
+        source: variantTypes,
+        limit: 10 /* Specify max number of suggestions to be displayed */
+    });
+
+	
 });

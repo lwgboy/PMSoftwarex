@@ -20,11 +20,15 @@ public class Variant {
     @Size(min=3,message ="VariantType should have minimum 3 characters")
     private String name;
     
+    private String description;
+    
     @ManyToOne
     @JoinColumn(name="type")
     private VariantType type;
 
-    private String description;
+    private double margin;
+    
+    private double price;
     
     public Integer getId() {
         return id;
@@ -48,5 +52,29 @@ public class Variant {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public VariantType getType() {
+		return type;
+	}
+
+	public void setType(VariantType type) {
+		this.type = type;
+	}
+
+	public double getMargin() {
+		return margin;
+	}
+
+	public void setMargin(double margin) {
+		this.margin = margin;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 }

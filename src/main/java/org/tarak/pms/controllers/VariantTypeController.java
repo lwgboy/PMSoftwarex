@@ -1,5 +1,6 @@
 package org.tarak.pms.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -77,6 +78,19 @@ public class VariantTypeController {
         return list;
     }
 
+    @RequestMapping(value = "/variantTypes", method = RequestMethod.GET )
+    public @ResponseBody
+    List<String> listVariantTypes()
+    {
+        List<VariantType> list=variantTypeService.findAll();
+        List<String> variantTypes=new ArrayList<String>();
+        for(VariantType vt: list)
+        {
+        	variantTypes.add(vt.getName());
+        }
+        return variantTypes;
+    }
+    
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
     public String deleteVariantType(@PathVariable Integer id, Model model)
     {
