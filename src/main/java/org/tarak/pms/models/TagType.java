@@ -8,25 +8,34 @@ import javax.validation.constraints.Size;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class Tag {
+public class TagType {
 
     @Id
-    @Column(name = "tag_id", columnDefinition = "serial")
+    @Column(name = "tagType_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @ManyToOne
-    @JoinColumn(name="type")
-    private TagType type;
-    
+
+    @Column(nullable = false,unique=true)
+    @NotNull
+    @Size(min=3,message ="TagType should have minimum 3 characters")
+    private String name;
+
     private String description;
     
     public Integer getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 	public String getDescription() {
@@ -35,13 +44,5 @@ public class Tag {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public TagType getType() {
-		return type;
-	}
-
-	public void setType(TagType type) {
-		this.type = type;
 	}
 }

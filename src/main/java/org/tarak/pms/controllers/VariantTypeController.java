@@ -1,7 +1,8 @@
 package org.tarak.pms.controllers;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -80,13 +81,13 @@ public class VariantTypeController {
 
     @RequestMapping(value = "/variantTypes", method = RequestMethod.GET )
     public @ResponseBody
-    List<String> listVariantTypes()
+    Map<Integer, String> listVariantTypes()
     {
         List<VariantType> list=variantTypeService.findAll();
-        List<String> variantTypes=new ArrayList<String>();
+        Map<Integer,String> variantTypes=new LinkedHashMap<Integer,String>();
         for(VariantType vt: list)
         {
-        	variantTypes.add(vt.getName());
+        	variantTypes.put(vt.getId(),vt.getName());
         }
         return variantTypes;
     }

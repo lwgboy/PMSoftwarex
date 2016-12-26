@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Brand Knowledge Base',formTitle='Brand'">
+	th:with="formHeading='Product Knowledge Base',formTitle='Product'">
 <head>
 <title>PMSoftware</title>
 </head>
 <body>
 	<div layout:fragment="form_fields">
-		<form action="#" th:action="@{/brand/add}" th:object="${brand}"
+		<form action="#" th:action="@{/product/add}" th:object="${product}"
 			method="post">
-			<div th:include="fragments::brand('true','Update')"></div>
+			<div th:include="fragments::product('true','Update')"></div>
 		</form>
 	</div>
 </body>

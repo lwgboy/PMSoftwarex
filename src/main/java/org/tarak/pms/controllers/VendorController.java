@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.Brand;
+import org.tarak.pms.models.Vendor;
 import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
@@ -24,12 +24,12 @@ import org.tarak.pms.services.ServiceInterface;
  * Created by Tarak on 12/4/2016.
  */
 
-@RequestMapping("/brand")
+@RequestMapping("/vendor")
 @Controller
-public class BrandController {
+public class VendorController {
 
     @Autowired
-    private ServiceInterface<Brand, Integer> brandService;
+    private ServiceInterface<Vendor, Integer> vendorService;
 
     @Autowired
     private ServiceInterface<Variant, Integer> variantService;
@@ -44,26 +44,26 @@ public class BrandController {
     public String index(Model model)
     {
     	prepareModel(model);
-        return "brand/index";
+        return "vendor/index";
     }
 
-    private void addBrand(Model model)
+    private void addVendor(Model model)
     {
     	List<Variant> variants=new ArrayList<Variant>();
 		variants.add(new Variant());
 		List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
-		Brand brand=new Brand();
-		brand.setVariants(variants);
-		brand.setTags(tags);
-        model.addAttribute("brand", brand);
+		Vendor vendor=new Vendor();
+		/*vendor.setVariants(variants);
+		vendor.setTags(tags);*/
+        model.addAttribute("vendor", vendor);
     }
     
     private void prepareModel(Model model) 
     {
-    	if(!model.containsAttribute("brand"))
+    	if(!model.containsAttribute("vendor"))
     	{
-    		addBrand(model);
+    		addVendor(model);
     	}
     	if(!model.containsAttribute("variant_list"))
     	{
@@ -81,27 +81,26 @@ public class BrandController {
     		model.addAttribute("measurement_list",measurements);
     	}
 	}
-
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
-    public String addVariant(Brand brand, BindingResult result,Model model) {
-        brand.getVariants().add(new Variant());
+    public String addVariant(Vendor vendor, BindingResult result,Model model) {
+        //vendor.getVariants(add(new Variant());
         return index(model);
     }
     
     @RequestMapping(value = "/add", params={"addTag"}, method = RequestMethod.POST )
-    public String addTag(Brand brand, BindingResult result,Model model) {
-        brand.getTags().add(new Tag());
+    public String addTag(Vendor vendor, BindingResult result,Model model) {
+        //vendor.getTags().add(new Tag());
         return index(model);
     }
 
     @RequestMapping(value = "/add", params={"removeVariant"}, method = RequestMethod.POST )
-    public String removeVariant(Brand brand, BindingResult result,Model model) {
-        brand.getVariants().add(new Variant());
+    public String removeVariant(Vendor vendor, BindingResult result,Model model) {
+        //vendor.getVariants().add(new Variant());
         return index(model);
     }
     
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
-    public String addBrand(@Valid Brand brand, BindingResult bindingResult, Model model)
+    public String addVendor(@Valid Vendor vendor, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
         {
@@ -109,47 +108,47 @@ public class BrandController {
         }
         try
         {
-        	brandService.saveAndFlush(brand);
+        	vendorService.saveAndFlush(vendor);
         }
         catch(DataIntegrityViolationException e)
         {
-        	String args[]={"Brand",brand.getName()};
-        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Brand with name "+brand.getName()+" already exists");
+        	String args[]={"Vendor",vendor.getName()};
+        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Vendor with name "+vendor.getName()+" already exists");
         	return index(model);
         }
         catch(Exception e)
         {
-        	String args[]={"Brand",brand.getName()};
+        	String args[]={"Vendor",vendor.getName()};
         	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
         	return index(model);
         }
-        addBrand(model);
+        addVendor(model);
         return index(model);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
-    List<Brand> listCategories()
+    List<Vendor> listCategories()
     {
-        List<Brand> list=brandService.findAll();
+        List<Vendor> list=vendorService.findAll();
         return list;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
-    public String deleteBrand(@PathVariable Integer id, Model model)
+    public String deleteVendor(@PathVariable Integer id, Model model)
     {
     	
-    	brandService.delete(id);
+    	vendorService.delete(id);
     	return index(model);
     }
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editBrand(@PathVariable Integer id, Model model)
+    public String editVendor(@PathVariable Integer id, Model model)
     {
-    	Brand brand=brandService.findOne(id);
-    	model.addAttribute("brand", brand);
+    	Vendor vendor=vendorService.findOne(id);
+    	model.addAttribute("vendor", vendor);
     	prepareModel(model);
-    	return "/brand/edit";
+    	return "/vendor/edit";
     }
    
 }

@@ -13,84 +13,84 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.Tag;
+import org.tarak.pms.models.TagType;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
  * Created by Tarak on 12/4/2016.
  */
 
-@RequestMapping("/tag")
+@RequestMapping("/tagType")
 @Controller
-public class TagController {
+public class TagTypeController {
 
     @Autowired
-    private ServiceInterface<Tag, Integer> tagService;
+    private ServiceInterface<TagType, Integer> tagTypeService;
 
     @RequestMapping("/")
     public String index(Model model)
     {
     	prepareModel(model);
-        return "tag/index";
+        return "tagType/index";
     }
 
     private void prepareModel(Model model) 
     {
-    	if(!model.containsAttribute("tag"))
+    	if(!model.containsAttribute("tagType"))
     	{
-            model.addAttribute("tag", new Tag());    		
+            model.addAttribute("tagType", new TagType());    		
     	}
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
-    public String addTag(@Valid Tag tag, BindingResult bindingResult, Model model)
+    public String addTagType(@Valid TagType tagType, BindingResult bindingResult, Model model)
     {
         if (bindingResult.hasErrors())
         {
-    		return "tag/index";
+    		return "tagType/index";
         }
         try
         {
-        	tagService.saveAndFlush(tag);
+        	tagTypeService.saveAndFlush(tagType);
         }
         catch(DataIntegrityViolationException e)
         {
-        	String args[]={"Tag",tag.getName()};
-        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Tag with name "+tag.getName()+" already exists");
-        	return "tag/index";
+        	String args[]={"TagType",tagType.getName()};
+        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"TagType with name "+tagType.getName()+" already exists");
+        	return "tagType/index";
         }
         catch(Exception e)
         {
-        	String args[]={"Tag",tag.getName()};
+        	String args[]={"TagType",tagType.getName()};
         	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
-        	return "tag/index";
+        	return "tagType/index";
         }
-        model.addAttribute("tag", new Tag());
-        return "tag/index";
+        model.addAttribute("tagType", new TagType());
+        return "tagType/index";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
-    List<Tag> listCategories()
+    List<TagType> listCategories()
     {
-        List<Tag> list=tagService.findAll();
+        List<TagType> list=tagTypeService.findAll();
         return list;
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
-    public String deleteTag(@PathVariable Integer id, Model model)
+    public String deleteTagType(@PathVariable Integer id, Model model)
     {
     	
-    	tagService.delete(id);
+    	tagTypeService.delete(id);
     	return index(model);
     }
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editTag(@PathVariable Integer id, Model model)
+    public String editTagType(@PathVariable Integer id, Model model)
     {
-    	Tag tag=tagService.findOne(id);
-    	model.addAttribute("tag", tag);
-    	return "tag/edit";
+    	TagType tagType=tagTypeService.findOne(id);
+    	model.addAttribute("tagType", tagType);
+    	return "tagType/edit";
     }
    
 }

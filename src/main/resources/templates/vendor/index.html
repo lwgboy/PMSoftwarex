@@ -2,21 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Brand Knowledge Base',formTitle='Brand'">
+	th:with="formHeading='Vendor Knowledge Base',formTitle='Vendor'">
 <head>
 <title>PMSoftware</title>
 </head>
 <body>
 	<div layout:fragment="form_fields">
-		<form action="#" th:action="@{/brand/add}" th:object="${brand}"
+		<form action="#" th:action="@{/vendor/add}" th:object="${vendor}"
 			method="post">
-			<div th:include="fragments::brand('false','Add')"></div>
+			<div th:include="fragments::vendor('false','Add')"></div>
 		</form>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<label>List of Brands</label>
+						<label>List of Vendors</label>
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
@@ -25,7 +25,7 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Brand</th>
+										<th>Vendor</th>
 										<th>Description</th>
 										<th>View</th>
 										<th>Edit</th>
@@ -35,7 +35,7 @@
 								<tfoot>
 									<tr>
 										<th>ID</th>
-										<th>Brand</th>
+										<th>Vendor</th>
 										<th>Description</th>
 										<th>View</th>
 										<th>Edit</th>
@@ -52,7 +52,7 @@
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
 			var cTable = $('#dataTables-example').dataTable();
-			populate_basic_table("/brand/list", cTable, "brand");
+			populate_basic_table("/vendor/list", cTable, "vendor");
 		});
 	</script>
 </body>

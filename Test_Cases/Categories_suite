@@ -8,14 +8,13 @@
 <body>
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
-<tr><td><a href="Brand.html">Brand</a></td></tr>
 <tr><td><a href="Category.html">Category</a></td></tr>
 <tr><td><a href="Division.html">Division</a></td></tr>
 <tr><td><a href="Measurement.html">Measurement</a></td></tr>
 <tr><td><a href="ProductType.html">ProductType</a></td></tr>
 <tr><td><a href="Section.html">Section</a></td></tr>
 <tr><td><a href="Style.html">Style</a></td></tr>
-<tr><td><a href="Tag.html">Tag</a></td></tr>
+<tr><td><a href="TagType.html">Tag</a></td></tr>
 <tr><td><a href="VariantType.html">VariantType</a></td></tr>
 </tbody></table>
 </body>

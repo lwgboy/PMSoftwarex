@@ -113,18 +113,95 @@ $(document).ready(function() {
 	
 	// Sonstructs the suggestion engine
     var variantTypes = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         // The url points to a json file that contains an array of country names
-        prefetch: '/variantType/variantTypes'
+        prefetch: '/variantType/list'
     });
-    
+    variantTypes.initialize();
     // Initializing the typeahead with remote dataset without highlighting
-    $('.variantType').typeahead(null, {
+    /*$('.variantType').typeahead({
+    	hint:true,
+    	highlight:true
+    }, {
         name: 'variantTypes',
-        source: variantTypes,
-        limit: 10 /* Specify max number of suggestions to be displayed */
+        source: variantTypes.ttAdapter(),
+        display: 'name',
+        limit: 10  Specify max number of suggestions to be displayed 
+    }).on('typeahead:selected', function(event, data){ 
+    	var idx="#"+event.currentTarget.id.replace('.name','.id').replace(/\./g,"\\.");
+    	$(idx).val(data.id);
     });
-
-	
+    $('.variantType').typeahead({
+        onSelect: function(item) {
+            console.log(item);
+        },
+        displayField: 'name',
+        ajax: {
+            url: "/variantType/list",
+            timeout: 500,
+            displayField: "title",
+            triggerLength: 1,
+            method: "get",
+            loadingClass: "loading-circle",
+            preDispatch: function (query) {
+                //showLoadingMask(true);
+                return {
+                    search: query
+                }
+            },
+            preProcess: function (data) {
+                //showLoadingMask(false);
+                if (data.success === false) {
+                    // Hide the list, there was some error
+                    return false;
+                }
+                // We good!
+                return data;
+            }
+        }
+    });
+	*/
+    $('input.variantType').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/variantType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.measurement').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/measurement/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.tagType').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/tagType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
 });
