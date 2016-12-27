@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Measurement;
+import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
+import org.tarak.pms.models.Vendor;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
@@ -53,9 +54,13 @@ public class ProductController {
 		variants.add(new Variant());
 		List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
+		List<Vendor> vendors=new ArrayList<Vendor>();
+		vendors.add(new Vendor());
+		
 		Product product=new Product();
 		product.setVariants(variants);
 		product.setTags(tags);
+		product.setVendors(vendors);
         model.addAttribute("product", product);
     }
     
@@ -91,6 +96,12 @@ public class ProductController {
     @RequestMapping(value = "/add", params={"addTag"}, method = RequestMethod.POST )
     public String addTag(Product product, BindingResult result,Model model) {
         product.getTags().add(new Tag());
+        return index(model);
+    }
+    
+    @RequestMapping(value = "/add", params={"addVendor"}, method = RequestMethod.POST )
+    public String addVendor(Product product, BindingResult result,Model model) {
+        product.getVendors().add(new Vendor());
         return index(model);
     }
 

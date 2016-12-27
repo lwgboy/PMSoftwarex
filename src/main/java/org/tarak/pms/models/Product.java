@@ -34,14 +34,6 @@ public class Product {
     private String description;
     
     @ManyToOne
-    @JoinColumn(name="Primary_Unit")
-    private Measurement primaryUnit;
-    
-    @ManyToOne
-    @JoinColumn(name="Secondary_Unit")
-    private Measurement SecondaryUnit;
-    
-    @ManyToOne
     @JoinColumn(name="Category")
     private Category category;
     
@@ -68,6 +60,20 @@ public class Product {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Product_tags", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;
+
+    private boolean trackInventory;
+    
+    private boolean active;
+    
+    @ManyToOne
+    @JoinColumn(name="Product_Type")
+    private ProductType productType;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Product_Vendors", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"))
+    private List<Vendor> vendors;
+    
+    private double indicatoryCost;
     
     public Integer getId() {
         return id;
@@ -91,22 +97,6 @@ public class Product {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Measurement getPrimaryUnit() {
-		return primaryUnit;
-	}
-
-	public void setPrimaryUnit(Measurement primaryUnit) {
-		this.primaryUnit = primaryUnit;
-	}
-
-	public Measurement getSecondaryUnit() {
-		return SecondaryUnit;
-	}
-
-	public void setSecondaryUnit(Measurement secondaryUnit) {
-		SecondaryUnit = secondaryUnit;
 	}
 
 	public List<Variant> getVariants() {
@@ -163,6 +153,46 @@ public class Product {
 
 	public void setBrand(Brand brand) {
 		this.brand = brand;
+	}
+
+	public boolean isTrackInventory() {
+		return trackInventory;
+	}
+
+	public void setTrackInventory(boolean trackInventory) {
+		this.trackInventory = trackInventory;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+
+	public List<Vendor> getVendors() {
+		return vendors;
+	}
+
+	public void setVendors(List<Vendor> vendors) {
+		this.vendors = vendors;
+	}
+
+	public double getIndicatoryCost() {
+		return indicatoryCost;
+	}
+
+	public void setIndicatoryCost(double indicatoryCost) {
+		this.indicatoryCost = indicatoryCost;
 	}
 	
 }

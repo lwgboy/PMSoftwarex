@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tarak.pms.models.Address;
+import org.tarak.pms.models.ContactPerson;
 import org.tarak.pms.models.Vendor;
-import org.tarak.pms.models.Measurement;
-import org.tarak.pms.models.Tag;
-import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
@@ -31,15 +30,6 @@ public class VendorController {
     @Autowired
     private ServiceInterface<Vendor, Integer> vendorService;
 
-    @Autowired
-    private ServiceInterface<Variant, Integer> variantService;
-    
-    @Autowired
-    private ServiceInterface<Tag, Integer> tagService;
-    
-    @Autowired
-    private ServiceInterface<Measurement, Integer> measurementService;
-    
     @RequestMapping("/")
     public String index(Model model)
     {
@@ -49,13 +39,13 @@ public class VendorController {
 
     private void addVendor(Model model)
     {
-    	List<Variant> variants=new ArrayList<Variant>();
-		variants.add(new Variant());
-		List<Tag> tags=new ArrayList<Tag>();
-		tags.add(new Tag());
+    	List<ContactPerson> contactPersons=new ArrayList<ContactPerson>();
+    	contactPersons.add(new ContactPerson());
+		List<Address> addresses=new ArrayList<Address>();
+		addresses.add(new Address());
 		Vendor vendor=new Vendor();
-		/*vendor.setVariants(variants);
-		vendor.setTags(tags);*/
+		vendor.setContactPersons(contactPersons);
+		vendor.setAddressList(addresses);
         model.addAttribute("vendor", vendor);
     }
     
@@ -65,31 +55,16 @@ public class VendorController {
     	{
     		addVendor(model);
     	}
-    	if(!model.containsAttribute("variant_list"))
-    	{
-    		List<Variant> variants=variantService.findAll();
-    		model.addAttribute("variant_list",variants);
-    	}
-    	if(!model.containsAttribute("tag_list"))
-    	{
-    		List<Tag> tags=tagService.findAll();
-    		model.addAttribute("tag_list",tags);
-    	}
-    	if(!model.containsAttribute("measurement_list"))
-    	{
-    		List<Measurement> measurements=measurementService.findAll();
-    		model.addAttribute("measurement_list",measurements);
-    	}
 	}
-    @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
+    @RequestMapping(value = "/add", params={"addContactPerson"}, method = RequestMethod.POST )
     public String addVariant(Vendor vendor, BindingResult result,Model model) {
-        //vendor.getVariants(add(new Variant());
+        vendor.getContactPersons().add(new ContactPerson());
         return index(model);
     }
     
-    @RequestMapping(value = "/add", params={"addTag"}, method = RequestMethod.POST )
+    @RequestMapping(value = "/add", params={"addAddresses"}, method = RequestMethod.POST )
     public String addTag(Vendor vendor, BindingResult result,Model model) {
-        //vendor.getTags().add(new Tag());
+        vendor.getAddressList().add(new Address());
         return index(model);
     }
 
@@ -150,5 +125,4 @@ public class VendorController {
     	prepareModel(model);
     	return "/vendor/edit";
     }
-   
 }

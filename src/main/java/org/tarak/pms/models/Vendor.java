@@ -40,7 +40,7 @@ public class Vendor {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Vendor_Addresses", joinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "address_id"))
-    private List<Address> addresses;
+    private List<Address> addressList;
     
     public Integer getId() {
         return id;
@@ -82,12 +82,13 @@ public class Vendor {
 		this.contactPersons = contactPersons;
 	}
 
-	public List<Address> getAddresses() {
-		return addresses;
+	public List<Address> getAddressList() {
+		return addressList;
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
+	public void setAddressList(List<Address> addressList) {
+		this.addressList = addressList;
 	}
+
 
 }

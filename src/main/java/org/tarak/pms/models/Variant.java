@@ -29,9 +29,17 @@ public class Variant {
     @JoinColumn(name="type")
     private VariantType type;
 
-    private double margin;
+    private double wspMargin;
     
-    private double price;
+    private double rspMargin;
+    
+    private double wspPrice;
+    
+    private double rspPrice;
+    
+    @Column(name = "sku", columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long sku;
     
     public Integer getId() {
         return id;
@@ -66,18 +74,51 @@ public class Variant {
 	}
 
 	public double getMargin() {
-		return margin;
+		return wspMargin;
 	}
 
 	public void setMargin(double margin) {
-		this.margin = margin;
+		this.wspMargin = margin;
 	}
 
 	public double getPrice() {
-		return price;
+		return wspPrice;
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		this.wspPrice = price;
 	}
+
+	public double getWspMargin() {
+		return wspMargin;
+	}
+
+	public void setWspMargin(double wspMargin) {
+		this.wspMargin = wspMargin;
+	}
+
+	public double getRspMargin() {
+		return rspMargin;
+	}
+
+	public void setRspMargin(double rspMargin) {
+		this.rspMargin = rspMargin;
+	}
+
+	public double getWspPrice() {
+		return wspPrice;
+	}
+
+	public void setWspPrice(double wspPrice) {
+		this.wspPrice = wspPrice;
+	}
+
+	public double getRspPrice() {
+		return rspPrice;
+	}
+
+	public void setRspPrice(double rspPrice) {
+		this.rspPrice = rspPrice;
+	}
+	
 }

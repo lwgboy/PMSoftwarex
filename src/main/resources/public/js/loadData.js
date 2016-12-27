@@ -112,13 +112,13 @@ $(document).ready(function() {
     	});
 	
 	// Sonstructs the suggestion engine
-    var variantTypes = new Bloodhound({
+    /*var variantTypes = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         // The url points to a json file that contains an array of country names
         prefetch: '/variantType/list'
     });
-    variantTypes.initialize();
+    variantTypes.initialize();*/
     // Initializing the typeahead with remote dataset without highlighting
     /*$('.variantType').typeahead({
     	hint:true,
@@ -204,4 +204,102 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	$('input.category').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/category/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.section').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/section/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.division').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/division/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.style').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/style/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.brand').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/brand/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.vendor').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/vendor/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.productType').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/productType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})	
 });
