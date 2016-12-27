@@ -11,6 +11,7 @@ function populate_basic_table(url,table,type)
 		    {
                 var cols = new Array();
                 var flag=false;
+                var count=0;
 		        for(var column in x)
                 {
 		        	if(!$.isArray(x[column]))
@@ -28,7 +29,15 @@ function populate_basic_table(url,table,type)
 		        	{
 		        		flag=true;
 		        	}
-                    
+		        	if(url.indexOf("product"))
+		        	{
+		        		count++;
+		        		if(count==3)
+		        		{
+		        			flag=true;
+		        			break;
+		        		}
+		        	}
                 }
 		        if(flag==true)
 		        {
