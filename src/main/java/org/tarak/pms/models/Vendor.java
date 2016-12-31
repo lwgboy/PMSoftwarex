@@ -25,7 +25,7 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique=true)
     @NotNull
     @Size(min=3,message ="Vendor should have minimum 3 characters")
     private String name;
@@ -88,6 +88,7 @@ public class Vendor {
 
 	public void setAddressList(List<Address> addressList) {
 		this.addressList = addressList;
+		
 	}
 
 

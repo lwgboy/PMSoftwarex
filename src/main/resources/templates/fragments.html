@@ -130,11 +130,11 @@
 						class="form-control" th:field="*{brand.id}" type="hidden" />
 				</div>
 				<div class="form-group">
-					<label>Track Inventory <input type="checkbox"
-						th:field="*{trackInventory}" /> Active <input type="checkbox"
-						th:field="*{active}" /></label>
+					<label>Track Inventory <input type="checkbox" th:field="*{trackInventory}" /> </label>
+					<label>Active <input type="checkbox" th:field="*{active}" /></label>
+					<label>Taxable <input type="checkbox" th:field="*{taxable}" /></label>
 				</div>
-
+				
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group" th:each="var, tagStat : *{tags}">

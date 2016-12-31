@@ -75,6 +75,8 @@ public class Product {
     
     private double indicatoryCost;
     
+    private boolean taxable;
+    
     public Integer getId() {
         return id;
     }
@@ -194,5 +196,14 @@ public class Product {
 	public void setIndicatoryCost(double indicatoryCost) {
 		this.indicatoryCost = indicatoryCost;
 	}
+
+	public boolean isTaxable() {
+		return taxable;
+	}
+
+	public void setTaxable(boolean taxable) {
+		this.taxable = taxable;
+	}
+	
 	
 }

@@ -15,7 +15,7 @@ public class ContactPerson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,unique=true)
+    @Column(nullable = false)
     @NotNull
     @Size(min=3,message ="ContactPerson should have minimum 3 characters")
     private String name;
