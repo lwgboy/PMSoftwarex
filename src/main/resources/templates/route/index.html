@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Route Knowledge Base',formTitle='Route'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/route/add}" th:object="${route}"
+			method="post">
+			<div th:include="fragments::route('false','Add')"></div>
+		</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<label>List of Routes</label>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Route</th>
+										<th>Description</th>
+										<th>View</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>ID</th>
+										<th>Route</th>
+										<th>Description</th>
+										<th>View</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/route/list", cTable, "route");
+		});
+	</script>
+</body>
+</html>

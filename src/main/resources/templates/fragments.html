@@ -130,13 +130,27 @@
 						class="form-control" th:field="*{brand.id}" type="hidden" />
 				</div>
 				<div class="form-group">
-					<label>Track Inventory <input type="checkbox" th:field="*{trackInventory}" /> </label>
-					<label>Active <input type="checkbox" th:field="*{active}" /></label>
-					<label>Taxable <input type="checkbox" th:field="*{taxable}" /></label>
+					<label><input type="checkbox" th:field="*{trackInventory}" /> Track Inventory</label>
+				</div>
+				<div class="form-group">					
+					<label><input type="checkbox" th:field="*{active}" /> Active</label>
+				</div>
+				<div class="form-group">
+					<label><input type="checkbox" th:field="*{taxable}" /> Taxable</label>
 				</div>
 				
 			</div>
 			<div class="col-lg-6">
+				<div class="form-group">
+					<label>Product Type</label> <input type="text"
+						th:field="*{productType.name}" class=" productType form-control"
+						autocomplete="off" /><input type="hidden"
+						th:field="*{productType.id}" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Indicatory Cost</label> <input type="text"
+						th:field="*{indicatoryCost}" class="form-control" />
+				</div>
 				<div class="form-group" th:each="var, tagStat : *{tags}">
 					<label th:text="|Tag ${tagStat.count}|"></label>
 					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
@@ -151,16 +165,6 @@
 					<button type="submit" name="addTag" class="btn btn-info btn-xs">
 						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Tag
 					</button>
-				</div>
-				<div class="form-group">
-					<label>Product Type</label> <input type="text"
-						th:field="*{productType.name}" class=" productType form-control"
-						autocomplete="off" /><input type="hidden"
-						th:field="*{productType.id}" class="form-control" />
-				</div>
-				<div class="form-group">
-					<label>Indicatory Cost</label> <input type="text"
-						th:field="*{indicatoryCost}" class="form-control" />
 				</div>
 				<div class="form-group" th:each="var, vendorStat : *{vendors}">
 					<label th:text="|Vendor ${vendorStat.count}|"></label>
@@ -194,6 +198,7 @@
 								<th>WSP Price</th>
 								<th>RSP Margin</th>
 								<th>RSP Price</th>
+								<th>Route</th>
 							</tr>
 							<tr th:each="var, variantStat : *{variants}">
 								<td>
@@ -245,6 +250,9 @@
 											th:field="*{variants[__${variantStat.index}__].rspPrice}"
 											class="form-control" />
 									</div>
+								</td>
+								<td>
+									<a href="#"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Route</a>
 								</td>
 							</tr>
 						</table>
@@ -497,5 +505,55 @@
 			</div>
 		</div>
 	</div>
+	<div th:fragment="route(update,button)">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label>Route Name</label> <input type="text" th:field="*{name}"
+						class="form-control" /><input type="hidden" th:field="*{id}"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+				</div>
+				<div class="form-group" th:each="var, stageStat : *{stages}">
+					<label th:text="|Stage ${stageStat.count}|"></label>
+					<!-- <button type="submit" name="removeStage" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+                            </button> -->
+					<input class="stage form-control"
+						th:field="*{stages[__${stageStat.index}__].name}" type="text"
+						autocomplete="off" /> <input class="form-control"
+						th:field="*{stages[__${stageStat.index}__].id}" type="hidden" />
+
+				</div>
+				<div class="form-group">
+					<button type="submit" name="addStage" class="btn btn-info btn-xs">
+						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Stage
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+					<p th:text="${#fields.allErrors()[0]}">...</p>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
+					</button>
+					<a href="/route/">
+						<button type="button" class="btn btn-danger" th:if='${update}'>
+							<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+							Cancel
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>	
 </body>
 </html>

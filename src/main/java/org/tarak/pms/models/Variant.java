@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -39,6 +38,10 @@ public class Variant {
     @Column(name = "sku", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sku;
+    
+    @ManyToOne(optional = true)
+    @JoinColumn(name="route",nullable=false)
+    private VariantRoute variantRoute;
     
     public Integer getId() {
         return id;
@@ -119,5 +122,22 @@ public class Variant {
 	public void setRspPrice(double rspPrice) {
 		this.rspPrice = rspPrice;
 	}
+
+	public long getSku() {
+		return sku;
+	}
+
+	public void setSku(long sku) {
+		this.sku = sku;
+	}
+
+	public VariantRoute getVariantRoute() {
+		return variantRoute;
+	}
+
+	public void setVariantRoute(VariantRoute variantRoute) {
+		this.variantRoute = variantRoute;
+	}
+	
 	
 }

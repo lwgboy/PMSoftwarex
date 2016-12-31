@@ -12,16 +12,16 @@ import javax.validation.constraints.Size;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class TagType {
+public class Stage {
 
     @Id
-    @Column(name = "tagType_id", columnDefinition = "serial")
+    @Column(name = "stage_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false,unique=true)
     @NotNull
-    @Size(min=3,message ="TagType should have minimum 3 characters")
+    @Size(min=3,message ="Stage should have minimum 3 characters")
     private String name;
 
     private String description;
