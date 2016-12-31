@@ -34,11 +34,11 @@ public class Vendor {
     
     private String email;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
     @JoinTable(name = "Vendor_ContactPersons", joinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "contactPerson_id", referencedColumnName = "contactPerson_id"))
     private List<ContactPerson> contactPersons;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
     @JoinTable(name = "Vendor_Addresses", joinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "address_id"))
     private List<Address> addressList;
     

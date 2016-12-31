@@ -19,6 +19,8 @@ public class ContactPerson {
     @NotNull
     @Size(min=3,message ="ContactPerson should have minimum 3 characters")
     private String name;
+    
+    private String designation;
 
     private String mobile;
     
@@ -75,6 +77,14 @@ public class ContactPerson {
 	public void setAlternateEmail(String alternateEmail) {
 		this.alternateEmail = alternateEmail;
 	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
     
-    
+	
 }

@@ -41,11 +41,11 @@ public class Brand {
     @JoinColumn(name="Secondary_Unit")
     private Measurement SecondaryUnit;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
     @JoinTable(name = "Brand_Variants", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
     private List<Variant> variants;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
     @JoinTable(name = "Brand_tags", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;
     

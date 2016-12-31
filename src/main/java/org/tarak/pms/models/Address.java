@@ -39,6 +39,10 @@ public class Address {
     @Size(min=3,message ="Country should have minimum 3 characters")
     private String country;
     
+    private String tinNo;
+    
+    private String cstNo;
+    
     public Integer getId() {
         return id;
     }
@@ -101,6 +105,22 @@ public class Address {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getTinNo() {
+		return tinNo;
+	}
+
+	public void setTinNo(String tinNo) {
+		this.tinNo = tinNo;
+	}
+
+	public String getCstNo() {
+		return cstNo;
+	}
+
+	public void setCstNo(String cstNo) {
+		this.cstNo = cstNo;
 	}
     
 }

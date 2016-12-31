@@ -29,7 +29,7 @@ function populate_basic_table(url,table,type)
 		        	{
 		        		flag=true;
 		        	}
-		        	if(url.indexOf("product"))
+		        	if(url.indexOf("/product/")>-1)
 		        	{
 		        		count++;
 		        		if(count==3)

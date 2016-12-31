@@ -17,6 +17,20 @@
 					<label>Description</label>
 					<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
 				</div>
+				<div class="form-group">
+					<label>Primary Unit of Measurement</label> <input
+						class="measurement form-control" th:field="*{primaryUnit.name}"
+						type="text" autocomplete="off" /> <input class="form-control"
+						th:field="*{primaryUnit.id}" type="hidden" />
+				</div>
+				<div class="form-group">
+					<label>Secondary Unit of Measurement</label> <input
+						class="measurement form-control" th:field="*{secondaryUnit.name}"
+						type="text" autocomplete="off" /> <input class="form-control"
+						th:field="*{secondaryUnit.id}" type="hidden" />
+				</div>
+			</div>
+			<div class="col-lg-6">
 
 				<div class="form-group" th:each="var, tagStat : *{tags}">
 					<label th:text="|Tag ${tagStat.count}|"></label>
@@ -34,73 +48,36 @@
 					</button>
 				</div>
 
-				<div class="form-group">
-					<label>Primary Unit of Measurement</label> <input
-						class="measurement form-control" th:field="*{primaryUnit.name}"
+				<div class="form-group" th:each="var, variantStat : *{variants}">
+					<label th:text="|Variant ${variantStat.count}|"></label>
+					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+                            </button> -->
+					<input class="variantType form-control"
+						th:field="*{variants[__${variantStat.index}__].type.name}"
 						type="text" autocomplete="off" /> <input class="form-control"
-						th:field="*{primaryUnit.id}" type="hidden" />
+						th:field="*{variants[__${variantStat.index}__].type.id}"
+						type="hidden" />
+
 				</div>
 				<div class="form-group">
-					<label>Secondary Unit of Measurement</label> <input
-						class="measurement form-control" th:field="*{secondaryUnit.name}"
-						type="text" autocomplete="off" /> <input class="form-control"
-						th:field="*{secondaryUnit.id}" type="hidden" />
+					<button type="submit" name="addVariant" class="btn btn-info btn-xs">
+						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
+					</button>
 				</div>
+
 
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="panel panel-green">
-					<div class="panel-heading">
-						<label>Variants</label>
-					</div>
-					<div class="panel-body">
-						<table class="table table-striped table-bordered table-hover">
-							<tr>
-								<th>Variant Type</th>
-								<th>Variant</th>
-							</tr>
-							<tr th:each="var, variantStat : *{variants}">
-								<td>
-									<div class="form-group">
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{variants[__${variantStat.index}__].type.name}"
-												type="text"
-												class="variantType typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{variants[__${variantStat.index}__].type.id}"
-												type="hidden" class="form-control" />
-										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].name}"
-											class="form-control" /> <input type="hidden"
-											th:field="*{variants[__${variantStat.index}__].id}"
-											class="form-control" />
-									</div>
-								</td>
-							</tr>
-						</table>
-						<div class="form-group">
-							<button type="submit" name="addVariant"
-								class="btn btn-success btn-xs">
-								<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
-							</button>
-						</div>
-					</div>
-				</div>
 				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 					<p th:text="${#fields.allErrors()[0]}">...</p>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> <span
-							th:text="${button}"></span>
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
 					</button>
 					<a href="/brand/">
 						<button type="button" class="btn btn-danger" th:if='${update}'>
@@ -154,9 +131,10 @@
 				</div>
 				<div class="form-group">
 					<label>Track Inventory <input type="checkbox"
-						th:field="*{trackInventory}" /> Active <input type="checkbox" th:field="*{active}" /></label>
+						th:field="*{trackInventory}" /> Active <input type="checkbox"
+						th:field="*{active}" /></label>
 				</div>
-		
+
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group" th:each="var, tagStat : *{tags}">
@@ -176,8 +154,9 @@
 				</div>
 				<div class="form-group">
 					<label>Product Type</label> <input type="text"
-						th:field="*{productType.name}" class=" productType form-control" autocomplete="off" /><input
-						type="hidden" th:field="*{productType.id}" class="form-control" />
+						th:field="*{productType.name}" class=" productType form-control"
+						autocomplete="off" /><input type="hidden"
+						th:field="*{productType.id}" class="form-control" />
 				</div>
 				<div class="form-group">
 					<label>Indicatory Cost</label> <input type="text"
@@ -281,9 +260,10 @@
 					<p th:text="${#fields.allErrors()[0]}">...</p>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> <span
-							th:text="${button}"></span>
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
 					</button>
 					<a href="/product/">
 						<button type="button" class="btn btn-danger" th:if='${update}'>
@@ -323,57 +303,71 @@
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-bordered table-hover">
+							<tbody th:each="var, contactPersonStat : *{contactPersons}">
 							<tr>
-								<th>Name</th>
-								<th>Mobile</th>
-								<th>Alternate Mobile</th>
-								<th>Email</th>
-								<th>Alternate Email</th>
-							</tr>
-							<tr th:each="var, contactPersonStat : *{contactPersons}">
-								<td>
-									<div class="form-group">
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{contactPersons[__${contactPersonStat.index}__].name}"
-												type="text"
-												class="contactPersonType typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{contactPersons[__${contactPersonStat.index}__].id}"
-												type="hidden" class="form-control" />
+									<th colspan="4" th:text="|Contact ${contactPersonStat.count}|"></th>
+								</tr>
+								<tr>
+									<th>Name</th>
+									<td>
+										<div class="form-group">
+											<div id="scrollable-dropdown-menu">
+												<input
+													th:field="*{contactPersons[__${contactPersonStat.index}__].name}"
+													type="text"
+													class="contactPersonType typeahead tt-query form-control"
+													autocomplete="off" /> <input
+													th:field="*{contactPersons[__${contactPersonStat.index}__].id}"
+													type="hidden" class="form-control" />
+											</div>
 										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{contactPersons[__${contactPersonStat.index}__].mobile}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-
-									<div class="form-group">
-										<input type="text"
-											th:field="*{contactPersons[__${contactPersonStat.index}__].alternateMobile}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="email"
-											th:field="*{contactPersons[__${contactPersonStat.index}__].email}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="email"
-											th:field="*{contactPersons[__${contactPersonStat.index}__].alternateEmail}"
-											class="form-control" />
-									</div>
-								</td>
-							</tr>
+									</td>
+									<th>Designation</th>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{contactPersons[__${contactPersonStat.index}__].designation}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>Mobile</th>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{contactPersons[__${contactPersonStat.index}__].mobile}"
+												class="form-control" />
+										</div>
+									</td>
+									<th>Alternate Mobile</th>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{contactPersons[__${contactPersonStat.index}__].alternateMobile}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>Email</th>
+									<td>
+										<div class="form-group">
+											<input type="email"
+												th:field="*{contactPersons[__${contactPersonStat.index}__].email}"
+												class="form-control" />
+										</div>
+									</td>
+									<th>Alternate Email</th>
+									<td>
+										<div class="form-group">
+											<input type="email"
+												th:field="*{contactPersons[__${contactPersonStat.index}__].alternateEmail}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 						<div class="form-group">
 							<button type="submit" name="addContactPerson"
@@ -398,6 +392,24 @@
 							<tbody th:each="var, addressStat : *{addressList}">
 								<tr>
 									<th colspan="4" th:text="|Address ${addressStat.count}|"></th>
+								</tr>
+								<tr>
+									<th>TIN No</th>
+									<td>
+										<div class="form-group">
+											<input
+												th:field="*{addressList[__${addressStat.index}__].tinNo}"
+												class="form-control" type="text" />
+										</div>
+									</td>
+									<th>CST No</th>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{addressList[__${addressStat.index}__].cstNo}"
+												class="form-control" />
+										</div>
+									</td>
 								</tr>
 								<tr>
 									<th>Address</th>
@@ -470,9 +482,10 @@
 					<p th:text="${#fields.allErrors()[0]}">...</p>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> <span
-							th:text="${button}"></span>
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
 					</button>
 					<a href="/vendor/">
 						<button type="button" class="btn btn-danger" th:if='${update}'>
