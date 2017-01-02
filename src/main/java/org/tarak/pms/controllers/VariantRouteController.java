@@ -44,7 +44,7 @@ public class VariantRouteController {
     	List<Route> routes=new ArrayList<Route>();
 		routes.add(new Route());
 		VariantRoute variantRoute=new VariantRoute();
-		variantRoute.setRoutes(routes);
+		//variantRoute.setRoutes(routes);
         model.addAttribute("variantRoute", variantRoute);
     }
     
@@ -63,13 +63,13 @@ public class VariantRouteController {
 
     @RequestMapping(value = "/add", params={"addRoute"}, method = RequestMethod.POST )
     public String addRoute(VariantRoute variantRoute, BindingResult result,Model model) {
-        variantRoute.getRoutes().add(new Route());
+        //variantRoute.getRoutes().add(new Route());
         return index(model);
     }
     
     @RequestMapping(value = "/add", params={"removeRoute"}, method = RequestMethod.POST )
     public String removeRoute(VariantRoute variantRoute, BindingResult result,Model model) {
-        variantRoute.getRoutes().add(new Route());
+        //variantRoute.getRoutes().add(new Route());
         return index(model);
     }
     
@@ -86,14 +86,12 @@ public class VariantRouteController {
         }
         catch(DataIntegrityViolationException e)
         {
-        	String args[]={"VariantRoute",variantRoute.getName()};
-        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"VariantRoute with name "+variantRoute.getName()+" already exists");
+        	//bindingResult.rejectValue("name", "error.alreadyExists",args ,"VariantRoute with name "+variantRoute.getName()+" already exists");
         	return index(model);
         }
         catch(Exception e)
         {
-        	String args[]={"VariantRoute",variantRoute.getName()};
-        	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
+        	//bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
         	return index(model);
         }
         addVariantRoute(model);

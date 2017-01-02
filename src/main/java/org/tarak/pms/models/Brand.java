@@ -2,7 +2,6 @@ package org.tarak.pms.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +13,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -34,18 +36,20 @@ public class Brand {
     private String description;
     
     @ManyToOne
-    @JoinColumn(name="Primary_Unit")
+    @JoinColumn(columnDefinition="integer",name="Primary_Unit")
     private Measurement primaryUnit;
     
     @ManyToOne
-    @JoinColumn(name="Secondary_Unit")
+    @JoinColumn(columnDefinition="integer",name="Secondary_Unit")
     private Measurement SecondaryUnit;
     
-    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Brand_Variants", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
     private List<Variant> variants;
     
-    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Brand_tags", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;
     

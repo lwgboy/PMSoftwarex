@@ -18,6 +18,7 @@ import org.tarak.pms.models.Brand;
 import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
+import org.tarak.pms.models.VariantRoute;
 import org.tarak.pms.services.ServiceInterface;
 
 /**
@@ -109,6 +110,15 @@ public class BrandController {
         }
         try
         {
+        	/*List<Variant> variants=new ArrayList<Variant>();
+        	for(Variant variant : brand.getVariants())
+        	{
+        		if(variant.getVariantRoute()==null)
+            	{
+            		variant.setVariantRoute(new VariantRoute());
+            	}
+        	}
+        	brand.setVariants(variants);*/
         	brandService.saveAndFlush(brand);
         }
         catch(DataIntegrityViolationException e)

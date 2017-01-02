@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Product;
+import org.tarak.pms.models.Route;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
+import org.tarak.pms.models.VariantRoute;
 import org.tarak.pms.models.Vendor;
 import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.utils.ProductUtils;
 
 /**
  * Created by Tarak on 12/4/2016.
@@ -38,9 +40,6 @@ public class ProductController {
     @Autowired
     private ServiceInterface<Tag, Integer> tagService;
     
-    @Autowired
-    private ServiceInterface<Measurement, Integer> measurementService;
-    
     @RequestMapping("/")
     public String index(Model model)
     {
@@ -51,7 +50,14 @@ public class ProductController {
     private void addProduct(Model model)
     {
     	List<Variant> variants=new ArrayList<Variant>();
-		variants.add(new Variant());
+    	Variant variant=new Variant();
+    	VariantRoute variantRoute=new VariantRoute();
+    	Route route = new Route();
+    	variantRoute.setRoute(route);
+    	List<VariantRoute> variantRoutes=new ArrayList<VariantRoute>();
+    	variantRoutes.add(variantRoute);
+    	variant.setVariantRoutes(variantRoutes);
+    	variants.add(variant);
 		List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
 		List<Vendor> vendors=new ArrayList<Vendor>();
@@ -80,16 +86,18 @@ public class ProductController {
     		List<Tag> tags=tagService.findAll();
     		model.addAttribute("tag_list",tags);
     	}
-    	if(!model.containsAttribute("measurement_list"))
-    	{
-    		List<Measurement> measurements=measurementService.findAll();
-    		model.addAttribute("measurement_list",measurements);
-    	}
 	}
 
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
     public String addVariant(Product product, BindingResult result,Model model) {
-        product.getVariants().add(new Variant());
+    	Variant variant=new Variant();
+    	VariantRoute variantRoute=new VariantRoute();
+    	Route route = new Route();
+    	variantRoute.setRoute(route);
+    	List<VariantRoute> variantRoutes=new ArrayList<VariantRoute>();
+    	variantRoutes.add(variantRoute);
+    	variant.setVariantRoutes(variantRoutes);
+    	product.getVariants().add(variant);
         return index(model);
     }
     
@@ -104,7 +112,7 @@ public class ProductController {
         product.getVendors().add(new Vendor());
         return index(model);
     }
-
+    
     @RequestMapping(value = "/add", params={"removeVariant"}, method = RequestMethod.POST )
     public String removeVariant(Product product, BindingResult result,Model model) {
         product.getVariants().add(new Variant());
@@ -120,6 +128,7 @@ public class ProductController {
         }
         try
         {
+        	ProductUtils.processSKU(product);
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)
@@ -138,7 +147,7 @@ public class ProductController {
         return index(model);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET )
+	@RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
     List<Product> listCategories()
     {

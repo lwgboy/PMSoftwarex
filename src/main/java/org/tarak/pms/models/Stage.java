@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -19,27 +19,20 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,unique=true)
-    @NotNull
-    @Size(min=3,message ="Stage should have minimum 3 characters")
-    private String name;
+    private String duration;
 
+    @ManyToOne
+    @JoinColumn(columnDefinition="integer",name="type")
+    private StageType type;
+    
     private String description;
     
     public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 	public String getDescription() {
@@ -49,4 +42,22 @@ public class Stage {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public StageType getType() {
+		return type;
+	}
+
+	public void setType(StageType type) {
+		this.type = type;
+	}
+	
+	
 }

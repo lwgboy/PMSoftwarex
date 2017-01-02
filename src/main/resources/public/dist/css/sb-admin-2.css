@@ -617,3 +617,7 @@ p + p {
 	display: initial !important;	
 }
 
+.variantRouteRow
+{
+	display: none;
+}

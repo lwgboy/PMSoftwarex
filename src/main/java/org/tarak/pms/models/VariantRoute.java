@@ -1,18 +1,16 @@
 package org.tarak.pms.models;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -21,53 +19,52 @@ import javax.validation.constraints.Size;
 public class VariantRoute {
 
     @Id
-    @Column(name = "variantVariantRoute_id", columnDefinition = "serial")
+    @Column(name = "variantRoute_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(nullable = false,unique=true)
-    @NotNull
-    @Size(min=3,message ="VariantRoute should have minimum 3 characters")
-    private String name;
-
-    private String description;
     
-    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
-    @JoinTable(name = "VariantRoute_routes", joinColumns = @JoinColumn(name = "variantVariantRoute_id", referencedColumnName = "variantVariantRoute_id"), inverseJoinColumns = @JoinColumn(name = "route_id", referencedColumnName = "route_id"))
-    private List<Route> routes;
+    @ManyToOne
+    @JoinColumn(columnDefinition="integer",name="type")
+    private Route route;
+    
+    @OneToOne
+    @Cascade({CascadeType.ALL})
+    @JoinColumn(columnDefinition="integer",name="current_stage")
+    private Stage currentStage;
+    
+	private int count;
     
     public Integer getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-	public String getDescription() {
-		return description;
+    public int getCount() {
+		return count;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCount(int count) {
+		this.count = count;
 	}
-
-	public List<Route> getRoutes() {
-		return routes;
-	}
-
-	public void setRoutes(List<Route> routes) {
-		this.routes = routes;
-	}
-
 	
-	
+	public Stage getCurrentStage() {
+		return currentStage;
+	}
+
+	public void setCurrentStage(Stage currentStage) {
+		this.currentStage = currentStage;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
+	}
+
+
 }

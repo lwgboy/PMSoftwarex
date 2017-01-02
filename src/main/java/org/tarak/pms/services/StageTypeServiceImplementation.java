@@ -1,30 +1,30 @@
 package org.tarak.pms.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tarak.pms.models.Product;
-import org.tarak.pms.repositories.ProductRepository;
+import org.tarak.pms.models.StageType;
+import org.tarak.pms.repositories.StageTypeRepository;
+
+import java.util.List;
 
 /**
  * Created by Tarak on 12/7/2016.
  */
 
 @Service
-public class ProductServiceImplementation implements ServiceInterface<Product, Integer>
+public class StageTypeServiceImplementation implements ServiceInterface<StageType, Integer>
 {
     @Autowired
-    private ProductRepository repository;
+    private StageTypeRepository repository;
 
     @Override
-    public List<Product> findAll() {
+    public List<StageType> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Product saveAndFlush(Product product) {
-        return repository.saveAndFlush(product);
+    public StageType saveAndFlush(StageType stage) {
+        return repository.saveAndFlush(stage);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ProductServiceImplementation implements ServiceInterface<Product, I
     }
 
     @Override
-    public Product findOne(Integer id) {
+    public StageType findOne(Integer id) {
         return repository.findOne(id);
     }
- }
+}

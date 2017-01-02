@@ -2,7 +2,6 @@ package org.tarak.pms.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -34,11 +36,13 @@ public class Vendor {
     
     private String email;
     
-    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Vendor_ContactPersons", joinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "contactPerson_id", referencedColumnName = "contactPerson_id"))
     private List<ContactPerson> contactPersons;
 
-    @ManyToMany(cascade ={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Vendor_Addresses", joinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "address_id"))
     private List<Address> addressList;
     

@@ -130,15 +130,18 @@
 						class="form-control" th:field="*{brand.id}" type="hidden" />
 				</div>
 				<div class="form-group">
-					<label><input type="checkbox" th:field="*{trackInventory}" /> Track Inventory</label>
-				</div>
-				<div class="form-group">					
-					<label><input type="checkbox" th:field="*{active}" /> Active</label>
+					<label><input type="checkbox" th:field="*{trackInventory}" />
+						Track Inventory</label>
 				</div>
 				<div class="form-group">
-					<label><input type="checkbox" th:field="*{taxable}" /> Taxable</label>
+					<label><input type="checkbox" th:field="*{active}" />
+						Active</label>
 				</div>
-				
+				<div class="form-group">
+					<label><input type="checkbox" th:field="*{taxable}" />
+						Taxable</label>
+				</div>
+
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -191,70 +194,132 @@
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-bordered table-hover">
-							<tr>
-								<th>Variant Type</th>
-								<th>Variant</th>
-								<th>WSP Margin</th>
-								<th>WSP Price</th>
-								<th>RSP Margin</th>
-								<th>RSP Price</th>
-								<th>Route</th>
-							</tr>
-							<tr th:each="var, variantStat : *{variants}">
-								<td>
-									<div class="form-group">
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{variants[__${variantStat.index}__].type.name}"
-												type="text"
-												class="variantType typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{variants[__${variantStat.index}__].type.id}"
-												type="hidden" class="form-control" />
+							<thead>
+								<tr>
+									<th>Variant Type</th>
+									<th>Variant</th>
+									<th>WSP Margin</th>
+									<th>WSP Price</th>
+									<th>RSP Margin</th>
+									<th>RSP Price</th>
+									<th>Route</th>
+								</tr>
+							</thead>
+							<tbody th:each="var, variantStat : *{variants}">
+								<tr>
+									<td>
+										<div class="form-group">
+											<div id="scrollable-dropdown-menu">
+												<input
+													th:field="*{variants[__${variantStat.index}__].type.name}"
+													type="text"
+													class="variantType typeahead tt-query form-control"
+													autocomplete="off" /> <input
+													th:field="*{variants[__${variantStat.index}__].type.id}"
+													type="hidden" class="form-control" />
+											</div>
 										</div>
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].name}"
-											class="form-control" /> <input type="hidden"
-											th:field="*{variants[__${variantStat.index}__].id}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].wspMargin}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].wspPrice}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].rspMargin}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-										<input type="text"
-											th:field="*{variants[__${variantStat.index}__].rspPrice}"
-											class="form-control" />
-									</div>
-								</td>
-								<td>
-									<a href="#"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Route</a>
-								</td>
-							</tr>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{variants[__${variantStat.index}__].name}"
+												class="form-control" /> <input type="hidden"
+												th:field="*{variants[__${variantStat.index}__].id}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{variants[__${variantStat.index}__].wspMargin}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{variants[__${variantStat.index}__].wspPrice}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{variants[__${variantStat.index}__].rspMargin}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{variants[__${variantStat.index}__].rspPrice}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<a href="/product/addRoute"
+												th:id="|variantRoute${variantStat.count}|"
+												class="variantRoute"><i class="fa fa-plus fa-lg"
+												aria-hidden="true"></i></a>
+										</div>
+									</td>
+								</tr>
+								<tr th:if="*{variants[__${variantStat.index}__].variantRoutes}"
+									th:id="|variantRouteRow${variantStat.count}|"
+									class="variantRouteRow">
+									<td colspan="7">
+										<table class="table table-striped table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>Route</th>
+													<th>Stage</th>
+													<th>Count</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													th:each="var, routeStat : *{variants[__${variantStat.index}__].variantRoutes}">
+													<td>
+														<div class="form-group">
+															<div id="scrollable-dropdown-menu">
+																<input
+																	th:field="*{variants[__${variantStat.index}__].variantRoutes[__${routeStat.index}__].route.name}"
+																	type="text"
+																	class="route typeahead tt-query form-control"
+																	autocomplete="off" /> <input
+																	th:field="*{variants[__${variantStat.index}__].variantRoutes[__${routeStat.index}__].route.id}"
+																	type="hidden" class="form-control" />
+															</div>
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<input
+																th:field="*{variants[__${variantStat.index}__].variantRoutes[__${routeStat.index}__].currentStage.type.name}"
+																type="text"
+																class="stageType typeahead tt-query form-control"
+																autocomplete="off" /> <input
+																th:field="*{variants[__${variantStat.index}__].variantRoutes[__${routeStat.index}__].currentStage.type.id}"
+																type="hidden" class="form-control" />
+														</div>
+													</td>
+													<td>
+														<div class="form-group">
+															<input
+																th:field="*{variants[__${variantStat.index}__].variantRoutes[__${routeStat.index}__].count}"
+																type="text"
+																class="stage typeahead tt-query form-control"
+																autocomplete="off" />
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 						<div class="form-group">
 							<button type="submit" name="addVariant"
@@ -312,8 +377,8 @@
 					<div class="panel-body">
 						<table class="table table-striped table-bordered table-hover">
 							<tbody th:each="var, contactPersonStat : *{contactPersons}">
-							<tr>
-									<th colspan="4" th:text="|Contact ${contactPersonStat.count}|"></th>
+								<tr>
+									<th colspan="4"></th>
 								</tr>
 								<tr>
 									<th>Name</th>
@@ -519,12 +584,12 @@
 				</div>
 				<div class="form-group" th:each="var, stageStat : *{stages}">
 					<label th:text="|Stage ${stageStat.count}|"></label>
-					<!-- <button type="submit" name="removeStage" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
                             </button> -->
-					<input class="stage form-control"
-						th:field="*{stages[__${stageStat.index}__].name}" type="text"
+					<input class="stageType form-control"
+						th:field="*{stages[__${stageStat.index}__].type.name}" type="text"
 						autocomplete="off" /> <input class="form-control"
-						th:field="*{stages[__${stageStat.index}__].id}" type="hidden" />
+						th:field="*{stages[__${stageStat.index}__].type.id}" type="hidden" />
 
 				</div>
 				<div class="form-group">
@@ -554,6 +619,6 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </body>
 </html>

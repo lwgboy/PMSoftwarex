@@ -1,12 +1,19 @@
 package org.tarak.pms.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -35,13 +42,14 @@ public class Variant {
     
     private double rspPrice;
     
-    @Column(name = "sku", columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sku;
+    private String sku;
     
-    @ManyToOne(optional = true)
-    @JoinColumn(name="route",nullable=false)
-    private VariantRoute variantRoute;
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
+    @JoinTable(name = "Variant_variantRoutes", joinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"), inverseJoinColumns = @JoinColumn(name = "variantRoute_id", referencedColumnName = "variantRoute_id"))
+    private List<VariantRoute> variantRoutes;
+    
+    private boolean assignVariantRoute;
     
     public Integer getId() {
         return id;
@@ -123,20 +131,28 @@ public class Variant {
 		this.rspPrice = rspPrice;
 	}
 
-	public long getSku() {
+	public boolean isAssignVariantRoute() {
+		return assignVariantRoute;
+	}
+
+	public void setAssignVariantRoute(boolean assignVariantRoute) {
+		this.assignVariantRoute = assignVariantRoute;
+	}
+
+	public List<VariantRoute> getVariantRoutes() {
+		return variantRoutes;
+	}
+
+	public void setVariantRoutes(List<VariantRoute> variantRoutes) {
+		this.variantRoutes = variantRoutes;
+	}
+
+	public String getSku() {
 		return sku;
 	}
 
-	public void setSku(long sku) {
+	public void setSku(String sku) {
 		this.sku = sku;
-	}
-
-	public VariantRoute getVariantRoute() {
-		return variantRoute;
-	}
-
-	public void setVariantRoute(VariantRoute variantRoute) {
-		this.variantRoute = variantRoute;
 	}
 	
 	

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Stage Knowledge Base',formTitle='Stage'">
+	th:with="formHeading='Stage Type Knowledge Base',formTitle='Stage Type'">
 <head>
 <title>PMSoftware</title>
 </head>
@@ -10,10 +10,10 @@
 	<div layout:fragment="form_fields">
 		<div class="row">
 			<div class="col-lg-6">
-				<form action="#" th:action="@{/stage/add}"
-					th:object="${stage}" method="post">
+				<form action="#" th:action="@{/stageType/add}"
+					th:object="${stageType}" method="post">
 					<div class="form-group">
-						<label>Stage Name</label> <input type="text" th:field="*{name}"
+						<label>Stage Type</label> <input type="text" th:field="*{name}"
 							class="form-control" /><input type="hidden" th:field="*{id}"
 							class="form-control" />
 					</div>
@@ -28,7 +28,7 @@
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Update
 						</button>
-						<a href="/stage/">
+						<a href="/stageType/">
 							<button type="button" class="btn btn-danger">
 								<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
 								Cancel

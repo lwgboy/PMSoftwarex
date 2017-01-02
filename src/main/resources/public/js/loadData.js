@@ -311,7 +311,7 @@ $(document).ready(function() {
 	    			});
 	    }
 	})	
-	$('input.stage').typeahead({
+	$('input.stageType').typeahead({
 		afterSelect: function(data)
 		{
 			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
@@ -319,10 +319,30 @@ $(document).ready(function() {
 		},
 	    source:  function (query, process) 
 	    {
-	    	return $.get('/stage/list', { query: query }, function (data) 
+	    	return $.get('/stageType/list', { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});
 	    }
 	})
+	$('input.route').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/route/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('.variantRoute').on('click',function(event){
+		event.preventDefault();
+		ele=$(this);
+		var id="#"+ele[0].id.replace(/\./g,"\\.").replace('variantRoute','variantRouteRow');
+		$(id).toggle("medium");
+	});
 });
