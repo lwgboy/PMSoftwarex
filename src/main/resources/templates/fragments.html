@@ -348,6 +348,152 @@
 			</div>
 		</div>
 	</div>
+
+	<div th:fragment="purchaseOrder(update,button)">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label th:text="Vendor"></label>
+					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
+                            </button> -->
+					<input class="vendor form-control" th:field="*{vendor.name}"
+						type="text" autocomplete="off" /> <input class="form-control"
+						th:field="*{vendor.id}" type="hidden" />
+
+				</div>
+				<div class="form-group">
+					<label>Transport Carrier</label> <input type="text"
+						th:field="*{transportCarrier}" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Transport Booking Location</label> <input type="text"
+						th:field="*{transportBookingLocation}" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Transport Booking Address</label>
+					<textarea th:field="*{transportBookingAddress}"
+						class="form-control"></textarea>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label>PO Date</label> <input type="date" data-th-field="*{poDate}" 
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Agency</label> <input type="text" th:field="*{agency}"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Delivery Date</label> <input type="date"
+						data-th-field="*{deliveryDate}" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Quantity Tolerance</label> <input type="text"
+						th:field="*{quantityTolerance}" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Delivery Date Tolerance</label> <input type="text"
+						th:field="*{dateTolerance}" class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>Items</label>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Category</th>
+									<th>Style</th>
+									<th>Brand</th>
+									<th>Quantity</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody th:each="var, productLineItemStat : *{productLineItems}">
+								<tr>
+									<td>
+										<div class="form-group">
+											<div id="scrollable-dropdown-menu">
+												<input
+													th:field="*{productLineItems[__${productLineItemStat.index}__].category.name}"
+													type="text"
+													class="category typeahead tt-query form-control"
+													autocomplete="off" /> <input
+													th:field="*{productLineItems[__${productLineItemStat.index}__].category.id}"
+													type="hidden" class="form-control" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].style.name}"
+												class="style form-control"	autocomplete="off"  /> <input type="hidden"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].style.id}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].brand.name}"
+												class="brand form-control" autocomplete="off"  /> <input type="hidden"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].brand.id}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].quantity}"
+												class="form-control" />
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<input type="text"
+												th:field="*{productLineItems[__${productLineItemStat.index}__].price}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="form-group">
+							<button type="submit" name="addProductLineItem"
+								class="btn btn-success btn-xs">
+								<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add
+								ProductLineItem
+							</button>
+						</div>
+					</div>
+				</div>
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+					<p th:text="${#fields.allErrors()[0]}">...</p>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
+					</button>
+					<a href="/purchaseOrder/">
+						<button type="button" class="btn btn-danger" th:if='${update}'>
+							<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+							Cancel
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div th:fragment="vendor(update,button)">
 		<div class="row">
 			<div class="col-lg-6">
