@@ -13,7 +13,7 @@ import org.krysalis.barcode4j.tools.UnitConv;
 
 public class MainClass2 {
   
-  public static void main(String[] args) throws IOException {
+  public static void mainx(String[] args) throws IOException {
     
     String barcodeString = "12345678990";
     Code128Bean barcode128Bean = new Code128Bean();
