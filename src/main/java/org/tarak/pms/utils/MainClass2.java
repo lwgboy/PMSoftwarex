@@ -1,4 +1,4 @@
-package org.tarak.pms;
+package org.tarak.pms.utils;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
