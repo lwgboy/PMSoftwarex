@@ -111,7 +111,6 @@ public class PurchaseOrderController {
         List<PurchaseOrder> list=purchaseOrderService.findAll();
         return list;
     }
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
     public String deletePurchaseOrder(@PathVariable Integer id, Model model)
     {
