@@ -1,5 +1,7 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +16,21 @@ import javax.validation.constraints.Size;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class ProductLineItem {
+public class ProductLineItem implements Serializable {
 
+	private static final long serialVersionUID = -723583058586873479L;
+
+	@Id
+    private Integer purchaseOrder_id;
+
+/*    @Id
+   	private String finYear;
+    
     @Id
-    @Column(name = "product_line_item_id", columnDefinition = "serial")
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+    private int srNo;
+    
     @Column(nullable = false,unique=true)
     @NotNull
     @Size(min=3,message ="Product should have minimum 3 characters")
@@ -43,17 +53,9 @@ public class ProductLineItem {
     private int quantity;
     
     private double price;
-        
-    public Integer getId() {
-        return id;
-    }
-
+    
     public String getName() {
         return name;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -106,6 +108,30 @@ public class ProductLineItem {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getFinYear() {
+		return finYear;
+	}
+
+	public void setFinYear(String finYear) {
+		this.finYear = finYear;
+	}
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
+	}*/
+
+	public Integer getPurchaseOrder_id() {
+		return purchaseOrder_id;
+	}
+
+	public void setPurchaseOrder_id(Integer purchaseOrder_id) {
+		this.purchaseOrder_id = purchaseOrder_id;
 	}
 	
 	

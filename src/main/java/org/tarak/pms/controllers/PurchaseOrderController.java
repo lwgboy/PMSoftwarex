@@ -45,7 +45,7 @@ public class PurchaseOrderController {
     	List<ProductLineItem> productLineItems=new ArrayList<ProductLineItem>();
     	productLineItems.add(productLineItem);
 		PurchaseOrder purchaseOrder=new PurchaseOrder();
-		purchaseOrder.setProductLineItems(productLineItems);
+		//purchaseOrder.setProductLineItems(productLineItems);
         model.addAttribute("purchaseOrder", purchaseOrder);
     }
     
@@ -67,13 +67,13 @@ public class PurchaseOrderController {
     	ProductLineItem productLineItem=new ProductLineItem();
     	List<ProductLineItem> productLineItems=new ArrayList<ProductLineItem>();
     	productLineItems.add(productLineItem);
-    	purchaseOrder.getProductLineItems().add(productLineItem);
+    	//purchaseOrder.getProductLineItems().add(productLineItem);
         return index(model);
     }
     
     @RequestMapping(value = "/add", params={"removeProductLineItem"}, method = RequestMethod.POST )
     public String removeProductLineItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
-        purchaseOrder.getProductLineItems().add(new ProductLineItem());
+        //purchaseOrder.getProductLineItems().add(new ProductLineItem());
         return index(model);
     }
     

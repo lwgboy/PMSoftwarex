@@ -1,146 +1,123 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-/**
- * Created by Tarak on 12/3/2016.
- */
 @Entity
-public class PurchaseOrder {
+@Table(name = "PurchaseOrder")
+@IdClass(PurchaseOrderId.class)
+public class PurchaseOrder implements Serializable {
 
-    @Id
-    @Column(name = "purchaseOrder_id", columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	private static final long serialVersionUID = -723583058586873479L;
 
-    @OneToOne
-    @Cascade({CascadeType.ALL})
-    private Vendor vendor;
-    
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date poDate;
-    
-    private String transportCarrier;
-    
-    private String transportBookingLocation;
-    
-    private String transportBookingAddress;
-    
-    private String agency;
-    
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deliveryDate;
-    
-    private int quantityTolerance;
-    
-    private int dateTolerance;
-    
-    @ManyToMany
-    @Cascade({CascadeType.ALL})
-    @JoinTable(name = "Product_Line_Items", joinColumns = @JoinColumn(name = "purchaseOrder_id", referencedColumnName = "purchaseOrder_id"), inverseJoinColumns = @JoinColumn(name = "product_line_item_id", referencedColumnName = "product_line_item_id"))
-    private List<ProductLineItem> productLineItems;
+	@Id
+	@GenericGenerator(name = "purchaseOrderId", strategy = "org.tarak.pms.generators.PurchaseOrderIdGenerator")
+	@GeneratedValue(generator = "purchaseOrderId")
+	private long purchaseOrderId;
+	@Id
+	private String finYear;
+	@Temporal(value = TemporalType.DATE)
+	@Column(name = "PO_DATE")
+	private Date purchaseOrderDate;
 
-	public Integer getId() {
-		return id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "Vendor_Id")
+	private Vendor vendorId;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SELECT)
+	@JoinTable(name = "PO_POITEMS", inverseJoinColumns = {
+			@JoinColumn(name = "POITEMS_srNo", referencedColumnName = "srNo"),
+			@JoinColumn(name = "POITEMS_purchaseOrderId", referencedColumnName = "purchaseOrderId"),
+			@JoinColumn(name = "POITEMS_Financial_Year", referencedColumnName = "Financial_Year") }, joinColumns = { @JoinColumn(name = "PO_purchaseOrderId", referencedColumnName = "purchaseOrderId"),@JoinColumn(name = "PO_POFinYear", referencedColumnName = "finYear") }
+
+	)
+	private List<PurchaseOrderItem> purchaseOrderItems;
+
+	private double totalCost;
+	
+	@Type(type="boolean")
+	private boolean processed;
+	
+	public long getPurchaseOrderId() {
+		return purchaseOrderId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setPurchaseOrderId(long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
 	}
 
-	public Vendor getVendor() {
-		return vendor;
+	public String getFinYear() {
+		return finYear;
 	}
 
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
+	public void setFinYear(String finYear) {
+		this.finYear = finYear;
 	}
 
-	public Date getPoDate() {
-		return poDate;
+	public double getTotalCost() {
+		return totalCost;
 	}
 
-	public void setPoDate(Date poDate) {
-		this.poDate = poDate;
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
 	}
 
-	public String getTransportCarrier() {
-		return transportCarrier;
+	public List<PurchaseOrderItem> getPurchaseOrderItems() {
+		return purchaseOrderItems;
 	}
 
-	public void setTransportCarrier(String transportCarrier) {
-		this.transportCarrier = transportCarrier;
+	public void setPurchaseOrderItems(List<PurchaseOrderItem> purchaseOrderItems) {
+		this.purchaseOrderItems = purchaseOrderItems;
 	}
 
-	public String getTransportBookingLocation() {
-		return transportBookingLocation;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setTransportBookingLocation(String transportBookingLocation) {
-		this.transportBookingLocation = transportBookingLocation;
+	public Date getPurchaseOrderDate() {
+		return purchaseOrderDate;
 	}
 
-	public String getTransportBookingAddress() {
-		return transportBookingAddress;
+	public void setPurchaseOrderDate(Date purchaseOrderDate) {
+		this.purchaseOrderDate = purchaseOrderDate;
 	}
 
-	public void setTransportBookingAddress(String transportBookingAddress) {
-		this.transportBookingAddress = transportBookingAddress;
+	public Vendor getVendorId() {
+		return vendorId;
 	}
 
-	public String getAgency() {
-		return agency;
+	public void setVendorId(Vendor vendorId) {
+		this.vendorId = vendorId;
 	}
 
-	public void setAgency(String agency) {
-		this.agency = agency;
+	public boolean isProcessed() {
+		return processed;
 	}
 
-	public Date getDeliveryDate() {
-		return deliveryDate;
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
 	}
 
-	public void setDeliveryDate(Date deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
-
-	public int getQuantityTolerance() {
-		return quantityTolerance;
-	}
-
-	public void setQuantityTolerance(int quantityTolerance) {
-		this.quantityTolerance = quantityTolerance;
-	}
-
-	public int getDateTolerance() {
-		return dateTolerance;
-	}
-
-	public void setDateTolerance(int dateTolerance) {
-		this.dateTolerance = dateTolerance;
-	}
-
-	public List<ProductLineItem> getProductLineItems() {
-		return productLineItems;
-	}
-
-	public void setProductLineItems(List<ProductLineItem> productLineItems) {
-		this.productLineItems = productLineItems;
-	}
 }
