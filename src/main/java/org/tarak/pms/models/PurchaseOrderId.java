@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class PurchaseOrderId implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long purchaseOrderId;
 	private String finYear;
 	public long getPurchaseOrderId() {

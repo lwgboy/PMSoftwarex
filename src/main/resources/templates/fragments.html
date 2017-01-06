@@ -377,7 +377,7 @@
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
-					<label>PO Date</label> <input type="date" data-th-field="*{poDate}" 
+					<label>PO Date</label> <input type="date" data-th-field="*{purchaseOrderDate}" 
 						class="form-control" />
 				</div>
 				<div class="form-group">
@@ -415,17 +415,17 @@
 									<th>Price</th>
 								</tr>
 							</thead>
-							<tbody th:each="var, productLineItemStat : *{productLineItems}">
+							<tbody th:each="var, purchaseOrderItemStat : *{purchaseOrderItems}">
 								<tr>
 									<td>
 										<div class="form-group">
 											<div id="scrollable-dropdown-menu">
 												<input
-													th:field="*{productLineItems[__${productLineItemStat.index}__].category.name}"
+													th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].category.name}"
 													type="text"
 													class="category typeahead tt-query form-control"
 													autocomplete="off" /> <input
-													th:field="*{productLineItems[__${productLineItemStat.index}__].category.id}"
+													th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].category.id}"
 													type="hidden" class="form-control" />
 											</div>
 										</div>
@@ -433,32 +433,32 @@
 									<td>
 										<div class="form-group">
 											<input type="text"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].style.name}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].style.name}"
 												class="style form-control"	autocomplete="off"  /> <input type="hidden"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].style.id}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].style.id}"
 												class="form-control" />
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
 											<input type="text"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].brand.name}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].brand.name}"
 												class="brand form-control" autocomplete="off"  /> <input type="hidden"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].brand.id}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].brand.id}"
 												class="form-control" />
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
 											<input type="text"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].quantity}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].quantity}"
 												class="form-control" />
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
 											<input type="text"
-												th:field="*{productLineItems[__${productLineItemStat.index}__].price}"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].rate}"
 												class="form-control" />
 										</div>
 									</td>
@@ -466,10 +466,9 @@
 							</tbody>
 						</table>
 						<div class="form-group">
-							<button type="submit" name="addProductLineItem"
+							<button type="submit" name="addPurchaseOrderItem"
 								class="btn btn-success btn-xs">
-								<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add
-								ProductLineItem
+								<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Item
 							</button>
 						</div>
 					</div>

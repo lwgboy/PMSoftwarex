@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.ProductLineItem;
+import org.tarak.pms.models.PurchaseOrderItem;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.services.ServiceInterface;
 
@@ -29,8 +29,6 @@ public class PurchaseOrderController {
     @Autowired
     private ServiceInterface<PurchaseOrder, Integer> purchaseOrderService;
 
-    @Autowired
-    private ServiceInterface<ProductLineItem, Integer> productLineItemService;
     
     @RequestMapping("/")
     public String index(Model model)
@@ -41,11 +39,12 @@ public class PurchaseOrderController {
 
     private void addPurchaseOrder(Model model)
     {
-    	ProductLineItem productLineItem=new ProductLineItem();
-    	List<ProductLineItem> productLineItems=new ArrayList<ProductLineItem>();
-    	productLineItems.add(productLineItem);
+    	PurchaseOrderItem purchaseOrderItem=new PurchaseOrderItem();
+    	List<PurchaseOrderItem> purchaseOrderItems=new ArrayList<PurchaseOrderItem>();
+    	purchaseOrderItems.add(purchaseOrderItem);
 		PurchaseOrder purchaseOrder=new PurchaseOrder();
-		//purchaseOrder.setProductLineItems(productLineItems);
+		purchaseOrder.setPurchaseOrderItems(purchaseOrderItems);
+		
         model.addAttribute("purchaseOrder", purchaseOrder);
     }
     
@@ -55,25 +54,20 @@ public class PurchaseOrderController {
     	{
     		addPurchaseOrder(model);
     	}
-    	if(!model.containsAttribute("variant_list"))
-    	{
-    		List<ProductLineItem> variants=productLineItemService.findAll();
-    		model.addAttribute("variant_list",variants);
-    	}
 	}
 
-    @RequestMapping(value = "/add", params={"addProductLineItem"}, method = RequestMethod.POST )
-    public String addProductLineItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
-    	ProductLineItem productLineItem=new ProductLineItem();
-    	List<ProductLineItem> productLineItems=new ArrayList<ProductLineItem>();
-    	productLineItems.add(productLineItem);
-    	//purchaseOrder.getProductLineItems().add(productLineItem);
+    @RequestMapping(value = "/add", params={"addPurchaseOrderItem"}, method = RequestMethod.POST )
+    public String addPurchaseOrderItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
+    	PurchaseOrderItem purchaseOrderItem=new PurchaseOrderItem();
+    	List<PurchaseOrderItem> purchaseOrderItems=new ArrayList<PurchaseOrderItem>();
+    	purchaseOrderItems.add(purchaseOrderItem);
+    	//purchaseOrder.getPurchaseOrderItems().add(purchaseOrderItem);
         return index(model);
     }
     
-    @RequestMapping(value = "/add", params={"removeProductLineItem"}, method = RequestMethod.POST )
-    public String removeProductLineItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
-        //purchaseOrder.getProductLineItems().add(new ProductLineItem());
+    @RequestMapping(value = "/add", params={"removePurchaseOrderItem"}, method = RequestMethod.POST )
+    public String removePurchaseOrderItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
+        //purchaseOrder.getPurchaseOrderItems().add(new PurchaseOrderItem());
         return index(model);
     }
     

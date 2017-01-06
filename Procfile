@@ -1,1 +1,1 @@
-web:    java -Dspring.profiles.active=production -Dserver.port=$PORT $JAVA_OPTS -jar target/PMSoftware-1.0-SNAPSHOT.jar
+web:   java -Dspring.profiles.active=production -Dserver.port=$PORT $JAVA_OPTS -jar target/PMSoftware-1.0-SNAPSHOT.jar

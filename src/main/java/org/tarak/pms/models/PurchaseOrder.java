@@ -15,17 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "PurchaseOrder")
 @IdClass(PurchaseOrderId.class)
 public class PurchaseOrder implements Serializable {
 
@@ -37,13 +34,13 @@ public class PurchaseOrder implements Serializable {
 	private long purchaseOrderId;
 	@Id
 	private String finYear;
-	@Temporal(value = TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "PO_DATE")
 	private Date purchaseOrderDate;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Vendor_Id")
-	private Vendor vendorId;
+	private Vendor vendor;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SELECT)
@@ -57,9 +54,23 @@ public class PurchaseOrder implements Serializable {
 
 	private double totalCost;
 	
+	private String transportCarrier;
+	
+	private String transportBookingLocation;
+	
+	private String transportBookingAddress;
+	
+	private String agency;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deliveryDate;
+	
+	private int quantityTolerance;
+	
+	private int dateTolerance;
 	@Type(type="boolean")
 	private boolean processed;
-	
+
 	public long getPurchaseOrderId() {
 		return purchaseOrderId;
 	}
@@ -76,12 +87,21 @@ public class PurchaseOrder implements Serializable {
 		this.finYear = finYear;
 	}
 
-	public double getTotalCost() {
-		return totalCost;
+	public Date getPurchaseOrderDate() {
+		return purchaseOrderDate;
 	}
 
-	public void setTotalCost(double totalCost) {
-		this.totalCost = totalCost;
+	public void setPurchaseOrderDate(Date purchaseOrderDate) {
+		this.purchaseOrderDate = purchaseOrderDate;
+	}
+
+	
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
 	public List<PurchaseOrderItem> getPurchaseOrderItems() {
@@ -92,24 +112,12 @@ public class PurchaseOrder implements Serializable {
 		this.purchaseOrderItems = purchaseOrderItems;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public double getTotalCost() {
+		return totalCost;
 	}
 
-	public Date getPurchaseOrderDate() {
-		return purchaseOrderDate;
-	}
-
-	public void setPurchaseOrderDate(Date purchaseOrderDate) {
-		this.purchaseOrderDate = purchaseOrderDate;
-	}
-
-	public Vendor getVendorId() {
-		return vendorId;
-	}
-
-	public void setVendorId(Vendor vendorId) {
-		this.vendorId = vendorId;
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	public boolean isProcessed() {
@@ -120,4 +128,61 @@ public class PurchaseOrder implements Serializable {
 		this.processed = processed;
 	}
 
+	public String getTransportCarrier() {
+		return transportCarrier;
+	}
+
+	public void setTransportCarrier(String transportCarrier) {
+		this.transportCarrier = transportCarrier;
+	}
+
+	public String getTransportBookingLocation() {
+		return transportBookingLocation;
+	}
+
+	public void setTransportBookingLocation(String transportBookingLocation) {
+		this.transportBookingLocation = transportBookingLocation;
+	}
+
+	public String getTransportBookingAddress() {
+		return transportBookingAddress;
+	}
+
+	public void setTransportBookingAddress(String transportBookingAddress) {
+		this.transportBookingAddress = transportBookingAddress;
+	}
+
+	public String getAgency() {
+		return agency;
+	}
+
+	public void setAgency(String agency) {
+		this.agency = agency;
+	}
+
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public int getQuantityTolerance() {
+		return quantityTolerance;
+	}
+
+	public void setQuantityTolerance(int quantityTolerance) {
+		this.quantityTolerance = quantityTolerance;
+	}
+
+	public int getDateTolerance() {
+		return dateTolerance;
+	}
+
+	public void setDateTolerance(int dateTolerance) {
+		this.dateTolerance = dateTolerance;
+	}
+	
+	
 }
