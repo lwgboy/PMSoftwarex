@@ -1,19 +1,10 @@
 package org.tarak.pms.utils;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-
-import org.krysalis.barcode4j.impl.code128.Code128Bean;
-import org.krysalis.barcode4j.impl.code128.Code128Constants;
-import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
-import org.krysalis.barcode4j.tools.UnitConv;
 
 
 public class MainClass2 {
   
-  public static void mainx(String[] args) throws IOException {
+  public static void mainx(String[] args) throws IOException {/*
     
     String barcodeString = "12345678990";
     Code128Bean barcode128Bean = new Code128Bean();
@@ -44,6 +35,6 @@ public class MainClass2 {
       out.close();
   }
     
-  }
+  */}
 
 }
