@@ -3,6 +3,7 @@ package org.tarak.pms.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tarak.pms.models.PurchaseOrderItem;
 import org.tarak.pms.models.PurchaseOrder;
+import org.tarak.pms.models.PurchaseOrderItem;
 import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.utils.UserUtils;
 
 /**
  * Created by Tarak on 12/4/2016.
@@ -29,7 +31,9 @@ public class PurchaseOrderController {
     @Autowired
     private ServiceInterface<PurchaseOrder, Integer> purchaseOrderService;
 
-    
+    @Autowired
+	private HttpSession session;
+
     @RequestMapping("/")
     public String index(Model model)
     {
@@ -61,7 +65,7 @@ public class PurchaseOrderController {
     	PurchaseOrderItem purchaseOrderItem=new PurchaseOrderItem();
     	List<PurchaseOrderItem> purchaseOrderItems=new ArrayList<PurchaseOrderItem>();
     	purchaseOrderItems.add(purchaseOrderItem);
-    	//purchaseOrder.getPurchaseOrderItems().add(purchaseOrderItem);
+    	purchaseOrder.getPurchaseOrderItems().add(purchaseOrderItem);
         return index(model);
     }
     
@@ -74,6 +78,20 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
     public String addPurchaseOrder(@Valid PurchaseOrder purchaseOrder, BindingResult bindingResult, Model model)
     {
+		if(UserUtils.getFinancialYear(session)!=null)
+    	{
+			String finYear=UserUtils.getFinancialYear(session);
+			purchaseOrder.setFinYear(finYear);
+			for(PurchaseOrderItem item : purchaseOrder.getPurchaseOrderItems())
+			{
+				item.setFinYear(finYear);
+			}
+    	}
+		else
+		{
+			bindingResult.rejectValue("name", "error.alreadyExists",null,"Invalid session. Please login again");
+			return "/";
+		}
         if (bindingResult.hasErrors())
         {
     		return index(model);

@@ -21,7 +21,7 @@ public class Measurement {
 
     @Column(nullable = false,unique=true)
     @NotNull
-    @Size(min=3,message ="Measurement should have minimum 3 characters")
+    @Size(min=3,message ="Measurement should have minimum one character")
     private String name;
 
     private String description;

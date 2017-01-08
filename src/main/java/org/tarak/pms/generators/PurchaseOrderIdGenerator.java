@@ -25,7 +25,7 @@ public class PurchaseOrderIdGenerator implements IdentifierGenerator {
 			{
 				PurchaseOrder purchaseOrder = (PurchaseOrder) object;
 				finyear = purchaseOrder.getFinYear();
-				query="SELECT MAX(purchaseOrderId) as vlaue from PurchaseOrder where finYear='"
+				query="SELECT MAX(purchase_order_id) as vlaue from purchase_order where fin_year='"
 						+ finyear + "'";
 			}
 			else if(object instanceof PurchaseOrderItem)
@@ -36,7 +36,7 @@ public class PurchaseOrderIdGenerator implements IdentifierGenerator {
 					return purchaseOrderItem.getPurchaseOrderId();
 				}
 				finyear=purchaseOrderItem.getFinYear();
-				query="SELECT MAX(purchaseOrderId) as vlaue from PurchaseOrderItem where FINANCIAL_YEAR='"
+				query="SELECT MAX(purchase_order_id) as vlaue from purchase_order_item where financial_year='"
 				+ finyear + "'";
 			}
 			PreparedStatement ps = connection

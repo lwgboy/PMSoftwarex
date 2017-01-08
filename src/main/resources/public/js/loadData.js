@@ -67,37 +67,35 @@ function confirmDialog(message, onConfirm){
     $("#confirmCancel").one("click", fClose);
 }
 
-$(document).ready(function() {
+function formDialog(message, onConfirm,modalId){
+    var fClose = function(){
+		modal.modal("hide");
+    };
+    var modal = $("#"+modalId);
+    modal.modal("show");
+    var message=modal.find(".message");
+    message.empty().append(message);
+    $("#confirmOk").one('click', onConfirm);
+    $("#confirmOk").one('click', fClose);
+    $("#confirmCancel").one("click", fClose);
+}
 
-
-	$('.table_delete_trigger').on('click',function(){
-		event.preventDefault();
-		var ids="";
-		table=$(this).parent().parent().parent().parent();
-		$.each(table.find('.delete_check'),function(i,element)
-		{
-				if($(element).is(":checked"))
-				{
-					ids+=$(element).val()+",";
-				}
-				$(this).parent().find(".selected_ids").val(ids);
-		});
-		if(ids!="")	
-		{
-			form=table.closest("form");
-			$.ajax({
-			type: form.attr('method'),
-			url: form.attr('action'),
-			data: form.serialize()
-			}).done(function(data) {
-				form.trigger("reset");
-			}).fail(function(data) {
-			});
-		}
-		else{
-			alert("Please select record to be deleted");
-		}
+function calculateTotal(form)
+{
+	var totalCost=0;
+	$.each(form.find(".quantity"),function(key, quantity){
+		rate=$("#"+quantity.id.replace('.quantity','.rate').replace(/\./g,"\\."))
+		totalCost+=parseFloat(quantity.value || 0)*parseFloat(rate.val() || 0);
 	});
+	form.find('.totalCost').val(totalCost.toFixed(2));
+}
+
+$(document).ready(function() {
+	
+	jQuery('.rate, .quantity').on('input', function() {
+	    calculateTotal($(this).closest('form'));
+	});
+
 	
 	$('body').on('click', '.delete_action', function (e) {
 		var $form=$(this).closest('form'); 
@@ -311,20 +309,48 @@ $(document).ready(function() {
 	    			});
 	    }
 	})	
-	$('input.stageType').typeahead({
-		afterSelect: function(data)
-		{
-			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
-	    	$(idx).val(data.id);
-		},
-	    source:  function (query, process) 
-	    {
-	    	return $.get('/stageType/list', { query: query }, function (data) 
-	    			{
-	            		return process(data);
-	    			});
-	    }
+/*	$('input.stageType').typeahead({
+			afterSelect: function(data)
+			{
+				if(data.name=="Create New")
+				{
+					alert("hi");
+				}
+				else
+				{
+					var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+			    	$(idx).val(data.id);
+				}
+			},
+		    source:  function (query, process) 
+		    {
+		    	
+		    	return $.get('/stageType/list', { query: query }, function (data) 
+		    			{
+		            		return process(data);
+		    			});
+		    	
+		    },
+		    addItem: {"name":"Create New"}
+		    
 	})
+*/	
+	$('input.stageType').typeahead({
+			afterSelect: function(data)
+			{
+					var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+			    	$(idx).val(data.id);
+			},
+		    source:  function (query, process) 
+		    {
+		    	
+		    	return $.get('/stageType/list', { query: query }, function (data) 
+		    			{
+		            		return process(data);
+		    			});
+		    }
+	})
+
 	$('input.route').typeahead({
 		afterSelect: function(data)
 		{
@@ -332,7 +358,7 @@ $(document).ready(function() {
 	    	$(idx).val(data.id);
 		},
 	    source:  function (query, process) 
-	    {
+	    { 	
 	    	return $.get('/route/list', { query: query }, function (data) 
 	    			{
 	            		return process(data);

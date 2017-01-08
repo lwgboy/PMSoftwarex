@@ -44,9 +44,6 @@ public class PurchaseOrderItem implements Serializable {
 	@JoinColumn(name = "Brand")
 	private Brand brand;
 
-	@ManyToOne
-	@JoinColumn(name = "Product_Id")
-	private Product productId;
 	private String description;
 	private double quantity;
 	@ManyToOne
@@ -112,14 +109,6 @@ public class PurchaseOrderItem implements Serializable {
 
 	public void setPurchaseOrderId(long purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
-	}
-
-	public Product getProductId() {
-		return productId;
-	}
-
-	public void setProductId(Product productId) {
-		this.productId = productId;
 	}
 
 	public boolean isProcessed() {
