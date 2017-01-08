@@ -34,7 +34,13 @@ public class UserController {
 	private HttpSession session;
 
 	@RequestMapping("/")
-	public String index(Model model) {
+	public String index(Model model) 
+	{
+		User u=new User();
+		u.setUsername("admin");
+		u.setPassword("admin");
+		u.setId(1);
+		userService.saveAndFlush(u);
 		if (UserUtils.validSession(session)) {
 			return "home";
 		}
