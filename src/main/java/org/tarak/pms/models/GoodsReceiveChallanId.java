@@ -8,12 +8,12 @@ public class GoodsReceiveChallanId implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long goodsReceiveChallanId;
+	private int goodsReceiveChallanId;
 	private String finYear;
-	public long getGoodsReceiveChallanId() {
+	public int getGoodsReceiveChallanId() {
 		return goodsReceiveChallanId;
 	}
-	public void setGoodsReceiveChallanId(long goodsReceiveChallanId) {
+	public void setGoodsReceiveChallanId(int goodsReceiveChallanId) {
 		this.goodsReceiveChallanId = goodsReceiveChallanId;
 	}
 	public String getFinYear() {
