@@ -183,6 +183,22 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.variant').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/variant/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('input.measurement').typeahead({
 		afterSelect: function(data)
 		{
@@ -290,6 +306,20 @@ $(document).ready(function() {
 	    source:  function (query, process) 
 	    {
 	    	return $.get('/vendor/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.transporter').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/transporter/list', { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Created by Tarak on 12/3/2016.
  */
@@ -20,8 +22,9 @@ public class ContactPerson {
     private Integer id;
 
     @Column(nullable = false)
-    @NotNull
-    @Size(min=3,message ="ContactPerson should have minimum 3 characters")
+    @NotEmpty(message="Contact Person Name cannot be empty")
+    @NotNull(message="Contact Person Name cannot be null")
+    @Size(min=3,message ="Contact Person Name should have minimum 3 characters")
     private String name;
     
     private String designation;

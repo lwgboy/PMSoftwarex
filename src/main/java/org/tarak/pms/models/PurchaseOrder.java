@@ -31,7 +31,7 @@ public class PurchaseOrder implements Serializable {
 	@Id
 	@GenericGenerator(name = "purchaseOrderId", strategy = "org.tarak.pms.generators.PurchaseOrderIdGenerator")
 	@GeneratedValue(generator = "purchaseOrderId")
-	private long purchaseOrderId;
+	private int purchaseOrderId;
 	@Id
 	private String finYear;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -71,11 +71,11 @@ public class PurchaseOrder implements Serializable {
 	@Type(type="boolean")
 	private boolean processed;
 
-	public long getPurchaseOrderId() {
+	public int getPurchaseOrderId() {
 		return purchaseOrderId;
 	}
 
-	public void setPurchaseOrderId(long purchaseOrderId) {
+	public void setPurchaseOrderId(int purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
 	}
 

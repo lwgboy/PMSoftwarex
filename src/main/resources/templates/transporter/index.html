@@ -2,21 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Purchase Order Knowledge Base',formTitle='Purchase Order'">
+	th:with="formHeading='Transporter Knowledge Base',formTitle='Transporter'">
 <head>
 <title>PMSoftware</title>
 </head>
 <body>
 	<div layout:fragment="form_fields">
-		<form action="#" th:action="@{/purchaseOrder/add}" th:object="${purchaseOrder}"
+		<form action="#" th:action="@{/transporter/add}" th:object="${transporter}"
 			method="post">
-			<div th:include="fragments::purchaseOrder('false','Add')"></div>
+			<div th:include="fragments::transporter('false','Add')"></div>
 		</form>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="panel panel-green">
 					<div class="panel-heading">
-						<label>List of PurchaseOrders</label>
+						<label>List of Transporters</label>
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
@@ -25,8 +25,9 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>PurchaseOrder</th>
-										<th>Description</th>
+										<th>Company Name</th>
+										<th>Phone</th>
+										<th>Email</th>
 										<th>View</th>
 										<th>Edit</th>
 										<th>Delete</th>
@@ -35,8 +36,9 @@
 								<tfoot>
 									<tr>
 										<th>ID</th>
-										<th>PurchaseOrder</th>
-										<th>Description</th>
+										<th>Company Name</th>
+										<th>Phone</th>
+										<th>Email</th>
 										<th>View</th>
 										<th>Edit</th>
 										<th>Delete</th>
@@ -52,7 +54,7 @@
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
 			var cTable = $('#dataTables-example').dataTable();
-			populate_basic_table("/purchaseOrder/list", cTable, "purchaseOrder");
+			populate_basic_table("/transporter/list", cTable, "transporter");
 		});
 	</script>
 </body>

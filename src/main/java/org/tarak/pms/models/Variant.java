@@ -44,6 +44,8 @@ public class Variant {
     
     private String sku;
     
+    private int quantity;
+    
     @ManyToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Variant_variantRoutes", joinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"), inverseJoinColumns = @JoinColumn(name = "variantRoute_id", referencedColumnName = "variantRoute_id"))
@@ -153,6 +155,14 @@ public class Variant {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	

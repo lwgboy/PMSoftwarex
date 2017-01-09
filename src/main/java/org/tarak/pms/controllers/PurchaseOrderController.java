@@ -89,7 +89,7 @@ public class PurchaseOrderController {
     	}
 		else
 		{
-			bindingResult.rejectValue("name", "error.alreadyExists",null,"Invalid session. Please login again");
+			bindingResult.rejectValue("vendor", "error.alreadyExists",null,"Invalid session. Please login again");
 			return "/";
 		}
         if (bindingResult.hasErrors())

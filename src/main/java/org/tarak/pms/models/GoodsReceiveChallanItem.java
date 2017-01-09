@@ -14,21 +14,21 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@IdClass(PurchaseOrderItemId.class)
-public class PurchaseOrderItem implements Serializable {
+@IdClass(GoodsReceiveChallanItemId.class)
+public class GoodsReceiveChallanItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
 	@Id
 	/*
-	 * @GenericGenerator(name = "purchaseOrderItemSrNo", strategy =
-	 * "org.erp.tarak.purchaseorder.PurchaseOrderItemSrNoGenerator")
+	 * @GenericGenerator(name = "goodsReceiveChallanItemSrNo", strategy =
+	 * "org.erp.tarak.purchaseorder.GoodsReceiveChallanItemSrNoGenerator")
 	 * 
-	 * @GeneratedValue(generator = "purchaseOrderItemSrNo")
+	 * @GeneratedValue(generator = "goodsReceiveChallanItemSrNo")
 	 */private int srNo;
 	@Id
-	@GenericGenerator(name = "purchaseOrderId", strategy = "org.tarak.pms.generators.PurchaseOrderIdGenerator")
-	@GeneratedValue(generator = "purchaseOrderId")
-	private int purchaseOrderId;
+	@GenericGenerator(name = "goodsReceiveChallanId", strategy = "org.tarak.pms.generators.GoodsReceiveChallanIdGenerator")
+	@GeneratedValue(generator = "goodsReceiveChallanId")
+	private int goodsReceiveChallanId;
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
@@ -107,12 +107,12 @@ public class PurchaseOrderItem implements Serializable {
 		this.finYear = finYear;
 	}
 
-	public int getPurchaseOrderId() {
-		return purchaseOrderId;
+	public int getGoodsReceiveChallanId() {
+		return goodsReceiveChallanId;
 	}
 
-	public void setPurchaseOrderId(int purchaseOrderId) {
-		this.purchaseOrderId = purchaseOrderId;
+	public void setGoodsReceiveChallanId(int goodsReceiveChallanId) {
+		this.goodsReceiveChallanId = goodsReceiveChallanId;
 	}
 
 	public boolean isProcessed() {

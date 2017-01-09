@@ -2,21 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="form"
-	th:with="formHeading='Purchase Order Knowledge Base',formTitle='Purchase Order'">
+	th:with="formHeading='Goods Receive Challan Knowledge Base',formTitle='Goods Receive Challan'">
 <head>
 <title>PMSoftware</title>
 </head>
 <body>
 	<div layout:fragment="form_fields">
-		<form action="#" th:action="@{/purchaseOrder/add}" th:object="${purchaseOrder}"
+		<form action="#" th:action="@{/goodsReceiveChallan/add}" th:object="${goodsReceiveChallan}"
 			method="post">
-			<div th:include="fragments::purchaseOrder('false','Add')"></div>
+			<div th:include="fragments::goodsReceiveChallan('false','Add')"></div>
 		</form>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="panel panel-green">
 					<div class="panel-heading">
-						<label>List of PurchaseOrders</label>
+						<label>List of GoodsReceiveChallans</label>
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
@@ -25,7 +25,7 @@
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>PurchaseOrder</th>
+										<th>Goods Receive Challan</th>
 										<th>Description</th>
 										<th>View</th>
 										<th>Edit</th>
@@ -35,7 +35,7 @@
 								<tfoot>
 									<tr>
 										<th>ID</th>
-										<th>PurchaseOrder</th>
+										<th>Goods Receive Challan</th>
 										<th>Description</th>
 										<th>View</th>
 										<th>Edit</th>
@@ -52,7 +52,7 @@
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
 			var cTable = $('#dataTables-example').dataTable();
-			populate_basic_table("/purchaseOrder/list", cTable, "purchaseOrder");
+			populate_basic_table("/goodsReceiveChallan/list", cTable, "goodsReceiveChallan");
 		});
 	</script>
 </body>

@@ -18,7 +18,6 @@ import org.tarak.pms.models.Brand;
 import org.tarak.pms.models.Measurement;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
-import org.tarak.pms.models.VariantRoute;
 import org.tarak.pms.services.ServiceInterface;
 
 /**

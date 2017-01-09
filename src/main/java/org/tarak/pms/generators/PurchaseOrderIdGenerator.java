@@ -43,7 +43,7 @@ public class PurchaseOrderIdGenerator implements IdentifierGenerator {
 					.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				long id = rs.getLong("vlaue");
+				int id = rs.getInt("vlaue");
 				id = id + 1;
 				return id;
 			}
