@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,13 +31,13 @@ public class Brand {
 
     @Column(nullable = false,unique=true)
     @NotNull
-    @Size(min=3,message ="Brand should have minimum 3 characters")
+    @Size(min=3,message ="Brand name should have minimum 3 characters")
     private String name;
 
     private String description;
     
-    @ManyToOne
-    @JoinColumn(columnDefinition="integer",name="Primary_Unit")
+    @ManyToOne(fetch=FetchType.EAGER,optional=true)
+    @JoinColumn(columnDefinition="integer",name="Primary_Unit",insertable=false, updatable=false)
     private Measurement primaryUnit;
     
     @ManyToOne

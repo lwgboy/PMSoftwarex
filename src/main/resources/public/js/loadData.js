@@ -194,6 +194,13 @@ $(document).ready(function() {
 	    {
 	    	return $.get('/variant/list', { query: query }, function (data) 
 	    			{
+	    				for(var i = 0; i < data.length; i++) {
+	    					var obj = data[i];
+	    					if(obj.name === null) {
+	    						data.splice(i, 1);
+	    						i--;
+	    					}
+	    				}
 	            		return process(data);
 	    			});
 	    }
