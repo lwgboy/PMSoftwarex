@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.PurchaseOrder;
+import org.tarak.pms.services.PurchaseOrderService;
 import org.tarak.pms.services.ServiceInterface;
 import org.tarak.pms.utils.GoodsReceiveChallanUtils;
 import org.tarak.pms.utils.UserUtils;
@@ -34,7 +35,7 @@ public class GoodsReceiveChallanController {
     private ServiceInterface<GoodsReceiveChallan, Integer> goodsReceiveChallanService;
     
     @Autowired
-    private ServiceInterface<PurchaseOrder, Integer> purchaseOrderService;
+    private PurchaseOrderService purchaseOrderService;
 
 
     @Autowired
@@ -77,7 +78,8 @@ public class GoodsReceiveChallanController {
     
     @RequestMapping(value = "/add", params={"poNo"}, method = RequestMethod.POST )
     public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
-    	PurchaseOrder purchaseOrder=purchaseOrderService.findOne(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId());
+    	String finYear=UserUtils.getFinancialYear(session);
+    	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId(),finYear);
     	GoodsReceiveChallanUtils.populateGoodsReceiveChallan(purchaseOrder, goodsReceiveChallan);
         return index(model);
     }

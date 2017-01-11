@@ -520,6 +520,9 @@
 					<span class="input-group-addon">Purchase Order No</span> <input
 						class="form-control" th:field="*{purchaseOrder.purchaseOrderId}"
 						type="text" autocomplete="off" placeholder="Purchase Order No" />
+						<input
+						class="form-control" th:field="*{purchaseOrder.finYear}"
+						type="hidden" />
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit" name="poNo">
 							<i class="fa fa-search"></i>

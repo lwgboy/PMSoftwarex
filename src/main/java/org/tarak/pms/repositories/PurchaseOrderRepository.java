@@ -9,4 +9,6 @@ import org.tarak.pms.models.PurchaseOrder;
  */
 @Repository
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Integer> {
+	public PurchaseOrder findByPurchaseOrderIdAndFinYear(int purchaseOrderId, String finYear);
+	
 }

@@ -12,6 +12,13 @@ public class GoodsReceiveChallanUtils {
 	public static GoodsReceiveChallan populateGoodsReceiveChallan(PurchaseOrder purchaseOrder,GoodsReceiveChallan goodsReceiveChallan)
 	{
 		List<GoodsReceiveChallanItem> goodsReceiveChallanItems=populateGoodsReceiveChallanItems(purchaseOrder.getPurchaseOrderItems());
+		goodsReceiveChallan.setPurchaseOrder(purchaseOrder);
+		double totalCost=0;
+		for(GoodsReceiveChallanItem goodsReceiveChallanItem: goodsReceiveChallanItems)
+		{
+			totalCost+=goodsReceiveChallanItem.getRate()*goodsReceiveChallanItem.getQuantity();
+		}
+		goodsReceiveChallan.setTotalCost(totalCost);
 		goodsReceiveChallan.setGoodsReceiveChallanItems(goodsReceiveChallanItems);
 		goodsReceiveChallan.setFinYear(purchaseOrder.getFinYear());
 		goodsReceiveChallan.setVendor(purchaseOrder.getVendor());

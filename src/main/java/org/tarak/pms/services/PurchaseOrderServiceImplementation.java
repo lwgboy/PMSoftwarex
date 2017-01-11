@@ -12,7 +12,7 @@ import org.tarak.pms.repositories.PurchaseOrderRepository;
  */
 
 @Service
-public class PurchaseOrderServiceImplementation implements ServiceInterface<PurchaseOrder, Integer>
+public class PurchaseOrderServiceImplementation implements PurchaseOrderService
 {
     @Autowired
     private PurchaseOrderRepository repository;
@@ -36,4 +36,9 @@ public class PurchaseOrderServiceImplementation implements ServiceInterface<Purc
     public PurchaseOrder findOne(Integer id) {
         return repository.findOne(id);
     }
+
+	@Override
+	public PurchaseOrder findByPurchaseOrderIdAndFinYear(int purchaseOrderId, String finYear) {
+		return repository.findByPurchaseOrderIdAndFinYear(purchaseOrderId, finYear);
+	}
  }
