@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.PurchaseOrder;
+import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseOrderService;
-import org.tarak.pms.services.ServiceInterface;
 import org.tarak.pms.utils.GoodsReceiveChallanUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -32,7 +32,7 @@ import org.tarak.pms.utils.UserUtils;
 public class GoodsReceiveChallanController {
 
     @Autowired
-    private ServiceInterface<GoodsReceiveChallan, Integer> goodsReceiveChallanService;
+    private GoodsReceiveChallanService goodsReceiveChallanService;
     
     @Autowired
     private PurchaseOrderService purchaseOrderService;
@@ -89,11 +89,14 @@ public class GoodsReceiveChallanController {
     {
 		if(UserUtils.getFinancialYear(session)!=null)
     	{
-			String finYear=UserUtils.getFinancialYear(session);
-			goodsReceiveChallan.setFinYear(finYear);
-			for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
+			if(goodsReceiveChallan.getFinYear()==null || "".equals(goodsReceiveChallan.getFinYear()))
 			{
-				item.setFinYear(finYear);
+				String finYear=UserUtils.getFinancialYear(session);
+				goodsReceiveChallan.setFinYear(finYear);
+				for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
+				{
+					item.setFinYear(finYear);
+				}
 			}
     	}
 		else
@@ -132,7 +135,7 @@ public class GoodsReceiveChallanController {
         List<GoodsReceiveChallan> list=goodsReceiveChallanService.findAll();
         return list;
     }
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
+    @RequestMapping(value = "/delete/{goodsReceiveChallanId}", method = RequestMethod.GET )
     public String deleteGoodsReceiveChallan(@PathVariable Integer id, Model model)
     {
     	
@@ -140,10 +143,11 @@ public class GoodsReceiveChallanController {
     	return index(model);
     }
     
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editGoodsReceiveChallan(@PathVariable Integer id, Model model)
+    @RequestMapping(value = "/edit/{goodsReceiveChallanId}", method = RequestMethod.GET)
+    public String editGoodsReceiveChallan(@PathVariable Integer goodsReceiveChallanId, Model model)
     {
-    	GoodsReceiveChallan goodsReceiveChallan=goodsReceiveChallanService.findOne(id);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	GoodsReceiveChallan goodsReceiveChallan=goodsReceiveChallanService.findByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
     	model.addAttribute("goodsReceiveChallan", goodsReceiveChallan);
     	prepareModel(model);
     	return "/goodsReceiveChallan/edit";

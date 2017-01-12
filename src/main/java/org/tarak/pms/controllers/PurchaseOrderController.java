@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
-import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.services.PurchaseOrderService;
 import org.tarak.pms.utils.UserUtils;
 
 /**
@@ -29,7 +29,7 @@ import org.tarak.pms.utils.UserUtils;
 public class PurchaseOrderController {
 
     @Autowired
-    private ServiceInterface<PurchaseOrder, Integer> purchaseOrderService;
+    private PurchaseOrderService purchaseOrderService;
 
     @Autowired
 	private HttpSession session;
@@ -134,7 +134,8 @@ public class PurchaseOrderController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editPurchaseOrder(@PathVariable Integer id, Model model)
     {
-    	PurchaseOrder purchaseOrder=purchaseOrderService.findOne(id);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(id,finYear);
     	model.addAttribute("purchaseOrder", purchaseOrder);
     	prepareModel(model);
     	return "/purchaseOrder/edit";

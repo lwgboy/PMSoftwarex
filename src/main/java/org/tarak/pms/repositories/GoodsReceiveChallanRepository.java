@@ -9,4 +9,5 @@ import org.tarak.pms.models.GoodsReceiveChallan;
  */
 @Repository
 public interface GoodsReceiveChallanRepository extends JpaRepository<GoodsReceiveChallan, Integer> {
+	public GoodsReceiveChallan findByGoodsReceiveChallanIdAndFinYear(int purchaseOrderId, String finYear);
 }

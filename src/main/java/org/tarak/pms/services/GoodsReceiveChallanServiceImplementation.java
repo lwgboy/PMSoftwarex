@@ -12,7 +12,7 @@ import org.tarak.pms.repositories.GoodsReceiveChallanRepository;
  */
 
 @Service
-public class GoodsReceiveChallanServiceImplementation implements ServiceInterface<GoodsReceiveChallan, Integer>
+public class GoodsReceiveChallanServiceImplementation implements GoodsReceiveChallanService
 {
     @Autowired
     private GoodsReceiveChallanRepository repository;
@@ -36,4 +36,10 @@ public class GoodsReceiveChallanServiceImplementation implements ServiceInterfac
     public GoodsReceiveChallan findOne(Integer id) {
         return repository.findOne(id);
     }
+    
+	@Override
+	public GoodsReceiveChallan findByGoodsReceiveChallanIdAndFinYear(int id, String finYear) {
+		return repository.findByGoodsReceiveChallanIdAndFinYear(id, finYear);
+	}
+    
  }

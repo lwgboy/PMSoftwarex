@@ -1,3 +1,53 @@
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  //var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  var time = date + ' ' + month + ' ' + year + ' ';
+  return time;
+}
+function contains(colNames,column)
+{
+	for(var i in colNames)
+	{
+		if(colNames[i].indexOf(column)>-1)
+		{
+			return true;
+		}
+		
+	}
+}
+function fillCols(cols, colName, x) {
+	for ( var column in x) {
+		if (!$.isArray(x[column])) {
+			if (!$.isPlainObject(x[column])) {
+				if (colName == column) {
+					if(colName.indexOf("Date")>-1)
+					{
+						cols.push(timeConverter(x[column]));
+					}	
+					else
+					{
+						cols.push(x[column]);
+					}	
+					break;
+				}
+			} else {
+				if(colName.indexOf(column)>-1)
+				{
+					fillCols(cols, colName.split(".")[1], x[column]);
+					break;
+				}	
+			}
+		}
+	}
+}
+		    
 function populate_basic_table(url,table,type)
 {
     $.ajax(
@@ -7,44 +57,39 @@ function populate_basic_table(url,table,type)
 		success: function(s)
 		{
 		    table.fnClearTable();
+		    var colNames=new Array();
+		    var key=new Array();
+		    table.find('thead').find('tr').find('th').each(function (i, el)
+		    		{ 
+		    			colNames.push(el.attributes["col"].value);
+		    			if('key' in el.attributes)
+		    			{
+		    				key.push(el.attributes["key"].value);
+		    			}	
+		    		});
 		    $.each(s, function(i, x)
 		    {
                 var cols = new Array();
                 var flag=false;
                 var count=0;
-		        for(var column in x)
+                for(var serial in colNames)
+            	{
+                	if(colNames[serial]!="view" && colNames[serial]!="edit" && colNames[serial]!="delete")
+                	{
+                		fillCols(cols,colNames[serial],x);
+                	}	
+            	}
+                var url="";
+                for(var k in key)
                 {
-		        	if(!$.isArray(x[column]))
-		        	{
-		        		if(!$.isPlainObject(x[column]))
-		        		{
-		        			cols.push(x[column]);
-		        		}
-		        		else
-			        	{
-			        		flag=true;
-			        	}
-		        	}
-		        	else
-		        	{
-		        		flag=true;
-		        	}
-		        	if(url.indexOf("/product/")>-1)
-		        	{
-		        		count++;
-		        		if(count==3)
-		        		{
-		        			flag=true;
-		        			break;
-		        		}
-		        	}
-                }
-		        if(flag==true)
+                	url+="/"+x[key[k]];
+                }	
+		        if(colNames.indexOf("view")>-1)
 		        {
-		        	cols.push("<a href='/"+type+"/view/"+x.id+"'  id=\"view_action\""+x.id+" class=\"view_action\"><i class=\"fa fa-eye fa-lg\" aria-hidden=\"true\"></i> View</a>");
+		        	cols.push("<a href='/"+type+"/view"+url+"'  id=\"view_action\""+url+" class=\"view_action\"><i class=\"fa fa-eye fa-lg\" aria-hidden=\"true\"></i> View</a>");
 		        }
-		        cols.push("<a href='/"+type+"/edit/"+x.id+"'  id=\"edit_action\""+x.id+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
-		        cols.push("<a href='/"+type+"/delete/"+x.id+"' id=\"delete_action\""+x.id+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
+		        cols.push("<a href='/"+type+"/edit"+url+"'  id=\"edit_action\""+url+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        cols.push("<a href='/"+type+"/delete"+url+"' id=\"delete_action\""+url+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
                 table.fnAddData(cols);
 		    });
 		},
