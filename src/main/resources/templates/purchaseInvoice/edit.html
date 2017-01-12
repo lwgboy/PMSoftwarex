@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Purchase Invoice Knowledge Base',formTitle='Purchase Invoice'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/purchaseInvoice/add}" th:object="${purchaseInvoice}"
+			method="post">
+			<div th:include="fragments::purchaseInvoice('true','Update')"></div>
+		</form>
+	</div>
+</body>
+</html>
