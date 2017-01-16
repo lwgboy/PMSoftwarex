@@ -14,12 +14,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseInvoiceItem;
-import org.tarak.pms.models.GoodsReceiveChallan;
-import org.tarak.pms.services.PurchaseInvoiceService;
 import org.tarak.pms.services.GoodsReceiveChallanService;
+import org.tarak.pms.services.PurchaseInvoiceService;
 import org.tarak.pms.utils.PurchaseInvoiceUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -73,6 +74,20 @@ public class PurchaseInvoiceController {
     	List<PurchaseInvoiceItem> purchaseInvoiceItems=new ArrayList<PurchaseInvoiceItem>();
     	purchaseInvoiceItems.add(purchaseInvoiceItem);
     	purchaseInvoice.getPurchaseInvoiceItems().add(purchaseInvoiceItem);
+        return index(model);
+    }
+    
+    @RequestMapping(value = "/add", params={"removePurchaseInvoiceItem"}, method = RequestMethod.POST )
+    public String removePurchaseInvoiceItem(PurchaseInvoice purchaseInvoice, BindingResult result,Model model,@RequestParam int removePurchaseInvoiceItem) {
+        int index=0;
+    	for(PurchaseInvoiceItem purchaseInvoiceItem : purchaseInvoice.getPurchaseInvoiceItems())
+        {
+        	if(removePurchaseInvoiceItem==purchaseInvoiceItem.getSrNo())
+        	{
+        		index=purchaseInvoice.getPurchaseInvoiceItems().indexOf(purchaseInvoiceItem);
+        	}
+        }
+    	purchaseInvoice.getPurchaseInvoiceItems().remove(index);
         return index(model);
     }
     

@@ -19,12 +19,9 @@ public class GoodsReceiveChallanItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
 	@Id
-	/*
-	 * @GenericGenerator(name = "goodsReceiveChallanItemSrNo", strategy =
-	 * "org.erp.tarak.purchaseorder.GoodsReceiveChallanItemSrNoGenerator")
-	 * 
-	 * @GeneratedValue(generator = "goodsReceiveChallanItemSrNo")
-	 */private int srNo;
+	@GenericGenerator(name = "goodsReceiveChallanItemSrNo", strategy ="org.tarak.pms.generators.GoodsReceiveChallanItemSrNoGenerator")
+	@GeneratedValue(generator = "goodsReceiveChallanItemSrNo")
+	private int srNo;
 	@Id
 	@GenericGenerator(name = "goodsReceiveChallanId", strategy = "org.tarak.pms.generators.GoodsReceiveChallanIdGenerator")
 	@GeneratedValue(generator = "goodsReceiveChallanId")
@@ -32,10 +29,6 @@ public class GoodsReceiveChallanItem implements Serializable {
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
-	@ManyToOne
-	@JoinColumn(name = "Category")
-	private Category category;
-
 	@ManyToOne
 	@JoinColumn(name = "Style")
 	private Style style;
@@ -121,14 +114,6 @@ public class GoodsReceiveChallanItem implements Serializable {
 
 	public void setProcessed(boolean processed) {
 		this.processed = processed;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	public Style getStyle() {

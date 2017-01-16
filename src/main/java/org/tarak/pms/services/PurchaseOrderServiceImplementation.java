@@ -41,4 +41,9 @@ public class PurchaseOrderServiceImplementation implements PurchaseOrderService
 	public PurchaseOrder findByPurchaseOrderIdAndFinYear(int purchaseOrderId, String finYear) {
 		return repository.findByPurchaseOrderIdAndFinYear(purchaseOrderId, finYear);
 	}
+
+	@Override
+	public void deleteByPurchaseOrderIdAndFinYear(int purchaseOrderId, String finYear) {
+        repository.deleteByPurchaseOrderIdAndFinYear(purchaseOrderId, finYear);		
+	}
  }

@@ -447,6 +447,22 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.transportCarrier').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/transportCarrier/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('.variantRoute').on('click',function(event){
 		event.preventDefault();
 		ele=$(this);

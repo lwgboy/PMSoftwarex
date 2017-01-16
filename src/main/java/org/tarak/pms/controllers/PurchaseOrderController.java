@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
@@ -70,8 +71,16 @@ public class PurchaseOrderController {
     }
     
     @RequestMapping(value = "/add", params={"removePurchaseOrderItem"}, method = RequestMethod.POST )
-    public String removePurchaseOrderItem(PurchaseOrder purchaseOrder, BindingResult result,Model model) {
-        //purchaseOrder.getPurchaseOrderItems().add(new PurchaseOrderItem());
+    public String removePurchaseOrderItem(PurchaseOrder purchaseOrder, BindingResult result,Model model,@RequestParam int removePurchaseOrderItem) {
+        int index=0;
+    	for(PurchaseOrderItem purchaseOrderItem : purchaseOrder.getPurchaseOrderItems())
+        {
+        	if(removePurchaseOrderItem==purchaseOrderItem.getSrNo())
+        	{
+        		index=purchaseOrder.getPurchaseOrderItems().indexOf(purchaseOrderItem);
+        	}
+        }
+    	purchaseOrder.getPurchaseOrderItems().remove(index);
         return index(model);
     }
     

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Purchase Return Knowledge Base',formTitle='Purchase Return'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/purchaseReturn/add}" th:object="${purchaseReturn}"
+			method="post">
+			<div th:include="fragments::purchaseReturn('false','Add')"></div>
+		</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>List of PurchaseReturns</label>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th col="purchaseReturnId" key="purchaseReturnId">ID</th>
+										<th col="purchaseReturnDate"> Date</th>
+										<th col="vendor.name">Vendor</th>
+										<th col="purchaseInvoice.purchaseInvoiceId" >GRC No</th>
+										<th col="view">View</th>
+										<th col="edit">Edit</th>
+										<th col="delete">Delete</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>ID</th>
+										<th>Date</th>
+										<th>Vendor</th>
+										<th>Invoice No</th>
+										<th>View</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/purchaseReturn/list", cTable, "purchaseReturn");
+		});
+	</script>
+</body>
+</html>

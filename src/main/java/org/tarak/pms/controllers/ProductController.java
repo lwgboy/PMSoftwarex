@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Route;
@@ -114,8 +115,16 @@ public class ProductController {
     }
     
     @RequestMapping(value = "/add", params={"removeVariant"}, method = RequestMethod.POST )
-    public String removeVariant(Product product, BindingResult result,Model model) {
-        product.getVariants().add(new Variant());
+    public String removeVariant(Product product, BindingResult result,Model model,@RequestParam int removeVariant) {
+        int index=0;
+    	for(Variant variant : product.getVariants())
+        {
+        	if(removeVariant==variant.getId())
+        	{
+        		index=product.getVariants().indexOf(variant);
+        	}
+        }
+    	product.getVariants().remove(index);
         return index(model);
     }
     

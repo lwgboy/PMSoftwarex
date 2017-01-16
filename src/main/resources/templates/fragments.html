@@ -221,6 +221,7 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
+									<th></th>
 									<th>Variant Type</th>
 									<th>Variant</th>
 									<th class="tb-width-sm">Quantity</th>
@@ -233,6 +234,9 @@
 							</thead>
 							<tbody th:each="var, variantStat : *{variants}">
 								<tr>
+									<td>
+										<button type="submit" name="removeVariant" class="btn btn-danger btn-circle-sm btn-xs" th:value="(*{variants[__${variantStat.index}__].id} ?: ${variantStat.count} )" ><i class="fa fa-times fa-fw"></i></button>
+									</td>
 									<td>
 										<div id="scrollable-dropdown-menu">
 											<input
@@ -247,8 +251,9 @@
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].name}"
 										class="form-control" /> <input type="hidden"
-										th:field="*{variants[__${variantStat.index}__].id}"
-										class="form-control" /></td>
+										th:attr="name='variants[' + ${variantStat.index} + '].id'"
+										class="form-control" th:value="(*{variants[__${variantStat.index}__].id} ?: ${variantStat.count} )" /></td>
+										
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].quantity}"
 										class="form-control" /></td>
@@ -365,10 +370,12 @@
 					</div>
 
 				</div>
-				<div class="form-group">
-					<label>Transport Carrier</label> <input type="text"
-						th:field="*{transportCarrier}" class="form-control" />
-				</div>
+				<div id="scrollable-dropdown-menu">
+				<label>Transport Carrier</label>
+						<input class="transportCarrier form-control" th:field="*{transportCarrier.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{transportCarrier.id}" type="hidden" />
+					</div>
 				<div class="form-group">
 					<label>Transport Booking Location</label> <input type="text"
 						th:field="*{transportBookingLocation}" class="form-control" />
@@ -412,7 +419,7 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Category</th>
+									<th></th>
 									<th>Style</th>
 									<th>Brand</th>
 									<th>Variant</th>
@@ -425,24 +432,20 @@
 								th:each="var, purchaseOrderItemStat : *{purchaseOrderItems}">
 								<tr>
 									<td>
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].category.name}"
-												type="text" class="category typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].category.id}"
-												type="hidden" class="form-control" />
-												<input
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].finYear}"
-												type="hidden" class="form-control" />
-												
-												<input
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].purchaseOrderId}"
-												type="hidden" class="form-control" />
-										</div>
+										<button type="submit" name="removePurchaseOrderItem" class="btn btn-danger btn-circle-sm btn-xs" th:value="(*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].srNo!=0} ?*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].srNo}: ${purchaseOrderItemStat.count} )" ><i class="fa fa-times fa-fw"></i></button>
 									</td>
 									<td>
 										<div id="scrollable-dropdown-menu">
+											<input
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].finYear}"
+												type="hidden" class="form-control" />
+												<input
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].purchaseOrderId}"
+												type="hidden" class="form-control" />
+												<input type="hidden"
+										th:attr="name='purchaseOrderItems[' + ${purchaseOrderItemStat.index} + '].srNo'"
+										class="form-control" th:value="(*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].srNo!=0} ?*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].srNo}: ${purchaseOrderItemStat.count} )" />
+												
 											<input type="text"
 												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].style.name}"
 												class="style form-control" autocomplete="off" /> <input
@@ -618,7 +621,7 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Category</th>
+									<th></th>
 									<th>Style</th>
 									<th>Brand</th>
 									<th>Variant</th>
@@ -631,22 +634,7 @@
 								th:each="var, goodsReceiveChallanItemStat : *{goodsReceiveChallanItems}">
 								<tr>
 									<td>
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].category.name}"
-												type="text" class="category typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].category.id}"
-												type="hidden" class="form-control" />
-												<input
-												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].finYear}"
-												type="hidden" class="form-control" />
-												
-												<input
-												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].goodsReceiveChallanId}"
-												type="hidden" class="form-control" />
-												
-										</div>
+										<button type="submit" name="removeGoodsReceiveChallanItem" class="btn btn-danger btn-circle-sm btn-xs" th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo} ?: ${goodsReceiveChallanItemStat.count} )" ><i class="fa fa-times fa-fw"></i></button>
 									</td>
 									<td>
 										<div id="scrollable-dropdown-menu">
@@ -656,6 +644,18 @@
 												type="hidden"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].style.id}"
 												class="form-control" />
+											<input
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].finYear}"
+												type="hidden" class="form-control" />
+												
+												<input
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].goodsReceiveChallanId}"
+												type="hidden" class="form-control" />
+												<input type="hidden"
+										th:attr="name='goodsReceiveChallanItems[' + ${goodsReceiveChallanItemStat.index} + '].srNo'"
+										class="form-control" th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )" />
+												
+													
 										</div>
 									</td>
 									<td>
@@ -793,7 +793,7 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Category</th>
+									<th></th>
 									<th>Style</th>
 									<th>Brand</th>
 									<th>Variant</th>
@@ -806,22 +806,7 @@
 								th:each="var, purchaseInvoiceItemStat : *{purchaseInvoiceItems}">
 								<tr>
 									<td>
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].category.name}"
-												type="text" class="category typeahead tt-query form-control"
-												autocomplete="off" /> <input
-												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].category.id}"
-												type="hidden" class="form-control" />
-												<input
-												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].finYear}"
-												type="hidden" class="form-control" />
-												
-												<input
-												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].purchaseInvoiceId}"
-												type="hidden" class="form-control" />
-												
-										</div>
+										<button type="submit" name="removePurchaseInvoiceItem" class="btn btn-danger btn-circle-sm btn-xs" th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo} ?: ${purchaseInvoiceItemStat.count} )" ><i class="fa fa-times fa-fw"></i></button>
 									</td>
 									<td>
 										<div id="scrollable-dropdown-menu">
@@ -831,6 +816,18 @@
 												type="hidden"
 												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].style.id}"
 												class="form-control" />
+												<input
+												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].finYear}"
+												type="hidden" class="form-control" />
+												
+												<input
+												th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].purchaseInvoiceId}"
+												type="hidden" class="form-control" />
+												<input type="hidden"
+										th:attr="name='purchaseInvoiceItems[' + ${purchaseInvoiceItemStat.index} + '].srNo'"
+										class="form-control" th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo}: ${purchaseInvoiceItemStat.count} )" />
+												
+												
 										</div>
 									</td>
 									<td>

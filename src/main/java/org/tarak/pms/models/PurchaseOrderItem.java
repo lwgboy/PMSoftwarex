@@ -19,12 +19,9 @@ public class PurchaseOrderItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
 	@Id
-	/*
-	 * @GenericGenerator(name = "purchaseOrderItemSrNo", strategy =
-	 * "org.erp.tarak.purchaseorder.PurchaseOrderItemSrNoGenerator")
-	 * 
-	 * @GeneratedValue(generator = "purchaseOrderItemSrNo")
-	 */private int srNo;
+	@GenericGenerator(name = "purchaseOrderItemSrNo", strategy ="org.tarak.pms.generators.PurchaseOrderItemSrNoGenerator")
+	@GeneratedValue(generator = "purchaseOrderItemSrNo")
+	private int srNo;
 	@Id
 	@GenericGenerator(name = "purchaseOrderId", strategy = "org.tarak.pms.generators.PurchaseOrderIdGenerator")
 	@GeneratedValue(generator = "purchaseOrderId")
@@ -32,10 +29,6 @@ public class PurchaseOrderItem implements Serializable {
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
-	@ManyToOne
-	@JoinColumn(name = "Category")
-	private Category category;
-
 	@ManyToOne
 	@JoinColumn(name = "Style")
 	private Style style;
@@ -121,14 +114,6 @@ public class PurchaseOrderItem implements Serializable {
 
 	public void setProcessed(boolean processed) {
 		this.processed = processed;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	public Style getStyle() {

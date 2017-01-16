@@ -32,7 +32,6 @@ public class GoodsReceiveChallanUtils {
 		{
 			GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
 			goodsReceiveChallanItem.setBrand(purchaseOrderItem.getBrand());
-			goodsReceiveChallanItem.setCategory(purchaseOrderItem.getCategory());
 			goodsReceiveChallanItem.setDescription(purchaseOrderItem.getDescription());
 			goodsReceiveChallanItem.setFinYear(purchaseOrderItem.getFinYear());
 			goodsReceiveChallanItem.setMeasurement(purchaseOrderItem.getMeasurement());

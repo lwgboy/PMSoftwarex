@@ -10,4 +10,5 @@ import org.tarak.pms.models.PurchaseInvoice;
 @Repository
 public interface PurchaseInvoiceRepository extends JpaRepository<PurchaseInvoice, Integer> {
 	public PurchaseInvoice findByPurchaseInvoiceIdAndFinYear(int purchaseOrderId, String finYear);
+	public void deleteByPurchaseInvoiceIdAndFinYear(int purchaseInvoiceId, String finYear);
 }

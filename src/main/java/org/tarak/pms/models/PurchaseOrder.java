@@ -54,7 +54,9 @@ public class PurchaseOrder implements Serializable {
 
 	private double totalCost;
 	
-	private String transportCarrier;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "TransportCarrier_Id")
+	private TransportCarrier transportCarrier;
 	
 	private String transportBookingLocation;
 	
@@ -128,14 +130,6 @@ public class PurchaseOrder implements Serializable {
 		this.processed = processed;
 	}
 
-	public String getTransportCarrier() {
-		return transportCarrier;
-	}
-
-	public void setTransportCarrier(String transportCarrier) {
-		this.transportCarrier = transportCarrier;
-	}
-
 	public String getTransportBookingLocation() {
 		return transportBookingLocation;
 	}
@@ -182,6 +176,14 @@ public class PurchaseOrder implements Serializable {
 
 	public void setDateTolerance(int dateTolerance) {
 		this.dateTolerance = dateTolerance;
+	}
+
+	public TransportCarrier getTransportCarrier() {
+		return transportCarrier;
+	}
+
+	public void setTransportCarrier(TransportCarrier transportCarrier) {
+		this.transportCarrier = transportCarrier;
 	}
 	
 	

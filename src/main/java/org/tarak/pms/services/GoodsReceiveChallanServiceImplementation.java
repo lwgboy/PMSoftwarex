@@ -41,5 +41,10 @@ public class GoodsReceiveChallanServiceImplementation implements GoodsReceiveCha
 	public GoodsReceiveChallan findByGoodsReceiveChallanIdAndFinYear(int id, String finYear) {
 		return repository.findByGoodsReceiveChallanIdAndFinYear(id, finYear);
 	}
+
+	@Override
+	public void deleteByGoodsReceiveChallanIdAndFinYear(int goodsReceiveChallanId, String finYear) {
+		repository.deleteByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
+	}
     
  }

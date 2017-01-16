@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Transport Carrier Knowledge Base',formTitle='Transport Carrier'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<div class="row">
+			<div class="col-lg-6">
+				<form action="#" th:action="@{/transportCarrier/add}"
+					th:object="${transportCarrier}" method="post">
+					<div class="form-group">
+						<label>Transport Carrier Name</label> <input type="text" th:field="*{name}"
+							class="form-control" /><input type="hidden" th:field="*{id}"
+							class="form-control" />
+					</div>
+					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+						<p th:text="${#fields.allErrors()[0]}">...</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>List of Transport Carriers</label>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-bordered table-hover"
+							id="dataTables-example">
+							<thead>
+								<tr>
+									<th col="id" key="id">ID</th>
+									<th col="name">Transport Carrier</th>
+									<th col="edit">Edit</th>
+									<th col="delete">Delete</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>ID</th>
+									<th>Transport Carrier</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/transportCarrier/list", cTable, "transportCarrier");
+		});
+	</script>
+</body>
+</html>

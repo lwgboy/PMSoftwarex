@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
@@ -73,6 +74,20 @@ public class GoodsReceiveChallanController {
     	List<GoodsReceiveChallanItem> goodsReceiveChallanItems=new ArrayList<GoodsReceiveChallanItem>();
     	goodsReceiveChallanItems.add(goodsReceiveChallanItem);
     	goodsReceiveChallan.getGoodsReceiveChallanItems().add(goodsReceiveChallanItem);
+        return index(model);
+    }
+    
+    @RequestMapping(value = "/add", params={"removeGoodsReceiveChallanItem"}, method = RequestMethod.POST )
+    public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model,@RequestParam int removeGoodsReceiveChallanItem) {
+        int index=0;
+    	for(GoodsReceiveChallanItem goodsReceiveChallanItem : goodsReceiveChallan.getGoodsReceiveChallanItems())
+        {
+        	if(removeGoodsReceiveChallanItem==goodsReceiveChallanItem.getSrNo())
+        	{
+        		index=goodsReceiveChallan.getGoodsReceiveChallanItems().indexOf(goodsReceiveChallanItem);
+        	}
+        }
+    	goodsReceiveChallan.getGoodsReceiveChallanItems().remove(index);
         return index(model);
     }
     
@@ -136,10 +151,10 @@ public class GoodsReceiveChallanController {
         return list;
     }
     @RequestMapping(value = "/delete/{goodsReceiveChallanId}", method = RequestMethod.GET )
-    public String deleteGoodsReceiveChallan(@PathVariable Integer id, Model model)
+    public String deleteGoodsReceiveChallan(@PathVariable Integer goodsReceiveChallanId, Model model)
     {
     	
-    	goodsReceiveChallanService.delete(id);
+    	goodsReceiveChallanService.delete(goodsReceiveChallanId);
     	return index(model);
     }
     

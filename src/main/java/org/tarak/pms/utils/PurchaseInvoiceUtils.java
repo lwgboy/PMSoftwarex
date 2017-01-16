@@ -32,7 +32,6 @@ public class PurchaseInvoiceUtils {
 		{
 			PurchaseInvoiceItem purchaseInvoiceItem=new PurchaseInvoiceItem();
 			purchaseInvoiceItem.setBrand(goodsReceiveChallanItem.getBrand());
-			purchaseInvoiceItem.setCategory(goodsReceiveChallanItem.getCategory());
 			purchaseInvoiceItem.setDescription(goodsReceiveChallanItem.getDescription());
 			purchaseInvoiceItem.setFinYear(goodsReceiveChallanItem.getFinYear());
 			purchaseInvoiceItem.setMeasurement(goodsReceiveChallanItem.getMeasurement());

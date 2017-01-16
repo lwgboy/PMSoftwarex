@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Purchase Return Knowledge Base',formTitle='Purchase Return'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/purchaseReturn/add}" th:object="${purchaseReturn}"
+			method="post">
+			<div th:include="fragments::purchaseReturn('true','Update')"></div>
+		</form>
+	</div>
+</body>
+</html>

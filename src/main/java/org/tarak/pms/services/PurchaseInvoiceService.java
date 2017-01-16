@@ -8,4 +8,5 @@ import org.tarak.pms.models.PurchaseInvoice;
  */
 public interface PurchaseInvoiceService extends ServiceInterface<PurchaseInvoice, Integer> {
 	public PurchaseInvoice findByPurchaseInvoiceIdAndFinYear(int id,String finYear);
+	public void deleteByPurchaseInvoiceIdAndFinYear(int purchaseInvoiceId, String finYear);
 }

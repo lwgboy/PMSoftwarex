@@ -41,5 +41,10 @@ public class PurchaseInvoiceServiceImplementation implements PurchaseInvoiceServ
 	public PurchaseInvoice findByPurchaseInvoiceIdAndFinYear(int id, String finYear) {
 		return repository.findByPurchaseInvoiceIdAndFinYear(id, finYear);
 	}
+
+	@Override
+	public void deleteByPurchaseInvoiceIdAndFinYear(int purchaseInvoiceId, String finYear) {
+		repository.deleteByPurchaseInvoiceIdAndFinYear(purchaseInvoiceId, finYear);
+	}
     
  }
