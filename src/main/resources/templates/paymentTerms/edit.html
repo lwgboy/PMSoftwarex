@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Payment Terms Knowledge Base',formTitle='Payment Terms'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<div class="row">
+			<div class="col-lg-6">
+				<form action="#" th:action="@{/paymentTerms/add}"
+					th:object="${paymentTerms}" method="post">
+					<div class="form-group">
+						<label>Payment Terms </label> <input type="text" th:field="*{name}"
+							class="form-control" /><input type="hidden" th:field="*{id}"
+							class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" rows="3" th:field="*{description}" ></textarea>
+					</div>
+					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+						<p th:text="${#fields.allErrors()[0]}">...</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Update
+						</button>
+						<a href="/paymentTerms/">
+							<button type="button" class="btn btn-danger">
+								<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+								Cancel
+							</button>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
