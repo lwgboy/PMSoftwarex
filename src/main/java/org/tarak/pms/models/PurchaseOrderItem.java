@@ -1,6 +1,7 @@
 package org.tarak.pms.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @IdClass(PurchaseOrderItemId.class)
@@ -48,6 +50,9 @@ public class PurchaseOrderItem implements Serializable {
 	@OneToOne
 	@JoinColumn(columnDefinition="integer",name = "Product")
 	private Product product;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deliveryDate;
 	
 	public Product getProduct() {
 		return product;
@@ -166,6 +171,14 @@ public class PurchaseOrderItem implements Serializable {
 
 	public void setVariant(Variant variant) {
 		this.variant = variant;
+	}
+
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 
 	

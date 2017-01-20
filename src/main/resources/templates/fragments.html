@@ -422,7 +422,7 @@
 									<th></th>
 									<th>Style</th>
 									<th>Brand</th>
-									<th>Variant</th>
+									<th>Date</th>
 									<th>Quantity</th>
 									<th>Measurement</th>
 									<th>Price</th>
@@ -465,14 +465,9 @@
 										</div>
 									</td>
 									<td>
-										<div id="scrollable-dropdown-menu">
-											<input type="text"
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].variant.name}"
-												class="variant form-control" autocomplete="off" /> <input
-												type="hidden"
-												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].variant.id}"
-												class="form-control" />
-										</div>
+											<input type="date"
+												th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].deliveryDate}"
+												class="form-control" autocomplete="off" /> 
 									</td>
 									<td><input type="text"
 										th:field="*{purchaseOrderItems[__${purchaseOrderItemStat.index}__].quantity}"
