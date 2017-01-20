@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -30,9 +30,13 @@ public class Variant {
     
     private String description;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="type")
     private VariantType type;
+    
+    @OneToOne
+    @JoinColumn(columnDefinition="integer",name="Product")
+    private Product product;
 
     private double wspMargin;
     

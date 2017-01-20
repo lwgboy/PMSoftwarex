@@ -4,14 +4,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,11 +35,11 @@ public class Brand {
 
     private String description;
     
-    @ManyToOne(fetch=FetchType.EAGER,optional=true)
-    @JoinColumn(columnDefinition="integer",name="Primary_Unit",insertable=false, updatable=false)
+    @OneToOne
+    @JoinColumn(columnDefinition="integer",name="Primary_Unit")
     private Measurement primaryUnit;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(columnDefinition="integer",name="Secondary_Unit")
     private Measurement SecondaryUnit;
     

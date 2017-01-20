@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -18,35 +18,55 @@ import org.hibernate.annotations.Type;
 public class PurchaseOrderItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
+	
 	@Id
 	@GenericGenerator(name = "purchaseOrderItemSrNo", strategy ="org.tarak.pms.generators.PurchaseOrderItemSrNoGenerator")
 	@GeneratedValue(generator = "purchaseOrderItemSrNo")
 	private int srNo;
+	
 	@Id
 	@GenericGenerator(name = "purchaseOrderId", strategy = "org.tarak.pms.generators.PurchaseOrderIdGenerator")
 	@GeneratedValue(generator = "purchaseOrderId")
 	private int purchaseOrderId;
+	
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
-	@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name = "Style")
 	private Style style;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "Brand")
 	private Brand brand;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(columnDefinition="integer",name = "Variant")
 	private Variant variant;
 	
+	@OneToOne
+	@JoinColumn(columnDefinition="integer",name = "Product")
+	private Product product;
+	
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
 	private String description;
+	
 	private double quantity;
-	@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name = "Measurement")
 	private Measurement measurement;
+	
 	private double rate;
+	
 	private double totalCost;
 	
 	@Type(type = "boolean")
