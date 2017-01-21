@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.ServiceInterface;
 
@@ -29,6 +30,10 @@ public class VariantController {
     @Autowired
     private ServiceInterface<Variant, Integer> variantService;
 
+    @Autowired
+    private ServiceInterface<Product, Integer> productService;
+
+    
     @RequestMapping("/")
     public String index(Model model)
     {
@@ -73,15 +78,25 @@ public class VariantController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
-    List<Variant> listCategories()
+    List<Variant> listVariants()
     {
         List<Variant> list=variantService.findAll();
         return list;
     }
 
+    @RequestMapping(value = "/list/{id}", method = RequestMethod.GET )
+    public @ResponseBody
+    List<Variant> listVariantsByProduct(@PathVariable int id)
+    {
+    	Product product=productService.findOne(id);
+        List<Variant> list=product.getVariants();
+        return list;
+    }
+
+    
     @RequestMapping(value = "/variants", method = RequestMethod.GET )
     public @ResponseBody
-    Map<Integer, String> listVariants()
+    Map<Integer, String> listVariantsJson()
     {
         List<Variant> list=variantService.findAll();
         Map<Integer,String> variants=new LinkedHashMap<Integer,String>();

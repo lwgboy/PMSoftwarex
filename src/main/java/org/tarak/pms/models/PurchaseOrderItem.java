@@ -36,11 +36,11 @@ public class PurchaseOrderItem implements Serializable {
 	private String finYear;
 	
 	@OneToOne
-	@JoinColumn(name = "Style")
+	@JoinColumn(columnDefinition="integer",name = "Style")
 	private Style style;
 
 	@OneToOne
-	@JoinColumn(name = "Brand")
+	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
 	@OneToOne

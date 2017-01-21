@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tarak.pms.models.Brand;
+import org.tarak.pms.models.Product;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
+import org.tarak.pms.models.Style;
+import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.PurchaseOrderService;
 import org.tarak.pms.utils.UserUtils;
 
@@ -70,6 +74,36 @@ public class PurchaseOrderController {
         return index(model);
     }
     
+    @RequestMapping(value = "/add", params={"addProduct"}, method = RequestMethod.POST )
+    public String addProduct(PurchaseOrder purchaseOrder, BindingResult result,Model model,@RequestParam int addProduct) {
+    	for(PurchaseOrderItem purchaseOrderItem : purchaseOrder.getPurchaseOrderItems())
+        {
+        	if(addProduct==purchaseOrderItem.getSrNo())
+        	{
+        		purchaseOrderItem.setProduct(new Product());
+        		purchaseOrderItem.setVariant(new Variant());
+        		purchaseOrderItem.setBrand(null);
+        		purchaseOrderItem.setStyle(null);
+        	}
+        }	
+        return index(model);
+    }
+    
+    @RequestMapping(value = "/add", params={"removeProduct"}, method = RequestMethod.POST )
+    public String removeProduct(PurchaseOrder purchaseOrder, BindingResult result,Model model,@RequestParam int removeProduct) {
+    	for(PurchaseOrderItem purchaseOrderItem : purchaseOrder.getPurchaseOrderItems())
+        {
+        	if(removeProduct==purchaseOrderItem.getSrNo())
+        	{
+        		purchaseOrderItem.setProduct(null);
+        		purchaseOrderItem.setVariant(null);
+        		purchaseOrderItem.setBrand(new Brand());
+        		purchaseOrderItem.setStyle(new Style());
+        	}
+        }	
+        return index(model);
+    }
+    
     @RequestMapping(value = "/add", params={"removePurchaseOrderItem"}, method = RequestMethod.POST )
     public String removePurchaseOrderItem(PurchaseOrder purchaseOrder, BindingResult result,Model model,@RequestParam int removePurchaseOrderItem) {
         int index=0;
@@ -99,7 +133,7 @@ public class PurchaseOrderController {
 		else
 		{
 			bindingResult.rejectValue("vendor", "error.alreadyExists",null,"Invalid session. Please login again");
-			return "/";
+			return "/index";
 		}
         if (bindingResult.hasErrors())
         {
