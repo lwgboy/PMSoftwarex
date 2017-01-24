@@ -605,6 +605,31 @@
 					<label>Gate No</label> <input type="text" th:field="*{gateNo}"
 						class="form-control" />
 				</div>
+				<div class="form-group" th:switch="${goodsReceiveChallan.isSaveItemDetails()}">
+					<button  th:case="false" type="submit" name="addItemDetails" class="btn btn-info btn-xs" >
+						<i class="fa fa-plus-circle" aria-hidden="true"></i> Add Item details
+						</button>
+						<button th:case="true" type="submit" name="removeItemDetails" class="btn btn-info btn-xs" >
+						<i class="fa fa-minus-circle" aria-hidden="true"></i> Remove Item details
+					</button>
+				</div>
+				<div >
+					<div class="form-group input-group">
+						<span class="input-group-addon">Purchase Order No</span> <input
+							class="form-control" th:field="*{purchaseOrder.purchaseOrderId}"
+							type="text" autocomplete="off" placeholder="Purchase Order No" />
+						<input class="form-control" th:field="*{purchaseOrder.finYear}"
+							type="hidden" /> <span class="input-group-btn">
+							<button class="btn btn-default" type="submit" name="poNo">
+								<i class="fa fa-search"></i>
+							</button>
+						</span>
+					</div>
+					<div class="form-group">
+						<label>Stock Point</label> <input type="text"
+							th:field="*{stockPoint}" class="form-control" />
+					</div>
+				</div>
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -634,37 +659,12 @@
 					<label>Total Bales Received</label> <input type="text"
 						th:field="*{totalBalesReceived}" class="form-control" />
 				</div>
+
 			</div>
 		</div>
-		<div class="row" >
-			<div class="form-group">
-				<button type="submit" name="addItemDetails" th:switch="${saveItemDetails}" class="btn btn-info btn-xs">
-					<span th:case="false"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Item details</span>
-					<span th:case="true"><i class="icon-minus fa-lg" aria-hidden="true"></i> Remove Item details</span>
-				</button>
-				<span th:text="${saveItemDetails}"></span>
-			</div>
-		</div>
-		<div class="row" th:if="${saveItemDetails}">
+		<div class="row">
 			<div class="col-sm-12">
-			<div class="col-lg-6">
-						<div class="form-group">
-							<label>Stock Point</label> <input type="text"
-								th:field="*{stockPoint}" class="form-control" />
-						</div>
-						<div class="form-group input-group">
-							<span class="input-group-addon">Purchase Order No</span> <input
-								class="form-control" th:field="*{purchaseOrder.purchaseOrderId}"
-								type="text" autocomplete="off" placeholder="Purchase Order No" />
-							<input class="form-control" th:field="*{purchaseOrder.finYear}"
-								type="hidden" /> <span class="input-group-btn">
-								<button class="btn btn-default" type="submit" name="poNo">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-						</div>
-				<div class="panel panel-info">
+				<div class="panel panel-info" >
 					<div class="panel-heading">
 						<label>Items</label>
 					</div>

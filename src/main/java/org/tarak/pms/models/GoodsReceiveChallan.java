@@ -89,7 +89,7 @@ public class GoodsReceiveChallan implements Serializable {
 	private boolean processed;
 
 	@Type(type = "boolean")
-	private boolean saveItemDetails=false;
+	private boolean saveItemDetails;
 	
 	public int getGoodsReceiveChallanId() {
 		return goodsReceiveChallanId;
