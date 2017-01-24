@@ -88,6 +88,9 @@ public class GoodsReceiveChallan implements Serializable {
 	@Type(type="boolean")
 	private boolean processed;
 
+	@Type(type = "boolean")
+	private boolean saveItemDetails=false;
+	
 	public int getGoodsReceiveChallanId() {
 		return goodsReceiveChallanId;
 	}
@@ -216,5 +219,14 @@ public class GoodsReceiveChallan implements Serializable {
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
+
+	public boolean isSaveItemDetails() {
+		return saveItemDetails;
+	}
+
+	public void setSaveItemDetails(boolean saveItemDetails) {
+		this.saveItemDetails = saveItemDetails;
+	}
+	
 	
 }

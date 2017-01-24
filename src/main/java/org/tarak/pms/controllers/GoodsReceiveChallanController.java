@@ -51,11 +51,12 @@ public class GoodsReceiveChallanController {
 
     private void addGoodsReceiveChallan(Model model)
     {
-    	GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
+    	/*GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
     	List<GoodsReceiveChallanItem> goodsReceiveChallanItems=new ArrayList<GoodsReceiveChallanItem>();
     	goodsReceiveChallanItems.add(goodsReceiveChallanItem);
-		GoodsReceiveChallan goodsReceiveChallan=new GoodsReceiveChallan();
-		goodsReceiveChallan.setGoodsReceiveChallanItems(goodsReceiveChallanItems);
+		*/
+    	GoodsReceiveChallan goodsReceiveChallan=new GoodsReceiveChallan();
+		//goodsReceiveChallan.setGoodsReceiveChallanItems(goodsReceiveChallanItems);
 		
         model.addAttribute("goodsReceiveChallan", goodsReceiveChallan);
     }
@@ -67,7 +68,24 @@ public class GoodsReceiveChallanController {
     		addGoodsReceiveChallan(model);
     	}
 	}
+    
+    @RequestMapping(value = "/add", params={"addItemDetails"}, method = RequestMethod.POST )
+    public String addItemDetails(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
+    	GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
+    	List<GoodsReceiveChallanItem> goodsReceiveChallanItems=new ArrayList<GoodsReceiveChallanItem>();
+    	goodsReceiveChallanItems.add(goodsReceiveChallanItem);
+    	goodsReceiveChallan.setGoodsReceiveChallanItems(goodsReceiveChallanItems);
+    	goodsReceiveChallan.setSaveItemDetails(true);
+        return index(model);
+    }
 
+    @RequestMapping(value = "/add", params={"removeItemDetails"}, method = RequestMethod.POST )
+    public String removeItemDetails(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
+    	goodsReceiveChallan.setGoodsReceiveChallanItems(null);
+    	goodsReceiveChallan.setSaveItemDetails(false);
+        return index(model);
+    }
+    
     @RequestMapping(value = "/add", params={"addGoodsReceiveChallanItem"}, method = RequestMethod.POST )
     public String addGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
     	GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
