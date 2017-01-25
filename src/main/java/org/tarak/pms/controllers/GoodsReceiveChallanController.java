@@ -126,9 +126,12 @@ public class GoodsReceiveChallanController {
 			{
 				String finYear=UserUtils.getFinancialYear(session);
 				goodsReceiveChallan.setFinYear(finYear);
-				for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
+				if(goodsReceiveChallan.getGoodsReceiveChallanItems()!=null && !goodsReceiveChallan.getGoodsReceiveChallanItems().isEmpty())
 				{
-					item.setFinYear(finYear);
+					for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
+					{
+						item.setFinYear(finYear);
+					}
 				}
 			}
     	}
@@ -171,8 +174,8 @@ public class GoodsReceiveChallanController {
     @RequestMapping(value = "/delete/{goodsReceiveChallanId}", method = RequestMethod.GET )
     public String deleteGoodsReceiveChallan(@PathVariable Integer goodsReceiveChallanId, Model model)
     {
-    	
-    	goodsReceiveChallanService.delete(goodsReceiveChallanId);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	goodsReceiveChallanService.deleteByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
     	return index(model);
     }
     

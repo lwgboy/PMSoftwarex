@@ -1,17 +1,20 @@
 package org.tarak.pms.services;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tarak.pms.models.User;
 import org.tarak.pms.repositories.UserRepository;
-
-import java.util.List;
 
 /**
  * Created by Tarak on 12/7/2016.
  */
 
 @Service
+@Transactional
 public class UserServiceImplementation implements UserService
 {
     @Autowired

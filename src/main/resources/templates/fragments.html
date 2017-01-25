@@ -613,7 +613,7 @@
 						<i class="fa fa-minus-circle" aria-hidden="true"></i> Remove Item details
 					</button>
 				</div>
-				<div >
+				<div th:if="${goodsReceiveChallan.isSaveItemDetails()} == true">
 					<div class="form-group input-group">
 						<span class="input-group-addon">Purchase Order No</span> <input
 							class="form-control" th:field="*{purchaseOrder.purchaseOrderId}"
@@ -664,7 +664,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="panel panel-info" >
+				<div class="panel panel-info" th:if="${goodsReceiveChallan.isSaveItemDetails()} == true" >
 					<div class="panel-heading">
 						<label>Items</label>
 					</div>

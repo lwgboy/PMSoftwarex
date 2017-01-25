@@ -1,11 +1,11 @@
 package org.tarak.pms.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tarak.pms.models.Tax;
 import org.tarak.pms.repositories.TaxRepository;
-
-import java.util.List;
 
 /**
  * Created by Tarak on 12/7/2016.

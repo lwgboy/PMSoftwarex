@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -55,12 +56,12 @@ public class Product {
     @JoinColumn(name="Brand")
     private Brand brand;
     
-    @ManyToMany
+    @OneToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Product_Variants", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
     private List<Variant> variants;
     
-    @ManyToMany
+    @OneToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Product_tags", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;
@@ -74,7 +75,6 @@ public class Product {
     private ProductType productType;
     
     @ManyToMany
-    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Product_Vendors", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"))
     private List<Vendor> vendors;
     

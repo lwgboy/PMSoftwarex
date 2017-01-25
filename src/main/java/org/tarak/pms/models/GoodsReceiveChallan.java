@@ -50,8 +50,8 @@ public class GoodsReceiveChallan implements Serializable {
 	@Column(name = "GRC_DATE")
 	private Date goodsReceiveChallanDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Vendor_Id")
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Vendor_Id")
 	private Vendor vendor;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -77,7 +77,7 @@ public class GoodsReceiveChallan implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date lrDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "Transporter_Id")
 	private Transporter transporter;
 

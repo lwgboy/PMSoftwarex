@@ -48,7 +48,7 @@ public class PurchaseReturn implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date purchaseReturnDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "Vendor_Id")
 	private Vendor vendor;
 

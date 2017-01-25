@@ -9,8 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,20 +35,20 @@ public class Brand {
 
     private String description;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(columnDefinition="integer",name="Primary_Unit")
     private Measurement primaryUnit;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(columnDefinition="integer",name="Secondary_Unit")
     private Measurement SecondaryUnit;
     
-    @ManyToMany
+    @OneToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Brand_Variants", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))
     private List<Variant> variants;
     
-    @ManyToMany
+    @OneToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Brand_tags", joinColumns = @JoinColumn(name = "brand_id", referencedColumnName = "brand_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;

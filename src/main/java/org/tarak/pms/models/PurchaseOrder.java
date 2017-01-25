@@ -38,8 +38,8 @@ public class PurchaseOrder implements Serializable {
 	@Column(name = "PO_DATE")
 	private Date purchaseOrderDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Vendor_Id")
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Vendor_Id")
 	private Vendor vendor;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -54,8 +54,8 @@ public class PurchaseOrder implements Serializable {
 
 	private double totalCost;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "TransportCarrier_Id")
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "TransportCarrier_Id")
 	private TransportCarrier transportCarrier;
 	
 	private String transportBookingLocation;

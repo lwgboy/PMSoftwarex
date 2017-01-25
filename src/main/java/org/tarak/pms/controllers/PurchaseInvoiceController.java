@@ -151,10 +151,10 @@ public class PurchaseInvoiceController {
         return list;
     }
     @RequestMapping(value = "/delete/{purchaseInvoiceId}", method = RequestMethod.GET )
-    public String deletePurchaseInvoice(@PathVariable Integer id, Model model)
+    public String deletePurchaseInvoice(@PathVariable Integer purchaseInvoiceId, Model model)
     {
-    	
-    	purchaseInvoiceService.delete(id);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	purchaseInvoiceService.deleteByPurchaseInvoiceIdAndFinYear(purchaseInvoiceId, finYear);
     	return index(model);
     }
     

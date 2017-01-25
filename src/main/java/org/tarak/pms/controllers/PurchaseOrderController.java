@@ -166,19 +166,19 @@ public class PurchaseOrderController {
         List<PurchaseOrder> list=purchaseOrderService.findAll();
         return list;
     }
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
-    public String deletePurchaseOrder(@PathVariable Integer id, Model model)
+    @RequestMapping(value = "/delete/{purchaseOrderId}", method = RequestMethod.GET )
+    public String deletePurchaseOrder(@PathVariable Integer purchaseOrderId, Model model)
     {
-    	
-    	purchaseOrderService.delete(id);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	purchaseOrderService.deleteByPurchaseOrderIdAndFinYear(purchaseOrderId, finYear);
     	return index(model);
     }
     
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editPurchaseOrder(@PathVariable Integer id, Model model)
+    @RequestMapping(value = "/edit/{purchaseOrderId}", method = RequestMethod.GET)
+    public String editPurchaseOrder(@PathVariable Integer purchaseOrderId, Model model)
     {
     	String finYear=UserUtils.getFinancialYear(session);
-    	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(id,finYear);
+    	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(purchaseOrderId,finYear);
     	model.addAttribute("purchaseOrder", purchaseOrder);
     	prepareModel(model);
     	return "/purchaseOrder/edit";

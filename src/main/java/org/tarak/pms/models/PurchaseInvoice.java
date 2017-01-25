@@ -48,8 +48,8 @@ public class PurchaseInvoice implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date purchaseInvoiceDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Vendor_Id")
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Vendor_Id")
 	private Vendor vendor;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

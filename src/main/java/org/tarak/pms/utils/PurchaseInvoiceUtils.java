@@ -3,10 +3,10 @@ package org.tarak.pms.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.tarak.pms.models.PurchaseInvoice;
-import org.tarak.pms.models.PurchaseInvoiceItem;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
+import org.tarak.pms.models.PurchaseInvoice;
+import org.tarak.pms.models.PurchaseInvoiceItem;
 
 public class PurchaseInvoiceUtils {
 	public static PurchaseInvoice populatePurchaseInvoice(GoodsReceiveChallan goodsReceiveChallan,PurchaseInvoice purchaseInvoice)

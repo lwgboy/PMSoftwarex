@@ -2,6 +2,8 @@ package org.tarak.pms.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tarak.pms.models.PurchaseReturn;
@@ -12,6 +14,7 @@ import org.tarak.pms.repositories.PurchaseReturnRepository;
  */
 
 @Service
+@Transactional
 public class PurchaseReturnServiceImplementation implements PurchaseReturnService
 {
     @Autowired

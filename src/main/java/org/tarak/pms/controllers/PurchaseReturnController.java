@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseReturn;
 import org.tarak.pms.models.PurchaseReturnItem;
-import org.tarak.pms.models.PurchaseInvoice;
-import org.tarak.pms.services.PurchaseReturnService;
 import org.tarak.pms.services.PurchaseInvoiceService;
+import org.tarak.pms.services.PurchaseReturnService;
 import org.tarak.pms.utils.PurchaseReturnUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -136,10 +136,10 @@ public class PurchaseReturnController {
         return list;
     }
     @RequestMapping(value = "/delete/{purchaseReturnId}", method = RequestMethod.GET )
-    public String deletePurchaseReturn(@PathVariable Integer id, Model model)
+    public String deletePurchaseReturn(@PathVariable Integer purchaseReturnId, Model model)
     {
-    	
-    	purchaseReturnService.delete(id);
+    	String finYear=UserUtils.getFinancialYear(session);
+    	purchaseReturnService.deleteByPurchaseReturnIdAndFinYear(purchaseReturnId, finYear);
     	return index(model);
     }
     
