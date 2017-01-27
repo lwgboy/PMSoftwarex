@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,16 +29,14 @@ public class Route {
     private Integer id;
 
     @Column(nullable = false,unique=true)
-    @NotEmpty(message="Route name cannot be empty")
+    @NotNull
     @Size(min=3,message ="Route should have minimum 3 characters")
     private String name;
 
     private String description;
     
     @ManyToMany
-    @Valid
     @Cascade({CascadeType.ALL})
-    @NotNull(message="Stage cannot be empty")
     @JoinTable(name = "Route_Stages", joinColumns = @JoinColumn(name = "route_id", referencedColumnName = "route_id"), inverseJoinColumns = @JoinColumn(name = "stage_id", referencedColumnName = "stage_id"))
     private List<Stage> stages;
     
