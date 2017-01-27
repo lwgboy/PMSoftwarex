@@ -18,36 +18,45 @@ import org.hibernate.annotations.Type;
 public class PurchaseInvoiceItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
+	
 	@Id
-	@GenericGenerator(name = "purchaseInvoiceItemSrNo", strategy ="org.tarak.pms.generators.PurchaseInvoiceItemSrNoGenerator")
-	@GeneratedValue(generator = "purchaseInvoiceItemSrNo")
 	private int srNo;
+	
 	@Id
 	@GenericGenerator(name = "purchaseInvoiceId", strategy = "org.tarak.pms.generators.PurchaseInvoiceIdGenerator")
 	@GeneratedValue(generator = "purchaseInvoiceId")
 	private int purchaseInvoiceId;
+	
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
 
 	@ManyToOne
-	@JoinColumn(name = "Style")
+	@JoinColumn(columnDefinition="integer",name = "Style")
 	private Style style;
 
 	@ManyToOne
-	@JoinColumn(name = "Brand")
+	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Variant")
 	private Variant variant;
 	
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Product")
+	private Product product;
+	
 	private String description;
+	
 	private double quantity;
+	
 	@ManyToOne
 	@JoinColumn(name = "Measurement")
 	private Measurement measurement;
+	
 	private double rate;
+	
 	private double totalCost;
 	
 	@Type(type = "boolean")
@@ -147,6 +156,14 @@ public class PurchaseInvoiceItem implements Serializable {
 
 	public void setVariant(Variant variant) {
 		this.variant = variant;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	

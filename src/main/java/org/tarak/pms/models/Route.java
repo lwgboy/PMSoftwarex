@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Tarak on 12/3/2016.

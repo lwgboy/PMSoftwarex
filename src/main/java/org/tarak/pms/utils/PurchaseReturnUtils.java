@@ -39,7 +39,7 @@ public class PurchaseReturnUtils {
 			purchaseReturnItem.setRate(goodsReceiveChallanItem.getRate());
 			purchaseReturnItem.setSrNo(goodsReceiveChallanItem.getSrNo());
 			purchaseReturnItem.setStyle(goodsReceiveChallanItem.getStyle());
-			purchaseReturnItem.setVariant(goodsReceiveChallanItem.getVariant());
+			//purchaseReturnItem.setVariant(goodsReceiveChallanItem.getVariant());
 			purchaseReturnItems.add(purchaseReturnItem);
 		}
 		return purchaseReturnItems;

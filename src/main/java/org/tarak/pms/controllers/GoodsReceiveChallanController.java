@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
+import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseOrderService;
@@ -109,6 +111,26 @@ public class GoodsReceiveChallanController {
         return index(model);
     }
     
+    @RequestMapping(value = "/add", params={"addProduct"}, method = RequestMethod.POST )
+    public String addProduct(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model,@RequestParam int addProduct) {
+    	for(GoodsReceiveChallanItem goodsReceiveChallanItem : goodsReceiveChallan.getGoodsReceiveChallanItems())
+        {
+        	if(addProduct==goodsReceiveChallanItem.getSrNo())
+        	{
+        		if(goodsReceiveChallanItem.getProductItems()!=null){
+        			goodsReceiveChallanItem.getProductItems().add(new ProductItem());
+        		}
+        		else
+        		{
+        			List<ProductItem> productItems=new LinkedList<ProductItem>();
+        			productItems.add(new ProductItem());
+        			goodsReceiveChallanItem.setProductItems(productItems);
+        		}
+        	}
+        }	
+        return index(model);
+    }
+    
     @RequestMapping(value = "/add", params={"poNo"}, method = RequestMethod.POST )
     public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
     	String finYear=UserUtils.getFinancialYear(session);
@@ -122,18 +144,19 @@ public class GoodsReceiveChallanController {
     {
 		if(UserUtils.getFinancialYear(session)!=null)
     	{
+			String finYear=UserUtils.getFinancialYear(session);
 			if(goodsReceiveChallan.getFinYear()==null || "".equals(goodsReceiveChallan.getFinYear()))
 			{
-				String finYear=UserUtils.getFinancialYear(session);
 				goodsReceiveChallan.setFinYear(finYear);
-				if(goodsReceiveChallan.getGoodsReceiveChallanItems()!=null && !goodsReceiveChallan.getGoodsReceiveChallanItems().isEmpty())
-				{
-					for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
-					{
-						item.setFinYear(finYear);
-					}
-				}
 			}
+			if(goodsReceiveChallan.getGoodsReceiveChallanItems()!=null && !goodsReceiveChallan.getGoodsReceiveChallanItems().isEmpty())
+			{
+				for(GoodsReceiveChallanItem item : goodsReceiveChallan.getGoodsReceiveChallanItems())
+				{
+					item.setFinYear(finYear);
+				}
+			}	
+			
     	}
 		else
 		{

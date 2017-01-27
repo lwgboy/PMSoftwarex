@@ -479,6 +479,36 @@ $(document).ready(function() {
 	    }
 	})
 	
+	$('input.warehouse').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/warehouse/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+
+		$('input.stockPoint').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/stockPoint/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('input.product_variant').typeahead({
 		afterSelect: function(data)
 		{

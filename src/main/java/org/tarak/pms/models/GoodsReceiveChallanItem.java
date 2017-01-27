@@ -1,52 +1,81 @@
 package org.tarak.pms.models;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @IdClass(GoodsReceiveChallanItemId.class)
 public class GoodsReceiveChallanItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
+	
 	@Id
-	@GenericGenerator(name = "goodsReceiveChallanItemSrNo", strategy ="org.tarak.pms.generators.GoodsReceiveChallanItemSrNoGenerator")
-	@GeneratedValue(generator = "goodsReceiveChallanItemSrNo")
 	private int srNo;
+	
 	@Id
 	@GenericGenerator(name = "goodsReceiveChallanId", strategy = "org.tarak.pms.generators.GoodsReceiveChallanIdGenerator")
 	@GeneratedValue(generator = "goodsReceiveChallanId")
 	private int goodsReceiveChallanId;
+	
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
+	
 	@ManyToOne
-	@JoinColumn(name = "Style")
+	@JoinColumn(columnDefinition="integer",name = "Style")
 	private Style style;
 
 	@ManyToOne
-	@JoinColumn(name = "Brand")
+	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
-	@ManyToOne
-	@JoinColumn(columnDefinition="integer",name = "Variant")
-	private Variant variant;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SELECT)
+	@JoinTable(name = "GRC_PRODUCT_ITEM", 
+		joinColumns = {
+			@JoinColumn(name = "GRCITEMS_SrNo", referencedColumnName = "srNo"),
+			@JoinColumn(name = "GRCITEMS_goodsReceiveChallanId", referencedColumnName = "goodsReceiveChallanId"),
+			@JoinColumn(name = "GRCITEMS_Financial_Year", referencedColumnName = "Financial_Year") 
+			}, 
+		inverseJoinColumns = { 
+			@JoinColumn(name = "GRC_ProductItemId", referencedColumnName = "Product_Item_Id") 
+			}
+
+	)
+	private List<ProductItem> productItems;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deliveryDate;
 	
 	private String description;
+	
 	private double quantity;
+	
 	@ManyToOne
-	@JoinColumn(name = "Measurement")
+	@JoinColumn(columnDefinition="integer",name = "Measurement")
 	private Measurement measurement;
+	
 	private double rate;
+	
 	private double totalCost;
 	
 	@Type(type = "boolean")
@@ -140,12 +169,20 @@ public class GoodsReceiveChallanItem implements Serializable {
 		this.measurement = measurement;
 	}
 
-	public Variant getVariant() {
-		return variant;
+	public Date getDeliveryDate() {
+		return deliveryDate;
 	}
 
-	public void setVariant(Variant variant) {
-		this.variant = variant;
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public List<ProductItem> getProductItems() {
+		return productItems;
+	}
+
+	public void setProductItems(List<ProductItem> productItems) {
+		this.productItems = productItems;
 	}
 
 	

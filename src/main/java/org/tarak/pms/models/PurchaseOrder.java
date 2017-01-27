@@ -58,7 +58,9 @@ public class PurchaseOrder implements Serializable {
 	@JoinColumn(columnDefinition="integer",name = "TransportCarrier_Id")
 	private TransportCarrier transportCarrier;
 	
-	private String transportBookingLocation;
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Warehouse_Id")
+	private Warehouse transportBookingLocation;
 	
 	private String transportBookingAddress;
 	
@@ -130,11 +132,12 @@ public class PurchaseOrder implements Serializable {
 		this.processed = processed;
 	}
 
-	public String getTransportBookingLocation() {
+
+	public Warehouse getTransportBookingLocation() {
 		return transportBookingLocation;
 	}
 
-	public void setTransportBookingLocation(String transportBookingLocation) {
+	public void setTransportBookingLocation(Warehouse transportBookingLocation) {
 		this.transportBookingLocation = transportBookingLocation;
 	}
 
