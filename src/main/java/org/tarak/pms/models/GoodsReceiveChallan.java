@@ -65,10 +65,14 @@ public class GoodsReceiveChallan implements Serializable {
 	private List<GoodsReceiveChallanItem> goodsReceiveChallanItems;
 
 	private double totalCost;
+
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Warehouse_Id")
+	private Warehouse warehouseLocation;
 	
-	private String warehouseLocation;
-	
-	private String stockPoint;
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "StockPoint_Id")
+	private StockPoint stockPoint;
 	
 	private String gateNo;
 	
@@ -148,14 +152,6 @@ public class GoodsReceiveChallan implements Serializable {
 		this.processed = processed;
 	}
 
-	public String getWarehouseLocation() {
-		return warehouseLocation;
-	}
-
-	public void setWarehouseLocation(String warehouseLocation) {
-		this.warehouseLocation = warehouseLocation;
-	}
-
 	public String getGateNo() {
 		return gateNo;
 	}
@@ -204,11 +200,13 @@ public class GoodsReceiveChallan implements Serializable {
 		this.totalBalesReceived = totalBalesReceived;
 	}
 
-	public String getStockPoint() {
+	
+	
+	public StockPoint getStockPoint() {
 		return stockPoint;
 	}
 
-	public void setStockPoint(String stockPoint) {
+	public void setStockPoint(StockPoint stockPoint) {
 		this.stockPoint = stockPoint;
 	}
 
@@ -226,6 +224,14 @@ public class GoodsReceiveChallan implements Serializable {
 
 	public void setSaveItemDetails(boolean saveItemDetails) {
 		this.saveItemDetails = saveItemDetails;
+	}
+
+	public Warehouse getWarehouseLocation() {
+		return warehouseLocation;
+	}
+
+	public void setWarehouseLocation(Warehouse warehouseLocation) {
+		this.warehouseLocation = warehouseLocation;
 	}
 	
 	

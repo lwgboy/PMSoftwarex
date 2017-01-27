@@ -13,7 +13,7 @@
 				<form action="#" th:action="@{/section/add}"
 					th:object="${section}" method="post">
 					<div class="form-group">
-						<label>Section Name</label> <input type="text" th:field="*{name}"
+						<label>Section Name *</label> <input type="text" th:field="*{name}"
 							class="form-control" /><input type="hidden" th:field="*{id}"
 							class="form-control" />
 					</div>

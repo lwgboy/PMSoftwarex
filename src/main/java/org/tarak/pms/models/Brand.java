@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -29,7 +30,7 @@ public class Brand {
     private Integer id;
 
     @Column(nullable = false,unique=true)
-    @NotNull
+    @NotEmpty(message="Brand name cannot be empty")
     @Size(min=3,message ="Brand name should have minimum 3 characters")
     private String name;
 

@@ -12,11 +12,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -30,21 +32,27 @@ public class Product {
     private Integer id;
 
     @Column(nullable = false,unique=true)
-    @NotNull
+    @NotEmpty(message="Product name cannot be empty")
     @Size(min=3,message ="Product should have minimum 3 characters")
     private String name;
 
     private String description;
     
+    @Valid
     @ManyToOne
+    @NotNull(message="Primary Category cannot be empty")
     @JoinColumn(name="Category")
     private Category category;
     
+    @Valid
     @ManyToOne
+    @NotNull(message="Primary Division cannot be empty")
     @JoinColumn(name="Division")
     private Division division;
     
+    @Valid
     @ManyToOne
+    @NotNull(message="Primary Section cannot be empty")
     @JoinColumn(name="Section")
     private Section section;
     
@@ -70,7 +78,9 @@ public class Product {
     
     private boolean active;
     
+    @Valid
     @ManyToOne
+    @NotNull(message="Product Type cannot be empty")
     @JoinColumn(name="Product_Type")
     private ProductType productType;
     

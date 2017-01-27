@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Created by Tarak on 12/3/2016.
  */
@@ -20,7 +22,7 @@ public class Measurement {
     private Integer id;
 
     @Column(nullable = false,unique=true)
-    @NotNull
+    @NotEmpty(message="Measurement cannot be empty")
     @Size(min=1,message ="Measurement should have minimum one character")
     private String name;
 
