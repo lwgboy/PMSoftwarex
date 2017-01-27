@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -22,8 +23,6 @@ public class PurchaseOrderItem implements Serializable {
 	private static final long serialVersionUID = -723583058586873479L;
 	
 	@Id
-	@GenericGenerator(name = "purchaseOrderItemSrNo", strategy ="org.tarak.pms.generators.PurchaseOrderItemSrNoGenerator")
-	@GeneratedValue(generator = "purchaseOrderItemSrNo")
 	private int srNo;
 	
 	@Id
@@ -35,19 +34,19 @@ public class PurchaseOrderItem implements Serializable {
 	@Column(name = "Financial_Year")
 	private String finYear;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Style")
 	private Style style;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Variant")
 	private Variant variant;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Product")
 	private Product product;
 	

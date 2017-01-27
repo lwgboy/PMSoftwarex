@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
+import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
 
-public class GoodsReceiveChallanUtils {
+public class GoodsReceiveChallanUtils 
+{
 	public static GoodsReceiveChallan populateGoodsReceiveChallan(PurchaseOrder purchaseOrder,GoodsReceiveChallan goodsReceiveChallan)
 	{
 		List<GoodsReceiveChallanItem> goodsReceiveChallanItems=populateGoodsReceiveChallanItems(purchaseOrder.getPurchaseOrderItems());
@@ -39,11 +41,25 @@ public class GoodsReceiveChallanUtils {
 			goodsReceiveChallanItem.setRate(purchaseOrderItem.getRate());
 			goodsReceiveChallanItem.setSrNo(purchaseOrderItem.getSrNo());
 			goodsReceiveChallanItem.setStyle(purchaseOrderItem.getStyle());
-			goodsReceiveChallanItem.setVariant(purchaseOrderItem.getVariant());
+			if(purchaseOrderItem.getProduct()!=null)
+			{
+				ProductItem productItem=new ProductItem();
+				productItem.setProduct(purchaseOrderItem.getProduct());
+				productItem.setVariant(purchaseOrderItem.getVariant());
+				if(goodsReceiveChallanItem.getProductItems()!=null){
+        			goodsReceiveChallanItem.getProductItems().add(productItem);
+        		}
+        		else
+        		{
+        			List<ProductItem> productItems=new LinkedList<ProductItem>();
+        			productItems.add(productItem);
+        			goodsReceiveChallanItem.setProductItems(productItems);
+        		}
+			}
+			goodsReceiveChallanItem.setDeliveryDate(purchaseOrderItem.getDeliveryDate());
+			
 			goodsReceiveChallanItems.add(goodsReceiveChallanItem);
 		}
 		return goodsReceiveChallanItems;
 	}
-	
-
 }

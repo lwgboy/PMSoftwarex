@@ -18,39 +18,49 @@ import org.hibernate.annotations.Type;
 public class PurchaseReturnItem implements Serializable {
 
 	private static final long serialVersionUID = -723583058586873479L;
+	
 	@Id
-	@GenericGenerator(name = "purchaseReturnItemSrNo", strategy ="org.tarak.pms.generators.PurchaseReturnItemSrNoGenerator")
-	@GeneratedValue(generator = "purchaseReturnItemSrNo")
 	private int srNo;
+	
 	@Id
 	@GenericGenerator(name = "purchaseReturnId", strategy = "org.tarak.pms.generators.PurchaseReturnIdGenerator")
 	@GeneratedValue(generator = "purchaseReturnId")
 	private int purchaseReturnId;
+	
 	@Id
 	@Column(name = "Financial_Year")
 	private String finYear;
+	
 	@ManyToOne
-	@JoinColumn(name = "Category")
+	@JoinColumn(columnDefinition="integer",name = "Category")
 	private Category category;
 
 	@ManyToOne
-	@JoinColumn(name = "Style")
+	@JoinColumn(columnDefinition="integer",name = "Style")
 	private Style style;
 
 	@ManyToOne
-	@JoinColumn(name = "Brand")
+	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Product")
+	private Product product;
+	
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Variant")
 	private Variant variant;
 	
 	private String description;
+	
 	private double quantity;
+	
 	@ManyToOne
 	@JoinColumn(name = "Measurement")
 	private Measurement measurement;
+	
 	private double rate;
+	
 	private double totalCost;
 	
 	@Type(type = "boolean")
@@ -160,5 +170,13 @@ public class PurchaseReturnItem implements Serializable {
 		this.variant = variant;
 	}
 
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	
 	
 }

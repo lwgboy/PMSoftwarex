@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
+import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseInvoiceItem;
 
@@ -30,17 +31,21 @@ public class PurchaseInvoiceUtils {
 		List<PurchaseInvoiceItem> purchaseInvoiceItems=new LinkedList<PurchaseInvoiceItem>(); 
 		for(GoodsReceiveChallanItem goodsReceiveChallanItem: goodsReceiveChallanItems)
 		{
-			PurchaseInvoiceItem purchaseInvoiceItem=new PurchaseInvoiceItem();
-			purchaseInvoiceItem.setBrand(goodsReceiveChallanItem.getBrand());
-			purchaseInvoiceItem.setDescription(goodsReceiveChallanItem.getDescription());
-			purchaseInvoiceItem.setFinYear(goodsReceiveChallanItem.getFinYear());
-			purchaseInvoiceItem.setMeasurement(goodsReceiveChallanItem.getMeasurement());
-			purchaseInvoiceItem.setQuantity(goodsReceiveChallanItem.getQuantity());
-			purchaseInvoiceItem.setRate(goodsReceiveChallanItem.getRate());
-			purchaseInvoiceItem.setSrNo(goodsReceiveChallanItem.getSrNo());
-			purchaseInvoiceItem.setStyle(goodsReceiveChallanItem.getStyle());
-			purchaseInvoiceItem.setVariant(goodsReceiveChallanItem.getVariant());
-			purchaseInvoiceItems.add(purchaseInvoiceItem);
+			for(ProductItem productItem: goodsReceiveChallanItem.getProductItems())
+			{
+				PurchaseInvoiceItem purchaseInvoiceItem=new PurchaseInvoiceItem();
+				purchaseInvoiceItem.setBrand(goodsReceiveChallanItem.getBrand());
+				purchaseInvoiceItem.setDescription(goodsReceiveChallanItem.getDescription());
+				purchaseInvoiceItem.setFinYear(goodsReceiveChallanItem.getFinYear());
+				purchaseInvoiceItem.setMeasurement(goodsReceiveChallanItem.getMeasurement());
+				purchaseInvoiceItem.setQuantity(goodsReceiveChallanItem.getQuantity());
+				purchaseInvoiceItem.setRate(goodsReceiveChallanItem.getRate());
+				purchaseInvoiceItem.setSrNo(goodsReceiveChallanItem.getSrNo());
+				purchaseInvoiceItem.setStyle(goodsReceiveChallanItem.getStyle());
+				purchaseInvoiceItem.setVariant(productItem.getVariant());
+				purchaseInvoiceItem.setProduct(productItem.getProduct());
+				purchaseInvoiceItems.add(purchaseInvoiceItem);
+			}
 		}
 		return purchaseInvoiceItems;
 	}
