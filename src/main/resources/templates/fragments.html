@@ -688,12 +688,7 @@
 							<tbody
 								th:each="var, goodsReceiveChallanItemStat : *{goodsReceiveChallanItems}">
 								<tr>
-									<th colspan="5"
-										th:text="|Item ${goodsReceiveChallanItemStat.count}|"></th>
-								</tr>
-								<tr>
-									<td rowspan="2">
-										<button type="submit" name="removePurchaseOrderItem"
+										<th><button type="submit" name="removePurchaseOrderItem"
 											class="btn btn-danger btn-xs"
 											th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )">
 											<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
@@ -707,7 +702,11 @@
 										type="hidden" class="form-control" /> <input
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].goodsReceiveChallanId}"
 										type="hidden" class="form-control" />
-									</td>
+										</th>
+										<th colspan="3"
+										th:text="|Item ${goodsReceiveChallanItemStat.count}|"></th>
+								</tr>
+								<tr>
 									<th>Date</th>
 									<td><input type="date"
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].deliveryDate}"
@@ -737,7 +736,6 @@
 										class="rate form-control" autocomplete='off' /></td>
 								</tr>
 								<tr th:if="${var.brand}">
-									<td></td>
 									<th>Style</th>
 									<td>
 										<div id="scrollable-dropdown-menu">
@@ -761,8 +759,36 @@
 										</div>
 									</td>
 								</tr>
+								<tr th:if="!${var.brand}">
+									<th>Product</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].product.name}"
+												class="product form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].product.id}"
+												class="form-control" />
+												<input
+												type="hidden"
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].quantity}"
+												class="form-control" value="${goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].quantity"/>
+										</div>
+									</td>
+									<th>Variant</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].variant.name}"
+												class="product_variant form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].variant.id}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
 								<tr th:if="${var.brand}">
-									<td colspan="5">
+									<td colspan="4">
 										<button type="submit" name="addProduct"
 											class="btn btn-info btn-xs"
 											th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )">
@@ -772,7 +798,7 @@
 									</td>
 								</tr>
 								<tr th:if="${var.brand}">
-									<th colspan="5">
+									<th colspan="4">
 										<table class="table table-bordered " th:if="${var.productItems}">
 											<tbody>
 												<tr>
@@ -785,11 +811,15 @@
 													th:each="prd, productItemStat : *{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems}">
 													<td>
 														<button th:if="${var.brand}" type="submit"
-															name="removePurchaseOrderItem"
+															name="removeProduct"
 															class="btn btn-danger btn-xs"
-															th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )">
+															th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id}: ${productItemStat.count} )">
 															<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
 														</button>
+														<input
+																type="hidden"
+																th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id}"
+																class="form-control" />
 													</td>
 													<td>
 														<div id="scrollable-dropdown-menu">
@@ -821,12 +851,12 @@
 									</th>
 								</tr>
 								<tr>
-									<td colspan="5"><p></p></td>
+									<td colspan="4"><p></p></td>
 								</tr>
 							</tbody>
 							<tbody>
 								<tr>
-									<td colspan="4" style="text-align: right;"><label>Total
+									<td colspan="3" style="text-align: right;"><label>Total
 											Cost</label></td>
 									<td><input type="text" th:field="*{totalCost}"
 										readonly="readonly" class="totalCost form-control" /></td>

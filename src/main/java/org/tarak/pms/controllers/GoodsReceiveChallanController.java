@@ -131,6 +131,34 @@ public class GoodsReceiveChallanController {
         return index(model);
     }
     
+    @RequestMapping(value = "/add", params={"removeProduct"}, method = RequestMethod.POST )
+    public String removeProduct(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model,@RequestParam int removeProduct) {
+    	int index=-1;
+    	int mainIndex=-1;
+    	for(GoodsReceiveChallanItem goodsReceiveChallanItem : goodsReceiveChallan.getGoodsReceiveChallanItems())
+        {
+    		for(ProductItem productItem: goodsReceiveChallanItem.getProductItems())
+    		{
+    			if(removeProduct==productItem.getId())
+            	{
+    				index=goodsReceiveChallanItem.getProductItems().indexOf(productItem);
+    				break;
+            	}
+    		}
+    		if(index>-1)
+    		{
+    			mainIndex=goodsReceiveChallan.getGoodsReceiveChallanItems().indexOf(goodsReceiveChallanItem);
+    			break;
+    		}
+    		
+        }
+    	if(mainIndex > -1)
+		{
+			goodsReceiveChallan.getGoodsReceiveChallanItems().get(mainIndex).getProductItems().remove(index);
+		}
+        return index(model);
+    }
+    
     @RequestMapping(value = "/add", params={"poNo"}, method = RequestMethod.POST )
     public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
     	String finYear=UserUtils.getFinancialYear(session);
