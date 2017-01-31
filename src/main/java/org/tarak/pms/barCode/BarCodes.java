@@ -32,7 +32,7 @@ public class BarCodes {
         PdfContentByte cb = writer.getDirectContent();
         PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100);
-        for (int i = 0; i < 65; i++) {
+        for (int i = 0; i < 64; i++) {
             table.addCell(createBarcode(cb, ""+code++));
         }
         document.add(table);
