@@ -12,7 +12,7 @@ import org.tarak.pms.repositories.VariantRepository;
  */
 
 @Service
-public class VariantServiceImplementation implements ServiceInterface<Variant, Integer>
+public class VariantServiceImplementation implements VariantService
 {
     @Autowired
     private VariantRepository repository;
@@ -36,4 +36,9 @@ public class VariantServiceImplementation implements ServiceInterface<Variant, I
     public Variant findOne(Integer id) {
         return repository.findOne(id);
     }
+
+	@Override
+	public Variant findBySku(String sku) {
+		return repository.findVariantBySku(sku);
+	}
 }

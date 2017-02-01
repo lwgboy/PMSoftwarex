@@ -9,4 +9,5 @@ import org.tarak.pms.models.Variant;
  */
 @Repository
 public interface VariantRepository extends JpaRepository<Variant, Integer> {
+	public Variant findVariantBySku(String sku);
 }
