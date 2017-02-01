@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class BarCodes {
     public static final String DEST = "E:\\barcode_table12.pdf";
  
-    public static void main(String[] args) throws IOException,
+    public static void mainx(String[] args) throws IOException,
             DocumentException {
         File file = new File(DEST);
         file.getParentFile().mkdirs();

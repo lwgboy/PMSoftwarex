@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ import org.tarak.pms.models.Variant;
 import org.tarak.pms.models.VariantRoute;
 import org.tarak.pms.models.Vendor;
 import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.services.VariantService;
 import org.tarak.pms.utils.ProductUtils;
 
 /**
@@ -36,10 +38,11 @@ public class ProductController {
     private ServiceInterface<Product, Integer> productService;
 
     @Autowired
-    private ServiceInterface<Variant, Integer> variantService;
+    private ServiceInterface<Tag, Integer> tagService;
     
     @Autowired
-    private ServiceInterface<Tag, Integer> tagService;
+    private VariantService variantService;
+
     
     @RequestMapping("/")
     public String index(Model model)
@@ -52,12 +55,12 @@ public class ProductController {
     {
     	List<Variant> variants=new ArrayList<Variant>();
     	Variant variant=new Variant();
-    	VariantRoute variantRoute=new VariantRoute();
+    	/*VariantRoute variantRoute=new VariantRoute();
     	Route route = new Route();
     	variantRoute.setRoute(route);
     	List<VariantRoute> variantRoutes=new ArrayList<VariantRoute>();
     	variantRoutes.add(variantRoute);
-    	variant.setVariantRoutes(variantRoutes);
+    	variant.setVariantRoutes(variantRoutes);*/
     	variants.add(variant);
 		List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
@@ -91,14 +94,19 @@ public class ProductController {
 
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
     public String addVariant(Product product, BindingResult result,Model model) {
+    	 if(product.getVariants()==null || product.getVariants().isEmpty())
+         {
+         	List<Variant> variants=new LinkedList<Variant>();
+         	product.setVariants(variants);
+         }
     	Variant variant=new Variant();
-    	VariantRoute variantRoute=new VariantRoute();
+    	/*VariantRoute variantRoute=new VariantRoute();
     	Route route = new Route();
     	variantRoute.setRoute(route);
     	List<VariantRoute> variantRoutes=new ArrayList<VariantRoute>();
     	variantRoutes.add(variantRoute);
     	variant.setVariantRoutes(variantRoutes);
-    	product.getVariants().add(variant);
+    	*/product.getVariants().add(variant);
         return index(model);
     }
     
@@ -119,7 +127,7 @@ public class ProductController {
         int index=0;
     	for(Variant variant : product.getVariants())
         {
-        	if(removeVariant==variant.getId())
+        	if(removeVariant==variant.getSrNo())
         	{
         		index=product.getVariants().indexOf(variant);
         	}
@@ -137,7 +145,7 @@ public class ProductController {
         }
         try
         {
-        	ProductUtils.processSKU(product);
+        	ProductUtils.processSKU(product,variantService);
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)

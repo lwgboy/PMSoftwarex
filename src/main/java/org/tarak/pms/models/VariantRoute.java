@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -23,7 +24,7 @@ public class VariantRoute {
     @JoinColumn(columnDefinition="integer",name="type")
     private Route route;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(columnDefinition="integer",name="current_stage")
     private Stage currentStage;
     

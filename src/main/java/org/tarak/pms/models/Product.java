@@ -64,6 +64,7 @@ public class Product {
     @JoinColumn(name="Brand")
     private Brand brand;
     
+    @Valid
     @OneToMany
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Product_Variants", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"))

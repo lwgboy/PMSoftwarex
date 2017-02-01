@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -26,7 +27,10 @@ public class Variant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @Size(min=3,message ="Variant should have minimum 3 characters")
     private String name;
+    
+	private int srNo;
     
     private String description;
     
@@ -34,9 +38,9 @@ public class Variant {
     @JoinColumn(name="type")
     private VariantType type;
     
-    @OneToOne
+   /* @ManyToOne
     @JoinColumn(columnDefinition="integer",name="Product")
-    private Product product;
+    private Product product;*/
 
     private double wspMargin;
     
@@ -167,6 +171,14 @@ public class Variant {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
 	}
 	
 	

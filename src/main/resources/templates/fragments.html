@@ -237,7 +237,7 @@
 									<td>
 										<button type="submit" name="removeVariant"
 											class="btn btn-danger btn-circle-sm btn-xs"
-											th:value="(*{variants[__${variantStat.index}__].id} ?: ${variantStat.count} )">
+											th:value="(*{variants[__${variantStat.index}__].srNo!=0} ?*{variants[__${variantStat.index}__].srNo}: ${variantStat.count} )">
 											<i class="fa fa-times fa-fw"></i>
 										</button>
 									</td>
@@ -252,12 +252,19 @@
 												type="hidden" class="form-control" />
 										</div>
 									</td>
-									<td><input type="text"
+									<td>
+										<input type="hidden"
+										th:field="*{variants[__${variantStat.index}__].id}"
+										class="form-control" />
+										<input type="hidden"
+										th:field="*{variants[__${variantStat.index}__].sku}"
+										class="form-control" />
+										<input type="text"
 										th:field="*{variants[__${variantStat.index}__].name}"
 										class="form-control" /> <input type="hidden"
-										th:attr="name='variants[' + ${variantStat.index} + '].id'"
+										th:attr="name='variants[' + ${variantStat.index} + '].srNo'"
 										class="form-control"
-										th:value="(*{variants[__${variantStat.index}__].id} ?: ${variantStat.count} )" /></td>
+										th:value="(*{variants[__${variantStat.index}__].srNo!=0} ?*{variants[__${variantStat.index}__].srNo}: ${variantStat.count} )" /></td>
 
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].quantity}"

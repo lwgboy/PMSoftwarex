@@ -1,50 +1,53 @@
 package org.tarak.pms.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.VariantService;
 
 public class ProductUtils {
 	
-    @Autowired
-    private static VariantService variantService;
-
-	public static void processSKU(Product product)
+	public static void processSKU(Product product, VariantService variantService)
     {
     	if(product.getVariants()!=null && product.getVariants().size()>0)
     	{
-    		String prefix=product.getStyle().getName().substring(0, 3)+returnThreeDigitCode(product.getBrand().getId())+returnThreeDigitCode(product.getId());
+    		String prefix=product.getStyle().getName().substring(0, 3)+returnThreeDigitCode(product.getBrand().getId())+product.getName().substring(0,3);
+    		int suffix=1;
+    		Set<String> prefixSet=new LinkedHashSet<String>();
     		for(Variant variant : product.getVariants())
     		{
-    			int suffix=001;
     			if(variant.getSku()==null || "".equals(variant.getSku()))
     			{
-    				prefix+=variant.getName().substring(0,3);
-    				String sku=prefix+"001";
-    				Variant variantDb=variantService.findBySku(sku);
-    				if(variantDb!=null)
+    				String vprefix=prefix+variant.getName().substring(0,3);
+    				if(!prefixSet.contains(vprefix))
     				{
-    					suffix=skuSuffix(prefix,suffix);
-        				sku=prefix+suffix;
-    					
+    					prefixSet.add(vprefix);
+    					suffix=1;
     				}
+    				else
+    				{
+    					suffix++;
+    				}
+    				String suffString=skuSuffix(vprefix,suffix,variantService);
+    				String sku=vprefix+suffString;
     				variant.setSku(sku);
     			}
     		}
     	}
     }
 
-	public static int skuSuffix(String sku,int suffix) 
+	public static String skuSuffix(String sku,int suffix,VariantService variantService) 
 	{
-		sku+=returnThreeDigitCode(suffix);
-		Variant variant=variantService.findBySku(sku);
+		String threeDigits=returnThreeDigitCode(suffix);
+		Variant variant=variantService.findBySku(sku+threeDigits);
 		if(variant!=null)
 		{
-			return skuSuffix(sku,suffix+1);
+			return skuSuffix(sku,suffix+1,variantService);
     		
 		}
-		return suffix;
+		return threeDigits;
 	}
 	
 	public static String returnThreeDigitCode(int code)
