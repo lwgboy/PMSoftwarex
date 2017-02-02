@@ -30,8 +30,12 @@ public class BarCodes {
     public static void createPdf(String dest,List<String> codes) throws IOException, DocumentException 
     {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("temp.pdf"));
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        File file = new File(classloader.getResource(dest).getFile());
+        classloader.getResource("/");
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
         document.open();
+        
         PdfContentByte cb = writer.getDirectContent();
         PdfPTable table = new PdfPTable(4);
         table.setWidthPercentage(100);
