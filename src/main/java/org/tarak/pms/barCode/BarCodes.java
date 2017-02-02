@@ -3,6 +3,8 @@ package org.tarak.pms.barCode;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -14,27 +16,31 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
  
 public class BarCodes {
-    public static final String DEST = "E:\\barcode_table12.pdf";
+    public static final String DEST = "barcode_table.pdf";
  
-    public static void mainx(String[] args) throws IOException,
+    public static void main(String[] args) throws IOException,
             DocumentException {
-        File file = new File(DEST);
-        file.getParentFile().mkdirs();
-        new BarCodes().createPdf(DEST);
+       /* File file = new File(DEST);
+        file.getParentFile().mkdirs();*/
+        List<String> code = new ArrayList<String>();
+        code.add("1234567890");
+        createPdf(DEST,code);
     }
  
-    public void createPdf(String dest) throws IOException, DocumentException 
+    public static void createPdf(String dest,List<String> codes) throws IOException, DocumentException 
     {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("temp.pdf"));
         document.open();
-        long code = 1234567890;
         PdfContentByte cb = writer.getDirectContent();
-        PdfPTable table = new PdfPTable(5);
+        PdfPTable table = new PdfPTable(4);
         table.setWidthPercentage(100);
-        for (int i = 0; i < 64; i++) {
-            table.addCell(createBarcode(cb, ""+code++));
+        for (String code:codes) {
+            table.addCell(createBarcode(cb, code));
         }
+        /*for (int i = 0; i < 12; i++) {
+            table.addCell(createBarcode(cb, String.format("%08d", i)));
+        }*/
         document.add(table);
         document.close();
     }

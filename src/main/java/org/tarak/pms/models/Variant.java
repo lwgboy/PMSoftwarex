@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
@@ -38,9 +39,8 @@ public class Variant {
     @JoinColumn(name="type")
     private VariantType type;
     
-   /* @ManyToOne
-    @JoinColumn(columnDefinition="integer",name="Product")
-    private Product product;*/
+    @Transient
+    private String productName;
 
     private double wspMargin;
     
@@ -180,6 +180,13 @@ public class Variant {
 	public void setSrNo(int srNo) {
 		this.srNo = srNo;
 	}
-	
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 	
 }
