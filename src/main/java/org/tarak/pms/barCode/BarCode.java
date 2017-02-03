@@ -5,6 +5,7 @@ import java.util.List;
 public class BarCode {
 	List<String> select;
 	boolean showLink;
+	int goodsReceiveChallanId;
 	public List<String> getSelect() {
 		return select;
 	}
@@ -19,6 +20,14 @@ public class BarCode {
 
 	public void setShowLink(boolean showLink) {
 		this.showLink = showLink;
+	}
+
+	public int getGoodsReceiveChallanId() {
+		return goodsReceiveChallanId;
+	}
+
+	public void setGoodsReceiveChallanId(int goodsReceiveChallanId) {
+		this.goodsReceiveChallanId = goodsReceiveChallanId;
 	}
 
 	

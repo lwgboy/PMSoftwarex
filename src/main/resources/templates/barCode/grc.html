@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Bar Code Knowledge Base',formTitle='Bar Code'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<div class="row">
+			<div class="col-lg-6">
+				<!-- <form action="#" th:action="@{/barCode/add}"
+					th:object="${barCode}" method="post">
+					<div class="form-group">
+						<label>BarCode Name *</label> <input type="text" th:field="*{name}"
+							class="form-control" /><input type="hidden" th:field="*{id}"
+							class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" rows="3" th:field="*{description}" ></textarea>
+					</div>
+					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+						<p th:text="${#fields.allErrors()[0]}">...</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add
+						</button>
+					</div>
+				</form> -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>List of Variants</label>
+					</div>
+					<form action="#" th:action="@{/barCode/grcPost}"
+						th:object="${barCode}" method="post">
+						<div class="panel-body">
+							<div class="form-group input-group">
+								<span class="input-group-addon">GRC No</span> <input
+									class="form-control" th:field="*{goodsReceiveChallanId}"
+									type="text" autocomplete="off" placeholder="Purchase Order No" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="submit" name="poNo">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th col="select">Select</th>
+										<th col="id" key="id">ID</th>
+										<th col="name">Name</th>
+										<th col="sku">SKU</th>
+										<th col="productName">Product</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>Select</th>
+										<th>ID</th>
+										<th>Name</th>
+										<th>SKU</th>
+										<th>Product</th>
+									</tr>
+								</tfoot>
+							</table>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Print
+								</button>
+							</div>
+							<div class="form-group" th:if="${barCode.isShowLink()} == true">
+								<a href="/pdf/pdf.pdf">Download Bar codes</a>
+							</div>
+							<p th:text="${showLink}"></p>
+						</div>
+						<script th:inline="javascript">
+							/*<![CDATA[*/
+
+							var id = /*[[${barCode.goodsReceiveChallanId}]]*/'User Name';
+
+							/*]]>*/
+						</script>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script" th:inline="javascript">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/barCode/list/" + id, cTable, "barCode");
+		});
+	</script>
+</body>
+</html>
