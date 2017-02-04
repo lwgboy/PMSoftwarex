@@ -7,7 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.barCode.BarCode;
 import org.tarak.pms.barCode.BarCodeUtils;
+import org.tarak.pms.barCode.BarCodes;
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.Product;
@@ -36,6 +39,7 @@ import com.itextpdf.text.DocumentException;
 @Controller
 public class BarCodeController {
 
+	static Logger logger=Logger.getLogger(BarCodes.class);
     @Autowired
     private ServiceInterface<Product, Integer> productService;
     
@@ -60,12 +64,14 @@ public class BarCodeController {
     }
 
 
-	@RequestMapping(value = "/print", method = RequestMethod.POST )
-    public String addBarCode(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
+	@RequestMapping(value = "/print", method = RequestMethod.POST,produces = "application/pdf" )
+	@ResponseBody
+	public FileSystemResource addBarCode(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
     {
 		String userName=UserUtils.getUserName(session);
 		BarCodeUtils.processBarCodes(barCode,userName);
-		return "barCode/index";
+		logger.info(barCode.getFileName());
+		return new FileSystemResource(barCode.getFileName());
     }
     
     @RequestMapping(value = "/list", method = RequestMethod.GET )
@@ -102,13 +108,9 @@ public class BarCodeController {
     	return variants;
     }
     
-    @RequestMapping(value = "/grcPost", method = RequestMethod.POST )
+    @RequestMapping(value = "/print", method = RequestMethod.POST,params={"grcId"} )
     public String getVariantsForGRC(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
     {
-    	String userName=UserUtils.getUserName(session);
-    	BarCodeUtils.processBarCodes(barCode,userName);
 		return "barCode/grc";
     }
-    
-    
 }

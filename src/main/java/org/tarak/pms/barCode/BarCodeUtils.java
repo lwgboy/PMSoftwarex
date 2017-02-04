@@ -42,7 +42,7 @@ public class BarCodeUtils
 		{
 			BarCodes.createPdf("src/main/resources/public/pdf/"+userName+"/barcode.pdf", barCode.getSelect());
 			barCode.setShowLink(true);
-			barCode.setFileName("/pdf/"+userName+"/barcode.pdf");
+			barCode.setFileName("src/main/resources/public/pdf/"+userName+"/barcode.pdf");
 		}
 	}
 }

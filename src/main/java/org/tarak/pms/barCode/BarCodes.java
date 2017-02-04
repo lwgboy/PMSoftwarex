@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -17,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class BarCodes {
     public static final String DEST = "barcode_table.pdf";
+    static Logger logger=Logger.getLogger(BarCodes.class);
  
     public static void mainx(String[] args) throws IOException,
             DocumentException {
@@ -31,39 +34,67 @@ public class BarCodes {
     {
     	if(codes!=null)
         {
-        Document document = new Document();
-        File f=new File(dest);
-        if(f.exists())
-        {
-        	f.delete();
-        }
-        if (f.getParentFile() != null) 
-        {
-        	  f.getParentFile().mkdirs();
-        }
-        FileOutputStream fip=new FileOutputStream(dest);
-        PdfWriter writer = PdfWriter.getInstance(document, fip);
-        document.open();
-        
-        PdfContentByte cb = writer.getDirectContent();
-        PdfPTable table = new PdfPTable(3);
-        table.setWidthPercentage(100);
-
-        for (String code:codes) {
-            table.addCell(createBarcode(cb, code));
-        }
-        /*for (int i = 0; i < 12; i++) {
-            table.addCell(createBarcode(cb, String.format("%08d", i)));
-        }*/
-        document.add(table);
-        document.close();
-        writer.close();
-        fip.close();
-        f=null;
+            Document document = new Document();
+            File f=new File(dest);
+            if(f.exists())
+            {
+            	logger.info("File Exists");
+            	f.delete();
+            }
+            if (f.getParentFile() != null) 
+            {
+            	logger.info("parent direcotory exists ");
+            	f.getParentFile().mkdirs();
+            }
+            PdfWriter writer=null;
+            FileOutputStream fip=null;
+            try
+            {
+            	fip=new FileOutputStream(dest);
+            	writer = PdfWriter.getInstance(document, fip);
+                document.open();
+                
+                PdfContentByte cb = writer.getDirectContent();
+                PdfPTable table = new PdfPTable(3);
+                table.setWidthPercentage(100);
+                
+                int i=0;
+                for (String code:codes) 
+                {
+                    table.addCell(createBarcode(cb, code));
+                    i++;
+                    if(i==3)
+                    {
+                    	table.completeRow();
+                    	i=0;
+                    }
+                }
+                if(i<3)
+                {
+                	table.completeRow();
+                }
+                /*for (int i = 0; i < 12; i++) {
+                    table.addCell(createBarcode(cb, String.format("%08d", i)));
+                }*/
+                document.add(table);
+            }
+            catch(Exception | Error e)
+            {
+            	logger.info("Exception/Error"+ e.getMessage());
+            }
+            finally
+            {
+            	document.close();
+                writer.close();
+                fip.close();
+                logger.info("Released Resources");
+            }
+            f=null;
         }
     }
  
-    public static PdfPCell createBarcode(PdfContentByte cb, String code) throws DocumentException, IOException {
+    public static PdfPCell createBarcode(PdfContentByte cb, String code) throws DocumentException, IOException 
+    {
     	Barcode128 code128 = new Barcode128();
         code128.setBaseline(-1);
         code128.setSize(12);

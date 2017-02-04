@@ -38,7 +38,7 @@
 					<div class="panel-heading">
 						<label>List of Variants</label>
 					</div>
-					<form action="#" th:action="@{/barCode/grcPost}"
+					<form action="#" th:action="@{/barCode/print}"
 						th:object="${barCode}" method="post">
 						<div class="panel-body">
 							<div class="form-group input-group">
@@ -46,7 +46,7 @@
 									class="form-control" th:field="*{goodsReceiveChallanId}"
 									type="text" autocomplete="off" placeholder="Purchase Order No" />
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="submit" name="poNo">
+									<button class="btn btn-default" type="submit" name="grcId">
 										<i class="fa fa-search"></i>
 									</button>
 								</span>
@@ -55,7 +55,7 @@
 								id="dataTables-example">
 								<thead>
 									<tr>
-										<th col="select_sku">Select</th>
+										<th col="select_sku"><input type="checkbox" class="select_all_check_box" /></th>
 										<th col="id" key="id">ID</th>
 										<th col="name">Name</th>
 										<th col="sku">SKU</th>
