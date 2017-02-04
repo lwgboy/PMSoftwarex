@@ -1,5 +1,6 @@
 package org.tarak.pms.barCode;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,15 +32,23 @@ public class BarCodes {
     	if(codes!=null)
         {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+        File f=new File(dest);
+        if(f.exists())
+        {
+        	f.delete();
+        }
+        if (f.getParentFile() != null) 
+        {
+        	  f.getParentFile().mkdirs();
+        }
+        FileOutputStream fip=new FileOutputStream(dest);
+        PdfWriter writer = PdfWriter.getInstance(document, fip);
         document.open();
         
         PdfContentByte cb = writer.getDirectContent();
         PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100);
-        
-        	
-        
+
         for (String code:codes) {
             table.addCell(createBarcode(cb, code));
         }
@@ -48,6 +57,9 @@ public class BarCodes {
         }*/
         document.add(table);
         document.close();
+        writer.close();
+        fip.close();
+        f=null;
         }
     }
  

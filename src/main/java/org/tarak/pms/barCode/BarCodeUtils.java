@@ -36,12 +36,13 @@ public class BarCodeUtils
 		return variants;
 	}
 	
-	public static void processBarCodes(BarCode barCode) throws IOException, DocumentException
+	public static void processBarCodes(BarCode barCode,String userName) throws IOException, DocumentException
 	{
-		BarCodes.createPdf("E:\\pdf.pdf", barCode.getSelect());
 		if(barCode.getSelect()!=null && !barCode.getSelect().isEmpty())
 		{
+			BarCodes.createPdf("src/main/resources/public/pdf/"+userName+"/barcode.pdf", barCode.getSelect());
 			barCode.setShowLink(true);
+			barCode.setFileName("/pdf/"+userName+"/barcode.pdf");
 		}
 	}
 }

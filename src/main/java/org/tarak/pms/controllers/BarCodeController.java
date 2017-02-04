@@ -63,7 +63,8 @@ public class BarCodeController {
 	@RequestMapping(value = "/print", method = RequestMethod.POST )
     public String addBarCode(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
     {
-		BarCodeUtils.processBarCodes(barCode);
+		String userName=UserUtils.getUserName(session);
+		BarCodeUtils.processBarCodes(barCode,userName);
 		return "barCode/index";
     }
     
@@ -104,8 +105,8 @@ public class BarCodeController {
     @RequestMapping(value = "/grcPost", method = RequestMethod.POST )
     public String getVariantsForGRC(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
     {
-    	
-    	BarCodeUtils.processBarCodes(barCode);
+    	String userName=UserUtils.getUserName(session);
+    	BarCodeUtils.processBarCodes(barCode,userName);
 		return "barCode/grc";
     }
     

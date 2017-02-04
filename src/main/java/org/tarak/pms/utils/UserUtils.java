@@ -25,4 +25,16 @@ public class UserUtils
 		}
 		return null;
 	}
+	public static String getUserName(HttpSession session)
+	{
+		if(validSession(session))
+		{
+			User user=(User)session.getAttribute("user");
+			if(user!=null)
+			{
+				return user.getUsername();
+			}
+		}
+		return null;
+	}
 }

@@ -6,6 +6,7 @@ public class BarCode {
 	List<String> select;
 	boolean showLink;
 	int goodsReceiveChallanId;
+	String fileName;
 	public List<String> getSelect() {
 		return select;
 	}
@@ -28,6 +29,14 @@ public class BarCode {
 
 	public void setGoodsReceiveChallanId(int goodsReceiveChallanId) {
 		this.goodsReceiveChallanId = goodsReceiveChallanId;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	
