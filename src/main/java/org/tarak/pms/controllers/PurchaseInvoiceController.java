@@ -165,7 +165,7 @@ public class PurchaseInvoiceController {
     	PurchaseInvoice purchaseInvoice=purchaseInvoiceService.findByPurchaseInvoiceIdAndFinYear(purchaseInvoiceId, finYear);
     	model.addAttribute("purchaseInvoice", purchaseInvoice);
     	prepareModel(model);
-    	return "/purchaseInvoice/edit";
+    	return "purchaseInvoice/edit";
     }
    
 }

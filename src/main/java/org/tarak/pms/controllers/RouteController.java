@@ -122,7 +122,7 @@ public class RouteController {
     	Route route=routeService.findOne(id);
     	model.addAttribute("route", route);
     	prepareModel(model);
-    	return "/route/edit";
+    	return "route/edit";
     }
    
 }

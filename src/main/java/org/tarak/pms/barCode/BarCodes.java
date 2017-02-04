@@ -17,7 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class BarCodes {
     public static final String DEST = "barcode_table.pdf";
  
-    public static void mainx(String[] args) throws IOException,
+    public static void main(String[] args) throws IOException,
             DocumentException {
        /* File file = new File(DEST);
         file.getParentFile().mkdirs();*/
@@ -35,7 +35,7 @@ public class BarCodes {
         document.open();
         
         PdfContentByte cb = writer.getDirectContent();
-        PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100);
         
         	

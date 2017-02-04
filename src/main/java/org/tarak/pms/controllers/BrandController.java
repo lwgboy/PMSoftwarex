@@ -158,7 +158,7 @@ public class BrandController {
     	Brand brand=brandService.findOne(id);
     	model.addAttribute("brand", brand);
     	prepareModel(model);
-    	return "/brand/edit";
+    	return "brand/edit";
     }
    
 }

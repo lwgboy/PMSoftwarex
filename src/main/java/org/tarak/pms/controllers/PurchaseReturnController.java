@@ -150,7 +150,7 @@ public class PurchaseReturnController {
     	PurchaseReturn purchaseReturn=purchaseReturnService.findByPurchaseReturnIdAndFinYear(purchaseReturnId, finYear);
     	model.addAttribute("purchaseReturn", purchaseReturn);
     	prepareModel(model);
-    	return "/purchaseReturn/edit";
+    	return "purchaseReturn/edit";
     }
    
 }

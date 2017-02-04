@@ -74,9 +74,9 @@ function populate_basic_table(url,table,type)
                 var count=0;
                 for(var serial in colNames)
             	{
-                	if(colNames[serial]=="select" )
+                	if(colNames[serial]=="select_sku" )
                 	{
-                		cols.push("<input type='checkbox' name='select' value="+x.id+" />")
+                		cols.push("<input type='checkbox' name='select' value='"+x.sku+"' />")
                 		continue;
                 	}	
                 	if(colNames[serial]!="view" && colNames[serial]!="edit" && colNames[serial]!="delete")

@@ -237,7 +237,7 @@ public class GoodsReceiveChallanController {
     	GoodsReceiveChallan goodsReceiveChallan=goodsReceiveChallanService.findByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
     	model.addAttribute("goodsReceiveChallan", goodsReceiveChallan);
     	prepareModel(model);
-    	return "/goodsReceiveChallan/edit";
+    	return "goodsReceiveChallan/edit";
     }
    
 }

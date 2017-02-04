@@ -72,7 +72,10 @@
 			<!-- /.navbar-header -->
 
 			<ul class="nav navbar-top-links navbar-right">
-				<li><a href="#"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>  <span th:text="${session.user.financialYear}" th:unless="${session.user == null}"></span></a></li>
+				<li><a href="#"><i class="fa fa-clock-o fa-lg"
+						aria-hidden="true"></i> <span
+						th:text="${session.user.financialYear}"
+						th:unless="${session.user == null}"></span></a></li>
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> <i
 						class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -300,75 +303,61 @@
 										<li><a href="/tagType/">Tag Type</a></li>
 										<li><a href="/productType/">Product Type</a></li>
 										<li><a href="/measurement/">Units of Measurement</a></li>
-									</ul> <!-- /.nav-third-level -->
-								</li>
-								<li><a href="#">Product Settings<span
-										class="fa arrow"></span></a>
+									</ul> <!-- /.nav-third-level --></li>
+								<li><a href="#">Product Settings<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/route/">Route</a></li>
 										<li><a href="/stageType/">Stage</a></li>
-									</ul>
-								</li>
+									</ul></li>
 								<li><a href="/barCode/">Print Bar Codes</a></li>
 							</ul> <!-- /.nav-second-level --></li>
 						<li><a href="#"><i class="fa fa-first-order fa-fw"></i>Orders<span
 								class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/purchaseOrder/">Purchase Orders</a></li>
-								<li><a href="#">Settings<span
-										class="fa arrow"></span></a>
+								<li><a href="#">Settings<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/transportCarrier/">Transport Carrier</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li><a href="#"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>Challans<span
-								class="fa arrow"></span></a>
+									</ul></li>
+							</ul></li>
+						<li><a href="#"><i class="fa fa-file-text-o fa-fw"
+								aria-hidden="true"></i>Challans<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
-								<li><a href="/goodsReceiveChallan/">Goods Receive Challan</a></li>
-								<li><a href="#">Settings<span
-										class="fa arrow"></span></a>
+								<li><a href="/goodsReceiveChallan/">Goods Receive
+										Challan</a></li>
+								<li><a href="#">Settings<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/stockPoint/">Stock Points</a></li>
 										<li><a href="/warehouse/">Warehouses</a></li>
-									</ul>
-								</li>
+									</ul></li>
 								<li><a href="/barCode/grc">Print Bar Codes</a></li>
-							</ul>
-						</li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> Invoices<span
-								class="fa arrow"></span></a>
+							</ul></li>
+						<li><a href="#"><i class="fa fa-files-o fa-fw"
+								aria-hidden="true"></i> Invoices<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/purchaseInvoice/">Purchase Invoice</a></li>
-								<li><a href="#">Settings<span
-										class="fa arrow"></span></a>
+								<li><a href="#">Settings<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/paymentTerms/">Payment Terms</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw" aria-hidden="true"></i> Returns<span
-								class="fa arrow"></span></a>
+									</ul></li>
+							</ul></li>
+						<li><a href="#"><i class="fa fa-files-o fa-fw"
+								aria-hidden="true"></i> Returns<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/purchaseReturn/">Purchase Return</a></li>
-							</ul>
-						</li>
-						<li><a href="#"><i class="fa fa-user fa-fw"></i>Stake Holders<span
-								class="fa arrow"></span></a>
+							</ul></li>
+						<li><a href="#"><i class="fa fa-user fa-fw"></i>Stake
+								Holders<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/vendor/">Vendors</a></li>
 								<li><a href="/transporter/">Transporters</a></li>
-							</ul>
-						</li>
+							</ul></li>
 						<li><a href="#"><i class="fa fa-cog fa-fw"></i>Settings<span
 								class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/tax/">Tax</a></li>
-							</ul>
-						</li>
-						</ul>
+							</ul></li>
+					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
 			</div>
@@ -379,6 +368,7 @@
 	<!-- /#wrapper -->
 
 	<!-- jQuery -->
+	
 	<script src="../vendor/jquery/jquery.min.js"
 		th:src="@{/vendor/jquery/jquery.min.js}"></script>
 

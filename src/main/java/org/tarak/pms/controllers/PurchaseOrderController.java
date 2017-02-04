@@ -181,7 +181,7 @@ public class PurchaseOrderController {
     	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(purchaseOrderId,finYear);
     	model.addAttribute("purchaseOrder", purchaseOrder);
     	prepareModel(model);
-    	return "/purchaseOrder/edit";
+    	return "purchaseOrder/edit";
     }
    
 }

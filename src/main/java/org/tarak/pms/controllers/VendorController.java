@@ -123,6 +123,6 @@ public class VendorController {
     	Vendor vendor=vendorService.findOne(id);
     	model.addAttribute("vendor", vendor);
     	prepareModel(model);
-    	return "/vendor/edit";
+    	return "vendor/edit";
     }
 }

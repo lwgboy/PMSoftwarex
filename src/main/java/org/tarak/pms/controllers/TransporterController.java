@@ -123,6 +123,6 @@ public class TransporterController {
     	Transporter transporter=transporterService.findOne(id);
     	model.addAttribute("transporter", transporter);
     	prepareModel(model);
-    	return "/transporter/edit";
+    	return "transporter/edit";
     }
 }

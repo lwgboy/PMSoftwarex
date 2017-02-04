@@ -120,7 +120,7 @@ public class VariantRouteController {
     	VariantRoute variantRoute=variantRouteService.findOne(id);
     	model.addAttribute("variantRoute", variantRoute);
     	prepareModel(model);
-    	return "/variantRoute/edit";
+    	return "variantRoute/edit";
     }
    
 }

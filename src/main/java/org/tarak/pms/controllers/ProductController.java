@@ -184,7 +184,7 @@ public class ProductController {
     	Product product=productService.findOne(id);
     	model.addAttribute("product", product);
     	prepareModel(model);
-    	return "/product/edit";
+    	return "product/edit";
     }
    
 }
