@@ -423,6 +423,8 @@ $(document).ready(function() {
 		    
 	})
 */	
+	
+	
 	$('input.stageType').typeahead({
 			afterSelect: function(data)
 			{

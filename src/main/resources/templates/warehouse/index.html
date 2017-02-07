@@ -13,13 +13,18 @@
 				<form action="#" th:action="@{/warehouse/add}"
 					th:object="${warehouse}" method="post">
 					<div class="form-group">
-						<label>Warehouse Name</label> <input type="text" th:field="*{name}"
-							class="form-control" /><input type="hidden" th:field="*{id}"
-							class="form-control" />
+						<label>Warehouse Name</label> <input type="text"
+							th:field="*{name}" class="form-control" /><input type="hidden"
+							th:field="*{id}" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Transport Booking Address</label>
+						<textarea th:field="*{transportBookingAddress}"
+							class="form-control"></textarea>
 					</div>
 					<div class="form-group">
 						<label>Description</label>
-						<textarea class="form-control" rows="3" th:field="*{description}" ></textarea>
+						<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
 					</div>
 					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 						<p th:text="${#fields.allErrors()[0]}">...</p>
@@ -54,7 +59,8 @@
 								<tr>
 									<th>ID</th>
 									<th>Warehouse</th>
-									<th>Description</th><th>Edit</th>
+									<th>Description</th>
+									<th>Edit</th>
 									<th>Delete</th>
 								</tr>
 							</tfoot>

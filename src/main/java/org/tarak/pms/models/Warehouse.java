@@ -26,6 +26,8 @@ public class Warehouse {
 
     private String description;
     
+    private String transportBookingAddress;
+    
     public Integer getId() {
         return id;
     }
@@ -48,5 +50,13 @@ public class Warehouse {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getTransportBookingAddress() {
+		return transportBookingAddress;
+	}
+
+	public void setTransportBookingAddress(String transportBookingAddress) {
+		this.transportBookingAddress = transportBookingAddress;
 	}
 }

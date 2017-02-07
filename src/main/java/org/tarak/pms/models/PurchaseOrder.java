@@ -62,7 +62,7 @@ public class PurchaseOrder implements Serializable {
 	@JoinColumn(columnDefinition="integer",name = "Warehouse_Id")
 	private Warehouse transportBookingLocation;
 	
-	private String transportBookingAddress;
+	
 	
 	private String agency;
 	
@@ -139,14 +139,6 @@ public class PurchaseOrder implements Serializable {
 
 	public void setTransportBookingLocation(Warehouse transportBookingLocation) {
 		this.transportBookingLocation = transportBookingLocation;
-	}
-
-	public String getTransportBookingAddress() {
-		return transportBookingAddress;
-	}
-
-	public void setTransportBookingAddress(String transportBookingAddress) {
-		this.transportBookingAddress = transportBookingAddress;
 	}
 
 	public String getAgency() {

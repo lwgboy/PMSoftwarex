@@ -75,9 +75,9 @@ public class Product {
     @JoinTable(name = "Product_tags", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private List<Tag> tags;
 
-    private boolean trackInventory;
+    private boolean trackInventory=true;
     
-    private boolean active;
+    private boolean active=true;
     
     @Valid
     @ManyToOne
