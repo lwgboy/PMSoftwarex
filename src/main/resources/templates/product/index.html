@@ -5,6 +5,7 @@
 	th:with="formHeading='Design Knowledge Base',formTitle='Design'">
 <head>
 <title>PMSoftware</title>
+<link th:layout="file_input_header" th:href="@{/bootstrap-fileinput/css/fileinput.min.css}" href="../bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div layout:fragment="form_fields">
@@ -55,5 +56,6 @@
 			populate_basic_table("/product/list", cTable, "product");
 		});
 	</script>
+	<section layout:fragment="file_input_script" th:include="fragments::file_input"></section>
 </body>
 </html>
