@@ -94,7 +94,10 @@ public class GoodsReceiveChallan implements Serializable {
 
 	@Type(type = "boolean")
 	private boolean saveItemDetails;
-	
+
+	@Type(type = "boolean")
+	private boolean verified;
+
 	public int getGoodsReceiveChallanId() {
 		return goodsReceiveChallanId;
 	}
@@ -232,6 +235,14 @@ public class GoodsReceiveChallan implements Serializable {
 
 	public void setWarehouseLocation(Warehouse warehouseLocation) {
 		this.warehouseLocation = warehouseLocation;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
 	}
 	
 	

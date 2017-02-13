@@ -59,24 +59,23 @@
 				</div>
 			</div>
 			<div class="col-lg-6">
-
-				<div class="form-group" th:each="var, tagStat : *{tags}">
-					<label th:text="|Tag ${tagStat.count}|"></label>
-					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
-                            </button> -->
-					<div id="scrollable-dropdown-menu">
+			<div class="form-group"  id="scrollable-dropdown-menu">
+						<label >Tags</label>
 						<input class="tagType form-control"
-							th:field="*{tags[__${tagStat.index}__].type.name}" type="text"
-							autocomplete="off" /> <input class="form-control"
-							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
+							type="text" autocomplete="off" /> 
+							<button type="submit" style="display:none" name="addTag" id="addTag" class="btn btn-info btn-xs">
+						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
+					</button>
+					</div>
+				<div class="list form-group" th:each="var, tagStat : *{tags}">
+				<input type="hidden" id="tag_count" th:value="${tagStat.count}" />
+					<div class="alert alert-info alert-dismissable" th:if="*{tags[__${tagStat.index}__].type}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						<label th:text="${var.type.name}"></label>
+						<input class="form-control" th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
 					</div>
 				</div>
-				<div class="form-group">
-					<button type="submit" name="addTag" class="btn btn-info btn-xs">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Tag
-					</button>
-				</div>
-
+				
 				<div class="form-group" th:each="var, variantStat : *{variants}">
 					<label th:text="|Variant ${variantStat.count}|"></label>
 					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
@@ -131,46 +130,6 @@
 				<div class="form-group">
 					<label>Description</label>
 					<textarea class="form-control" rows="3" th:field="*{description}"></textarea>
-				</div>
-				<div class="form-group">
-					<label>Primary Category *</label>
-					<div id="scrollable-dropdown-menu">
-						<input class="category form-control" th:field="*{category.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{category.id}" type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label>Primary Division *</label>
-					<div id="scrollable-dropdown-menu">
-						<input class="division form-control" th:field="*{division.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{division.id}" type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label>Primary Section *</label>
-					<div id="scrollable-dropdown-menu">
-						<input class="section form-control" th:field="*{section.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{section.id}" type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label>Style</label>
-					<div id="scrollable-dropdown-menu">
-						<input class="style form-control" th:field="*{style.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{style.id}" type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label>Brand</label>
-					<div id="scrollable-dropdown-menu">
-						<input class="brand form-control" th:field="*{brand.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{brand.id}" type="hidden" />
-					</div>
 				</div>
 				<div class="form-group">
 					<label><input type="checkbox" th:field="*{trackInventory}" />
@@ -234,7 +193,7 @@
 			</div>
 			<div  class="col-sm-12">
 				<div class="form-group">
-					<input id="input-id" type="file" class="file" data-preview-file-type="text" />
+					<input id="images" name="images" type="file" multiple="multiple" class="file" data-preview-file-type="text" />
 				</div>
 			</div>
 		</div>
@@ -673,6 +632,11 @@
 							autocomplete="off" /> <input type="hidden"
 							th:field="*{stockPoint.id}" class="form-control" />
 					</div>
+					
+					<div class="form-group">
+					<label><input type="checkbox" th:field="*{verified}" />
+						Verified</label>
+				</div>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -736,8 +700,12 @@
 										th:text="|Item ${goodsReceiveChallanItemStat.count}|"></th>
 								</tr>
 								<tr>
-									<th>Date</th>
-									<td><input type="date"
+									<th>PO Date
+									<input type="date"
+										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].poDate}"
+										class="form-control" autocomplete="off" />
+									</th>
+									<td>Date<input type="date"
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].deliveryDate}"
 										class="form-control" autocomplete="off" /></td>
 

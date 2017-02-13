@@ -80,6 +80,9 @@ public class GoodsReceiveChallanItem implements Serializable {
 	
 	@Type(type = "boolean")
 	private boolean processed;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date poDate;
 
 	public int getSrNo() {
 		return srNo;
@@ -183,6 +186,14 @@ public class GoodsReceiveChallanItem implements Serializable {
 
 	public void setProductItems(List<ProductItem> productItems) {
 		this.productItems = productItems;
+	}
+
+	public Date getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(Date poDate) {
+		this.poDate = poDate;
 	}
 
 	

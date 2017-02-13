@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -90,6 +91,11 @@ public class BrandController {
     
     @RequestMapping(value = "/add", params={"addTag"}, method = RequestMethod.POST )
     public String addTag(Brand brand, BindingResult result,Model model) {
+    	if(brand.getTags()==null)
+    	{
+    		List<Tag> tagList=new LinkedList<Tag>();
+    		brand.setTags(tagList);
+    	}
         brand.getTags().add(new Tag());
         return index(model);
     }

@@ -41,6 +41,7 @@ public class GoodsReceiveChallanUtils
 			goodsReceiveChallanItem.setRate(purchaseOrderItem.getRate());
 			goodsReceiveChallanItem.setSrNo(purchaseOrderItem.getSrNo());
 			goodsReceiveChallanItem.setStyle(purchaseOrderItem.getStyle());
+			goodsReceiveChallanItem.setPoDate(purchaseOrderItem.getDeliveryDate());
 			if(purchaseOrderItem.getProduct()!=null)
 			{
 				ProductItem productItem=new ProductItem();

@@ -10,8 +10,66 @@
 <body>
 	<div layout:fragment="form_fields">
 		<form action="#" th:action="@{/product/add}" th:object="${product}"
-			method="post">
-			<div th:include="fragments::product('false','Add')"></div>
+			method="post" enctype="multipart/form-data">
+			<div id="less_details">
+			<div class="col-lg-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Design Categories
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#category" data-toggle="tab" aria-expanded="true">Primary Category</a>
+                                </li>
+                                <li class=""><a href="#division" data-toggle="tab" aria-expanded="false">Primary Division</a>
+                                </li>
+                                <li class=""><a href="#section" data-toggle="tab" aria-expanded="false">Primary Section</a>
+                                </li>
+                                <li class=""><a href="#style" data-toggle="tab" aria-expanded="false">Style</a>
+                                </li>
+                                <li class=""><a href="#brand" data-toggle="tab" aria-expanded="false">Brand</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="category">
+                                    <input class="category form-control" th:field="*{category.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{category.id}" type="hidden" />
+                                </div>
+                                <div class="tab-pane fade" id="division">
+                                    <input class="division form-control" th:field="*{division.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{division.id}" type="hidden" />
+                                </div>
+                                <div class="tab-pane fade" id="section">
+									<div id="scrollable-dropdown-menu">
+						<input class="section form-control" th:field="*{section.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{section.id}" type="hidden" />
+								</div>
+                                </div>
+                                <div class="tab-pane fade" id="style">
+									<input class="style form-control" th:field="*{style.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{style.id}" type="hidden" />
+                                </div>
+                                <div class="tab-pane fade" id="brand">
+                                	<input class="brand form-control" th:field="*{brand.name}"
+							type="text" autocomplete="off" /> <input class="form-control"
+							th:field="*{brand.id}" type="hidden" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+			</div>
+			<div th:include="fragments::product('false','Add')" id="more_details"></div>
 		</form>
 		<div class="row">
 			<div class="col-sm-12">
@@ -52,6 +110,10 @@
 	</div>
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
+			$("#images").fileinput({
+		        uploadAsync: false,
+		        uploadUrl: "/product/upload" // your upload server url
+		    });
 			var cTable = $('#dataTables-example').dataTable();
 			populate_basic_table("/product/list", cTable, "product");
 		});
