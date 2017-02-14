@@ -89,6 +89,10 @@ public class Product {
     @JoinTable(name = "Product_Vendors", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"))
     private List<Vendor> vendors;
     
+    @OneToMany
+    @JoinTable(name = "Product_Images", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "image_id", referencedColumnName = "image_id"))
+    private List<Image> images;
+    
     private double indicatoryCost;
     
     private boolean taxable;
@@ -219,6 +223,14 @@ public class Product {
 
 	public void setTaxable(boolean taxable) {
 		this.taxable = taxable;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 	
 	
