@@ -110,10 +110,12 @@
 	</div>
 	<script layout:fragment="footer_script">
 		$(document).ready(function() {
-			$("#images").fileinput({
+			$("#imageFiles").fileinput({
 		        uploadAsync: false,
+		        showUpload: false,
 		        uploadUrl: "/product/upload" // your upload server url
 		    });
+			
 			var cTable = $('#dataTables-example').dataTable();
 			populate_basic_table("/product/list", cTable, "product");
 		});

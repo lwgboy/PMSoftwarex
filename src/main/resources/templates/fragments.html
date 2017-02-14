@@ -193,7 +193,11 @@
 			</div>
 			<div  class="col-sm-12">
 				<div class="form-group">
-					<input id="images" name="images" type="file" multiple="multiple" class="file" data-preview-file-type="text" />
+					<input id="images" name="imageFiles" type="file" multiple="multiple" class="file" data-preview-file-type="text" />
+					<div th:each="var, imageStat : *{images}">
+						<input th:field="*{images[__${imageStat.index}__].image}" type="hidden" />
+					</div>
+					
 				</div>
 			</div>
 		</div>

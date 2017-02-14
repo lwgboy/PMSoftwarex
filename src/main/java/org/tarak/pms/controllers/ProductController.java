@@ -1,15 +1,16 @@
 package org.tarak.pms.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.tarak.pms.models.Image;
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Tag;
 import org.tarak.pms.models.Variant;
@@ -44,6 +46,8 @@ public class ProductController {
     @Autowired
     private VariantService variantService;
 
+    @Autowired
+    private ServletContext servletContext; 
     
     @RequestMapping("/")
     public String index(Model model)
@@ -138,7 +142,7 @@ public class ProductController {
     }
     
 	@RequestMapping(value = "/add", method = RequestMethod.POST )
-    public String addProduct(@Valid Product product, BindingResult bindingResult, Model model)
+    public String addProduct(@Valid Product product, BindingResult bindingResult,@RequestParam("imageFiles") MultipartFile[] uploadFiles, Model model)
     {
         if (bindingResult.hasErrors())
         {
@@ -147,6 +151,27 @@ public class ProductController {
         try
         {
         	ProductUtils.processSKU(product,variantService);
+        	productService.saveAndFlush(product);
+        	int count=1;
+        	List<Image> images=new LinkedList<Image>();
+        	for (MultipartFile multipartFile : uploadFiles) 
+        	{
+        		String imageName=product.getId()+"_"+count++ +multipartFile.getOriginalFilename();
+        		String dir_path=servletContext.getContextPath()+"/product_images/"+product.getId();
+        		File directory=new File(dir_path);
+                File imageFile = new File(dir_path, imageName);
+                Image image=new Image();
+                try
+                {
+                	directory.mkdirs();
+                    multipartFile.transferTo(imageFile);
+                } catch (IOException e) 
+                {
+                    e.printStackTrace();
+                }
+                image.setImage(imageName);
+                images.add(image);
+            }
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)
@@ -191,7 +216,7 @@ public class ProductController {
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody String upload(
+    public @ResponseBody String upload(@Valid Product product, BindingResult bindingResult,
         @RequestParam("images") MultipartFile[] uploadFiles) throws Exception     
     {
     	String voidResponse = "{}";
