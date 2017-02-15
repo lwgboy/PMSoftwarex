@@ -1,6 +1,8 @@
 package org.tarak.pms.controllers;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,6 +11,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -36,7 +39,7 @@ import org.tarak.pms.utils.ProductUtils;
 @RequestMapping("/product")
 @Controller
 public class ProductController {
-
+	static Logger logger=Logger.getLogger(Product.class);
     @Autowired
     private ServiceInterface<Product, Integer> productService;
 
@@ -156,15 +159,31 @@ public class ProductController {
         	List<Image> images=new LinkedList<Image>();
         	for (MultipartFile multipartFile : uploadFiles) 
         	{
+        		
         		String imageName=product.getId()+"_"+count++ +multipartFile.getOriginalFilename();
-        		String dir_path=servletContext.getContextPath()+"/product_images/"+product.getId();
-        		File directory=new File(dir_path);
-                File imageFile = new File(dir_path, imageName);
+        		String dir_path="src/main/resources/public/product_images/"+product.getId()+"/"+imageName;
+        		File f=new File(dir_path);
+                if(f.exists())
+                {
+                	logger.info("File Exists");
+                	f.delete();
+                }
+                if (f.getParentFile() != null) 
+                {
+                	logger.info("parent direcotory exists ");
+                	f.getParentFile().mkdirs();
+                }
+        		//File directory=new File(dir_path);
+                //File imageFile = new File(dir_path, imageName);
                 Image image=new Image();
                 try
                 {
-                	directory.mkdirs();
-                    multipartFile.transferTo(imageFile);
+                	//directory.mkdirs();
+                    //multipartFile.transferTo(f);
+                	BufferedOutputStream stream =
+                	          new BufferedOutputStream(new FileOutputStream(f));
+                	      stream.write(multipartFile.getBytes());
+                	      stream.close();
                 } catch (IOException e) 
                 {
                     e.printStackTrace();
