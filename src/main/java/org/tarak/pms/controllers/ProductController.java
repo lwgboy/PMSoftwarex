@@ -59,7 +59,7 @@ public class ProductController {
         return "product/index";
     }
 
-    private void addProduct(Model model)
+    private void addProduct(Model model, boolean flag,Product p)
     {
     	List<Variant> variants=new ArrayList<Variant>();
     	Variant variant=new Variant();
@@ -74,8 +74,15 @@ public class ProductController {
 		tags.add(new Tag());
 		List<Vendor> vendors=new ArrayList<Vendor>();
 		vendors.add(new Vendor());
-		
 		Product product=new Product();
+		if(!flag)
+		{
+			product.setCategory(p.getCategory());
+			product.setDivision(p.getDivision());
+			product.setSection(p.getSection());
+			product.setStyle(p.getStyle());
+			product.setBrand(p.getBrand());
+		}
 		product.setVariants(variants);
 		product.setTags(tags);
 		product.setVendors(vendors);
@@ -86,7 +93,7 @@ public class ProductController {
     {
     	if(!model.containsAttribute("product"))
     	{
-    		addProduct(model);
+    		addProduct(model,true,null);
     	}
     	if(!model.containsAttribute("variant_list"))
     	{
@@ -191,6 +198,7 @@ public class ProductController {
                 image.setImage(imageName);
                 images.add(image);
             }
+        	product.setImages(images);
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)
@@ -205,7 +213,7 @@ public class ProductController {
         	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
         	return index(model);
         }
-        addProduct(model);
+        addProduct(model,false,product);
         return index(model);
     }
 
@@ -217,6 +225,19 @@ public class ProductController {
         return list;
     }
 
+	@RequestMapping(value = "/images/{id}", method = RequestMethod.GET )
+    public @ResponseBody
+    List<Image> listImages(@PathVariable Integer id)
+    {
+		Product product=productService.findOne(id);
+		if(product==null)
+		{
+			return null;
+		}
+		List<Image> list=product.getImages();
+        return list;
+    }
+	
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET )
     public String deleteProduct(@PathVariable Integer id, Model model)
     {
