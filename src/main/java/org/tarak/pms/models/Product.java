@@ -89,6 +89,7 @@ public class Product {
     @JoinTable(name = "Product_Vendors", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id"))
     private List<Vendor> vendors;
     
+    @Cascade({CascadeType.ALL})
     @OneToMany
     @JoinTable(name = "Product_Images", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id"), inverseJoinColumns = @JoinColumn(name = "image_id", referencedColumnName = "image_id"))
     private List<Image> images;

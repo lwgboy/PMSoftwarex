@@ -195,7 +195,7 @@ public class ProductController {
                 {
                     e.printStackTrace();
                 }
-                image.setImage(imageName);
+                image.setImage("/product_images/"+product.getId()+"/"+imageName);
                 images.add(image);
             }
         	product.setImages(images);
@@ -210,6 +210,7 @@ public class ProductController {
         catch(Exception e)
         {
         	String args[]={"Product",product.getName()};
+        	e.printStackTrace();
         	bindingResult.rejectValue("name", "error.alreadyExists",args ,"Unknown error! Please contact Administrator");
         	return index(model);
         }

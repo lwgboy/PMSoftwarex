@@ -11,6 +11,9 @@
 	<div layout:fragment="form_fields">
 		<form action="#" th:action="@{/product/add}" th:object="${product}"
 			method="post"  enctype="multipart/form-data">
+			<div id="less_details" th:include="fragments::preProduct">
+			
+			</div>
 			<div th:include="fragments::product('true','Update')"></div>
 		</form>
 	</div>
