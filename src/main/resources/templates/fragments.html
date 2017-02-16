@@ -1,34 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="ISO-8859-1"></meta>
 <title>Insert title here</title>
 </head>
 <body>
-<section th:fragment="file_input">
-<!-- canvas-to-blob.min.js is only needed if you wish to resize images before upload.
+	<section th:fragment="file_input">
+		<!-- canvas-to-blob.min.js is only needed if you wish to resize images before upload.
      This must be loaded before fileinput.min.js -->
-<script th:src="@{/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js}" src="../bootstrap-fileinput/js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
-<!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+		<script
+			th:src="@{/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js}"
+			src="../bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"
+			type="text/javascript"></script>
+		<!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
      This must be loaded before fileinput.min.js -->
-<script th:src="@{/bootstrap-fileinput/js/plugins/sortable.min.js}" src="../bootstrap-fileinput/js/plugins/sortable.min.js" type="text/javascript"></script>
-<!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
+		<script th:src="@{/bootstrap-fileinput/js/plugins/sortable.min.js}"
+			src="../bootstrap-fileinput/js/plugins/sortable.min.js"
+			type="text/javascript"></script>
+		<!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
      This must be loaded before fileinput.min.js -->
-<script th:src="@{/bootstrap-fileinput/js/plugins/purify.min.js}" src="../bootstrap-fileinput/js/plugins/purify.min.js" type="text/javascript"></script>
-<!-- the main fileinput plugin file -->
-<script th:src="@{/bootstrap-fileinput/js/fileinput.min.js}" src="../bootstrap-fileinput/js/fileinput.min.js"></script>
-<!-- bootstrap.js below is needed if you wish to zoom and view file content 
+		<script th:src="@{/bootstrap-fileinput/js/plugins/purify.min.js}"
+			src="../bootstrap-fileinput/js/plugins/purify.min.js"
+			type="text/javascript"></script>
+		<!-- the main fileinput plugin file -->
+		<script th:src="@{/bootstrap-fileinput/js/fileinput.min.js}"
+			src="../bootstrap-fileinput/js/fileinput.min.js"></script>
+		<!-- bootstrap.js below is needed if you wish to zoom and view file content 
      in a larger detailed modal dialog -->
 
-<!-- optionally if you need a theme like font awesome theme you can include 
+		<!-- optionally if you need a theme like font awesome theme you can include 
     it as mentioned below -->
-<script th:src="@{/bootstrap-fileinput/themes/fa/theme.js}" src="../bootstrap-fileinput/themes/fa/theme.js"></script>
-<!-- optionally if you need translation for your language then include 
+		<script th:src="@{/bootstrap-fileinput/themes/fa/theme.js}"
+			src="../bootstrap-fileinput/themes/fa/theme.js"></script>
+		<!-- optionally if you need translation for your language then include 
     locale file as mentioned below -->
-<script th:src="@{/bootstrap-fileinput/js/locales/LANG.js}" src="../bootstrap-fileinput/js/locales/LANG.js"></script>
-</section>
+		<script th:src="@{/bootstrap-fileinput/js/locales/LANG.js}"
+			src="../bootstrap-fileinput/js/locales/LANG.js"></script>
+	</section>
 
-<script th:fragment="footer_script">
+	<script th:fragment="footer_script">
 jQuery(document).ready(function () {
 
 	var cTable = $('#dataTables-example').dataTable();
@@ -106,62 +117,71 @@ jQuery(document).ready(function () {
 });
 </script>
 
-<div class="col-lg-9" th:fragment="preProduct">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Design Categories
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#category" data-toggle="tab" aria-expanded="true">Primary Category</a>
-                                </li>
-                                <li class=""><a href="#division" data-toggle="tab" aria-expanded="false">Primary Division</a>
-                                </li>
-                                <li class=""><a href="#section" data-toggle="tab" aria-expanded="false">Primary Section</a>
-                                </li>
-                                <li class=""><a href="#style" data-toggle="tab" aria-expanded="false">Style</a>
-                                </li>
-                                <li class=""><a href="#brand" data-toggle="tab" aria-expanded="false">Brand</a>
-                                </li>
-                            </ul>
+	<div class="col-lg-9" th:fragment="preProduct(update,button)">
+		<div class="panel panel-default">
+			<div class="panel-heading">Design Categories</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<!-- Nav tabs -->
+				<div class="col-lg-7">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#category" data-toggle="tab"
+						aria-expanded="true">Primary Category</a></li>
+					<li class=""><a href="#division" data-toggle="tab"
+						aria-expanded="false">Primary Division</a></li>
+					<li class=""><a href="#section" data-toggle="tab"
+						aria-expanded="false">Primary Section</a></li>
+					<li class=""><a href="#style" data-toggle="tab"
+						aria-expanded="false">Style</a></li>
+					<li class=""><a href="#brand" data-toggle="tab"
+						aria-expanded="false">Brand</a></li>
+				</ul>
 
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade active in" id="category">
-                                    <input class="category form-control" th:field="*{category.name}"
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane fade active in" id="category">
+						<input class="category form-control" th:field="*{category.name}"
 							type="text" autocomplete="off" /> <input class="form-control"
 							th:field="*{category.id}" type="hidden" />
-                                </div>
-                                <div class="tab-pane fade" id="division">
-                                    <input class="division form-control" th:field="*{division.name}"
+					</div>
+					<div class="tab-pane fade" id="division">
+						<input class="division form-control" th:field="*{division.name}"
 							type="text" autocomplete="off" /> <input class="form-control"
 							th:field="*{division.id}" type="hidden" />
-                                </div>
-                                <div class="tab-pane fade" id="section">
-									<div id="scrollable-dropdown-menu">
-						<input class="section form-control" th:field="*{section.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{section.id}" type="hidden" />
-								</div>
-                                </div>
-                                <div class="tab-pane fade" id="style">
-									<input class="style form-control" th:field="*{style.name}"
+					</div>
+					<div class="tab-pane fade" id="section">
+						<div id="scrollable-dropdown-menu">
+							<input class="section form-control" th:field="*{section.name}"
+								type="text" autocomplete="off" /> <input class="form-control"
+								th:field="*{section.id}" type="hidden" />
+						</div>
+					</div>
+					<div class="tab-pane fade" id="style">
+						<input class="style form-control" th:field="*{style.name}"
 							type="text" autocomplete="off" /> <input class="form-control"
 							th:field="*{style.id}" type="hidden" />
-                                </div>
-                                <div class="tab-pane fade" id="brand">
-                                	<input class="brand form-control" th:field="*{brand.name}"
+					</div>
+					<div class="tab-pane fade" id="brand">
+						<input class="brand form-control" th:field="*{brand.name}"
 							type="text" autocomplete="off" /> <input class="form-control"
 							th:field="*{brand.id}" type="hidden" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
+					</div>
+				</div>
+				</div>
+				<div class="col-lg-2">
+					<div class="form-group"  th:if='${update}'>
+						<a th:href="|/product/clone/${id}|">
+							<button type="button" class="btn btn-outline btn-info clone">
+								<i class="fa fa-clone" aria-hidden="true"></i> Clone
+							</button>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+	</div>
 	<div th:fragment="brand(update,button)">
 		<div class="row">
 			<div class="col-lg-6">
@@ -194,23 +214,34 @@ jQuery(document).ready(function () {
 				</div>
 			</div>
 			<div class="col-lg-6">
-			<div class="form-group"  id="scrollable-dropdown-menu">
-						<label >Tags</label>
-						<input class="tagType form-control"
-							type="text" autocomplete="off" /> 
-							<button type="submit" style="display:none" name="addTag" id="addTag" class="btn btn-info btn-xs">
+			<div class="form-group"  th:if='${update}'>
+				<a th:href="|/brand/clone/${id}|">
+						<button type="button" class="btn btn-outline btn-info clone">
+							<i class="fa fa-clone" aria-hidden="true"></i> Clone
+						</button>
+					</a>
+			</div>
+			
+				<div class="form-group" id="scrollable-dropdown-menu">
+					<label>Tags</label> <input class="tagType form-control"
+						type="text" autocomplete="off" />
+					<button type="submit" style="display: none" name="addTag"
+						id="addTag" class="btn btn-info btn-xs">
 						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
 					</button>
-					</div>
+				</div>
 				<div class="list form-group" th:each="var, tagStat : *{tags}">
-				<input type="hidden" id="tag_count" th:value="${tagStat.count}" />
-					<div class="alert alert-info alert-dismissable" th:if="*{tags[__${tagStat.index}__].type}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						<label th:text="${var.type.name}"></label>
-						<input class="form-control" th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
+					<input type="hidden" id="tag_count" th:value="${tagStat.count}" />
+					<div class="alert alert-info alert-dismissable"
+						th:if="*{tags[__${tagStat.index}__].type}">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">×</button>
+						<label th:text="${var.type.name}"></label> <input
+							class="form-control"
+							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
 					</div>
 				</div>
-				
+
 				<div class="form-group" th:each="var, variantStat : *{variants}">
 					<label th:text="|Variant ${variantStat.count}|"></label>
 					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
@@ -326,14 +357,16 @@ jQuery(document).ready(function () {
 					</button>
 				</div>
 			</div>
-			<div  class="col-sm-12">
+			<div class="col-sm-12">
 				<div class="form-group">
-					<input id="input-pd" name="imageFiles" type="file" multiple="multiple" class="file-loading" />
-					
+					<input id="input-pd" name="imageFiles" type="file"
+						multiple="multiple" class="file-loading" />
+
 					<div th:each="var, imageStat : *{images}">
-						<input th:field="*{images[__${imageStat.index}__].image}" type="hidden" />
+						<input th:field="*{images[__${imageStat.index}__].image}"
+							type="hidden" />
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -378,14 +411,11 @@ jQuery(document).ready(function () {
 												type="hidden" class="form-control" />
 										</div>
 									</td>
-									<td>
-										<input type="hidden"
+									<td><input type="hidden"
 										th:field="*{variants[__${variantStat.index}__].id}"
-										class="form-control" />
-										<input type="hidden"
+										class="form-control" /> <input type="hidden"
 										th:field="*{variants[__${variantStat.index}__].sku}"
-										class="form-control" />
-										<input type="text"
+										class="form-control" /> <input type="text"
 										th:field="*{variants[__${variantStat.index}__].name}"
 										class="form-control" /> <input type="hidden"
 										th:attr="name='variants[' + ${variantStat.index} + '].srNo'"
@@ -494,7 +524,7 @@ jQuery(document).ready(function () {
 			</div>
 		</div>
 	</div>
-	
+
 	<div th:fragment="purchaseOrder(update,button)">
 		<div class="row">
 			<div class="col-lg-6">
@@ -779,11 +809,11 @@ jQuery(document).ready(function () {
 							autocomplete="off" /> <input type="hidden"
 							th:field="*{stockPoint.id}" class="form-control" />
 					</div>
-					
+
 					<div class="form-group">
-					<label><input type="checkbox" th:field="*{verified}" />
-						Verified</label>
-				</div>
+						<label><input type="checkbox" th:field="*{verified}" />
+							Verified</label>
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-6">
@@ -828,7 +858,7 @@ jQuery(document).ready(function () {
 							<tbody
 								th:each="var, goodsReceiveChallanItemStat : *{goodsReceiveChallanItems}">
 								<tr>
-										<th><button type="submit" name="removePurchaseOrderItem"
+									<th><button type="submit" name="removePurchaseOrderItem"
 											class="btn btn-danger btn-xs"
 											th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )">
 											<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
@@ -841,14 +871,12 @@ jQuery(document).ready(function () {
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].finYear}"
 										type="hidden" class="form-control" /> <input
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].goodsReceiveChallanId}"
-										type="hidden" class="form-control" />
-										</th>
-										<th colspan="3"
+										type="hidden" class="form-control" /></th>
+									<th colspan="3"
 										th:text="|Item ${goodsReceiveChallanItemStat.count}|"></th>
 								</tr>
 								<tr>
-									<th>PO Date
-									<input type="date"
+									<th>PO Date <input type="date"
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].poDate}"
 										class="form-control" autocomplete="off" />
 									</th>
@@ -912,11 +940,10 @@ jQuery(document).ready(function () {
 												class="product form-control" autocomplete="off" /> <input
 												type="hidden"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].product.id}"
-												class="form-control" />
-												<input
-												type="hidden"
+												class="form-control" /> <input type="hidden"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].quantity}"
-												class="form-control" value="${goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].quantity"/>
+												class="form-control"
+												value="${goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].quantity" />
 										</div>
 									</td>
 									<th>Variant</th>
@@ -924,8 +951,8 @@ jQuery(document).ready(function () {
 										<div id="scrollable-dropdown-menu">
 											<input type="text"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].variant.name}"
-												class="product_variant form-control" autocomplete="off" /> <input
-												type="hidden"
+												class="product_variant form-control" autocomplete="off" />
+											<input type="hidden"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].variant.id}"
 												class="form-control" />
 										</div>
@@ -943,7 +970,8 @@ jQuery(document).ready(function () {
 								</tr>
 								<tr th:if="${var.brand}">
 									<th colspan="4">
-										<table class="table table-bordered " th:if="${var.productItems}">
+										<table class="table table-bordered "
+											th:if="${var.productItems}">
 											<tbody>
 												<tr>
 													<th></th>
@@ -955,15 +983,12 @@ jQuery(document).ready(function () {
 													th:each="prd, productItemStat : *{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems}">
 													<td>
 														<button th:if="${var.brand}" type="submit"
-															name="removeProduct"
-															class="btn btn-danger btn-xs"
+															name="removeProduct" class="btn btn-danger btn-xs"
 															th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id}: ${productItemStat.count} )">
 															<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
-														</button>
-														<input
-																type="hidden"
-																th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id}"
-																class="form-control" />
+														</button> <input type="hidden"
+														th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].id}"
+														class="form-control" />
 													</td>
 													<td>
 														<div id="scrollable-dropdown-menu">

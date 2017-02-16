@@ -11,7 +11,7 @@
 	<div layout:fragment="form_fields">
 		<form action="#" th:action="@{/product/add}" th:object="${product}"
 			method="post" enctype="multipart/form-data">
-			<div id="less_details" th:include="fragments::preProduct">
+			<div id="less_details" th:include="fragments::preProduct('false','Add')">
 			
 			</div>
 			<div th:include="fragments::product('false','Add')" id="more_details"></div>
@@ -54,31 +54,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- <script layout:fragment="footer_script">
-		$(document).ready(function() {
-			$("#imageFiles").fileinput({
-		        uploadAsync: false,
-		        showUpload: false,
-		        uploadUrl: "/product/upload",
-		        initialPreviewConfig: [
-		                               {
-		                                   caption: 'desert.jpg', 
-		                                   width: '120px', 
-		                                   url: 'http://localhost:8080/product_images/10/10_2Desert.jpg', // server delete action 
-		                                   key: 100, 
-		                                   extra: {id: 100}
-		                               }]
-		    });
-			
-			var cTable = $('#dataTables-example').dataTable();
-			populate_basic_table("/product/list", cTable, "product");
-		});
-	</script> -->
-	
-	<!-- PREVIEW DATA -->
-<!-- load the JS files in the right order -->
-<!-- sortable plugin for sorting/rearranging initial preview -->
-<!-- purify plugin for safe rendering HTML content in preview -->
 <script layout:fragment="footer_script" th:include="fragments::footer_script"></script>
 <section layout:fragment="file_input_script" th:include="fragments::file_input"></section>
 </body>

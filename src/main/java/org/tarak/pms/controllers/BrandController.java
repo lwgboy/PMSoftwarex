@@ -167,4 +167,13 @@ public class BrandController {
     	return "brand/edit";
     }
    
+    @RequestMapping(value = "/clone/{id}", method = RequestMethod.GET)
+    public String cloneBrand(@PathVariable Integer id, Model model)
+    {
+    	Brand brand=brandService.findOne(id);
+    	brand.setId(null);
+    	model.addAttribute("brand", brand);
+    	prepareModel(model);
+    	return "brand/index";
+    }
 }

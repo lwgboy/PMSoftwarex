@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -48,9 +47,6 @@ public class ProductController {
     
     @Autowired
     private VariantService variantService;
-
-    @Autowired
-    private ServletContext servletContext; 
     
     @RequestMapping("/")
     public String index(Model model)
@@ -254,6 +250,16 @@ public class ProductController {
     	model.addAttribute("product", product);
     	prepareModel(model);
     	return "product/edit";
+    }
+
+    @RequestMapping(value = "/clone/{id}", method = RequestMethod.GET)
+    public String cloneProduct(@PathVariable Integer id, Model model)
+    {
+    	Product product=productService.findOne(id);
+    	product.setId(null);
+    	model.addAttribute("product", product);
+    	prepareModel(model);
+    	return "product/index";
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
