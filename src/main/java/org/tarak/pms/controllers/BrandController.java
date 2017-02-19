@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,6 +172,7 @@ public class BrandController {
     public String cloneBrand(@PathVariable Integer id, Model model)
     {
     	Brand brand=brandService.findOne(id);
+    	//brand=(Brand)SerializationHelper.clone((Serializable) brand);
     	brand.setId(null);
     	model.addAttribute("brand", brand);
     	prepareModel(model);

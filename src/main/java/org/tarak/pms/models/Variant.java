@@ -22,8 +22,8 @@ import org.hibernate.annotations.CascadeType;
  */
 @Entity
 public class Variant {
-
-    @Id
+	
+	@Id
     @Column(name = "variant_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -51,6 +51,9 @@ public class Variant {
     private double rspPrice;
     
     private String sku;
+
+    @Transient
+    private String barCode;
     
     private int quantity;
     
@@ -187,6 +190,14 @@ public class Variant {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public String getBarCode() {
+		return barCode;
+	}
+
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
 	}
 	
 }

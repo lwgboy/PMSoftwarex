@@ -257,6 +257,19 @@ public class ProductController {
     {
     	Product product=productService.findOne(id);
     	product.setId(null);
+    	for(Variant variant : product.getVariants())
+    	{
+    		variant.setId(null);
+    	}
+    	for(Tag tag : product.getTags())
+    	{
+    		tag.setId(null);
+    	}
+    	for(Image image : product.getImages())
+    	{
+    		image.setId(null);
+    	}
+    	
     	model.addAttribute("product", product);
     	prepareModel(model);
     	return "product/index";

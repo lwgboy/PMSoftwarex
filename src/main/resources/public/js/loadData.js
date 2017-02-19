@@ -76,7 +76,7 @@ function populate_basic_table(url,table,type)
             	{
                 	if(colNames[serial]=="select_sku" )
                 	{
-                		cols.push("<input type='checkbox' name='select' class='delete_check' value='"+x.sku+"' />")
+                		cols.push("<input type='checkbox' name='select' class='delete_check' value='"+x.barCode+"' />")
                 		continue;
                 	}	
                 	if(colNames[serial]!="view" && colNames[serial]!="edit" && colNames[serial]!="delete")
@@ -133,16 +133,28 @@ function formDialog(message, onConfirm,modalId){
 function calculateTotal(form)
 {
 	var totalCost=0;
-	$.each(form.find(".quantity"),function(key, quantity){
-		rate=$("#"+quantity.id.replace('.quantity','.rate').replace(/\./g,"\\."))
-		totalCost+=parseFloat(quantity.value || 0)*parseFloat(rate.val() || 0);
+	$.each(form.find(".quantity"),function(key, quantity)
+	{
+		rate=$("#"+quantity.id.replace('.quantity','.rate').replace(/\./g,"\\."));
+		discount=$("#"+quantity.id.replace('.quantity','.discount').replace(/\./g,"\\."));
+		var discounted_rate=rate.val();
+		if(discount)
+		{
+			discounted_rate=rate.val()-rate.val()*(discount.val()/100 || 0);
+		}
+		totalCost+=parseFloat(quantity.value || 0)*parseFloat(discounted_rate || 0);
 	});
+	totalDiscount=$('.totalDiscount');
+	if(totalDiscount)
+	{
+		totalCost=totalCost-totalCost*(totalDiscount.val()/100 || 0);
+	}
 	form.find('.totalCost').val(totalCost.toFixed(2));
 }
 
 $(document).ready(function() {
 	
-	jQuery('.rate, .quantity').on('input', function() {
+	jQuery('.rate, .quantity, .discount, .totalDiscount').on('input', function() {
 	    calculateTotal($(this).closest('form'));
 	});
 
@@ -555,7 +567,15 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
-	
+	$('input.vendorFirm').typeahead({
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/vendor/firm/'+$("#"+"vendor.id".replace(/\./g,"\\.")).val(), { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
 	
 	$('.variantRoute').on('click',function(event){
 		event.preventDefault();

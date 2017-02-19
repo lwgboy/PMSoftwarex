@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class TagType {
+public class TagType{ 
 
     @Id
     @Column(name = "tagType_id", columnDefinition = "serial")

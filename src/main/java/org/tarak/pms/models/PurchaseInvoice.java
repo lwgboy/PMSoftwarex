@@ -51,6 +51,8 @@ public class PurchaseInvoice implements Serializable {
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Vendor_Id")
 	private Vendor vendor;
+	
+	private String vendorFirm;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SELECT)
@@ -72,6 +74,12 @@ public class PurchaseInvoice implements Serializable {
 	
 	@Type(type="boolean")
 	private boolean processed;
+	
+	@Type(type="boolean")
+	private boolean priceVerified;
+	
+	private double totalDiscount;
+	
 
 	public int getPurchaseInvoiceId() {
 		return purchaseInvoiceId;
@@ -154,6 +162,30 @@ public class PurchaseInvoice implements Serializable {
 
 	public void setSupplierInvoiceNo(String supplierInvoiceNo) {
 		this.supplierInvoiceNo = supplierInvoiceNo;
+	}
+
+	public String getVendorFirm() {
+		return vendorFirm;
+	}
+
+	public void setVendorFirm(String vendorFirm) {
+		this.vendorFirm = vendorFirm;
+	}
+
+	public boolean isPriceVerified() {
+		return priceVerified;
+	}
+
+	public void setPriceVerified(boolean priceVerified) {
+		this.priceVerified = priceVerified;
+	}
+
+	public double getTotalDiscount() {
+		return totalDiscount;
+	}
+
+	public void setTotalDiscount(double totalDiscount) {
+		this.totalDiscount = totalDiscount;
 	}
 	
 }

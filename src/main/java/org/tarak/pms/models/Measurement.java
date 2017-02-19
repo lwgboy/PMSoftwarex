@@ -13,9 +13,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class Measurement {
-
-    @Id
+public class Measurement{
+	
+	@Id
     @Column(name = "measurement_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

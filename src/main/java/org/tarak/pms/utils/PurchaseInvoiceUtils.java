@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
-import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseInvoiceItem;
 
@@ -31,8 +30,6 @@ public class PurchaseInvoiceUtils {
 		List<PurchaseInvoiceItem> purchaseInvoiceItems=new LinkedList<PurchaseInvoiceItem>(); 
 		for(GoodsReceiveChallanItem goodsReceiveChallanItem: goodsReceiveChallanItems)
 		{
-			for(ProductItem productItem: goodsReceiveChallanItem.getProductItems())
-			{
 				PurchaseInvoiceItem purchaseInvoiceItem=new PurchaseInvoiceItem();
 				purchaseInvoiceItem.setBrand(goodsReceiveChallanItem.getBrand());
 				purchaseInvoiceItem.setDescription(goodsReceiveChallanItem.getDescription());
@@ -42,13 +39,9 @@ public class PurchaseInvoiceUtils {
 				purchaseInvoiceItem.setRate(goodsReceiveChallanItem.getRate());
 				purchaseInvoiceItem.setSrNo(goodsReceiveChallanItem.getSrNo());
 				purchaseInvoiceItem.setStyle(goodsReceiveChallanItem.getStyle());
-				purchaseInvoiceItem.setVariant(productItem.getVariant());
-				purchaseInvoiceItem.setProduct(productItem.getProduct());
+				purchaseInvoiceItem.setProductItems(goodsReceiveChallanItem.getProductItems());
 				purchaseInvoiceItems.add(purchaseInvoiceItem);
-			}
 		}
 		return purchaseInvoiceItems;
 	}
-	
-
 }

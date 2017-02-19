@@ -100,6 +100,8 @@ public class BarCodeController {
         			for(ProductItem pi : item.getProductItems())
         			{
         				pi.getVariant().setProductName(pi.getProduct().getName());
+        				String barCode=pi.getVariant().getSku()+"_"+goodsReceiveChallan.getGoodsReceiveChallanId();
+        				pi.getVariant().setBarCode(barCode);
         				variants.add(pi.getVariant());
         			}
         		}

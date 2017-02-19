@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -124,5 +125,21 @@ public class VendorController {
     	model.addAttribute("vendor", vendor);
     	prepareModel(model);
     	return "vendor/edit";
+    }
+    
+    @RequestMapping(value = "/firm/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> vendorFirm(@PathVariable Integer id, Model model)
+    {
+    	Vendor vendor=vendorService.findOne(id);
+    	List<String> list=new LinkedList<String>();
+    	if(vendor!=null && vendor.getAddressList()!=null && vendor.getAddressList().size()>0)
+    	{
+    		for(Address address :vendor.getAddressList())
+    		{
+    			list.add(address.getFirm());
+    		}
+    	}
+    	return list;
     }
 }

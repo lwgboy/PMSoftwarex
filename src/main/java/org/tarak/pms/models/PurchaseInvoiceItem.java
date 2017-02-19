@@ -1,15 +1,22 @@
 package org.tarak.pms.models;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -39,14 +46,21 @@ public class PurchaseInvoiceItem implements Serializable {
 	@JoinColumn(columnDefinition="integer",name = "Brand")
 	private Brand brand;
 
-	@ManyToOne
-	@JoinColumn(columnDefinition="integer",name = "Variant")
-	private Variant variant;
-	
-	@ManyToOne
-	@JoinColumn(columnDefinition="integer",name = "Product")
-	private Product product;
-	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SELECT)
+	@JoinTable(name = "PI_PRODUCT_ITEM", 
+		joinColumns = {
+			@JoinColumn(name = "PIITEMS_SrNo", referencedColumnName = "srNo"),
+			@JoinColumn(name = "PIITEMS_purchaseInvoiceId", referencedColumnName = "purchaseInvoiceId"),
+			@JoinColumn(name = "PIITEMS_Financial_Year", referencedColumnName = "Financial_Year") 
+			}, 
+		inverseJoinColumns = { 
+			@JoinColumn(name = "PI_ProductItemId", referencedColumnName = "Product_Item_Id") 
+			}
+
+	)
+	private List<ProductItem> productItems;
+
 	private String description;
 	
 	private double quantity;
@@ -59,8 +73,16 @@ public class PurchaseInvoiceItem implements Serializable {
 	
 	private double totalCost;
 	
+	private double discount;
+	
 	@Type(type = "boolean")
 	private boolean processed;
+
+	@Type(type = "boolean")
+	private boolean approved;
+
+	@Type(type = "boolean")
+	private boolean defective;
 
 	public int getSrNo() {
 		return srNo;
@@ -150,21 +172,37 @@ public class PurchaseInvoiceItem implements Serializable {
 		this.measurement = measurement;
 	}
 
-	public Variant getVariant() {
-		return variant;
+	public List<ProductItem> getProductItems() {
+		return productItems;
 	}
 
-	public void setVariant(Variant variant) {
-		this.variant = variant;
+	public void setProductItems(List<ProductItem> productItems) {
+		this.productItems = productItems;
 	}
 
-	public Product getProduct() {
-		return product;
+	public boolean isApproved() {
+		return approved;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 
+	public boolean isDefective() {
+		return defective;
+	}
+
+	public void setDefective(boolean defective) {
+		this.defective = defective;
+	}
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+	
 	
 }

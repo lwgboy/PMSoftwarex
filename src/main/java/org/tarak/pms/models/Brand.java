@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 public class Brand {
 
-    @Id
+	@Id
     @Column(name = "brand_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

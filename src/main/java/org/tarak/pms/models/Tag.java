@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Tag {
-
-    @Id
+	
+	@Id
     @Column(name = "tag_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

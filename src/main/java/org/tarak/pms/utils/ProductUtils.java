@@ -13,7 +13,7 @@ public class ProductUtils {
     {
     	if(product.getVariants()!=null && product.getVariants().size()>0)
     	{
-    		String prefix=product.getStyle().getName().substring(0, 3)+returnThreeDigitCode(product.getBrand().getId())+product.getName().substring(0,3);
+    		String prefix=product.getStyle().getName().substring(0, 2)+returnThreeDigitCode(product.getBrand().getId())+product.getName().substring(0,2);
     		int suffix=1;
     		Set<String> prefixSet=new LinkedHashSet<String>();
     		for(Variant variant : product.getVariants())

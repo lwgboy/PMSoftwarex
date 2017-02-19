@@ -20,6 +20,8 @@ public class Address {
     @Column(name = "address_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    private String firm;
 
     @NotEmpty(message="Address cannot be empty")
     @NotNull(message="Address cannot be null")
@@ -126,6 +128,14 @@ public class Address {
 
 	public void setCstNo(String cstNo) {
 		this.cstNo = cstNo;
+	}
+
+	public String getFirm() {
+		return firm;
+	}
+
+	public void setFirm(String firm) {
+		this.firm = firm;
 	}
     
 }

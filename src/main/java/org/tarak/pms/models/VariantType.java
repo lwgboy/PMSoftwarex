@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class VariantType {
+public class VariantType{
 
     @Id
     @Column(name = "variant_id", columnDefinition = "serial")
