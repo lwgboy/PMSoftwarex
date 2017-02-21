@@ -304,7 +304,7 @@ public class ProductController {
     public @ResponseBody String upload(@Valid Product product, BindingResult bindingResult,
         @RequestParam("images") MultipartFile[] uploadFiles) throws Exception     
     {
-    	String voidResponse = "{}";
+    	String voidResponse = "{ }";
     	return voidResponse;
     }
    
