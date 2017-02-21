@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.tarak.pms.models.Brand;
 import org.tarak.pms.models.Image;
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Tag;
@@ -44,6 +45,9 @@ public class ProductController {
 
     @Autowired
     private ServiceInterface<Tag, Integer> tagService;
+    
+    @Autowired
+    private ServiceInterface<Brand, Integer> brandService;
     
     @Autowired
     private VariantService variantService;
@@ -146,8 +150,26 @@ public class ProductController {
     	product.getVariants().remove(index);
         return index(model);
     }
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addBrandVariants(Product product, Model model)
+    {
+		if(product.getBrand()!=null && product.getBrand().getId()!=null)
+		{
+			Brand brand=brandService.findOne(product.getBrand().getId());
+			if(brand!=null)
+			{
+				product.setVariants(brand.getVariants());
+				product.setTags(brand.getTags());
+				product.getVariants().stream().forEach(variant -> variant.setId(null));
+				product.getTags().stream().forEach(tag -> tag.setId(null));
+			}
+		}
+		return index(model);
+    }
     
-	@RequestMapping(value = "/add", method = RequestMethod.POST )
+    
+	@RequestMapping(value = "/add", method = RequestMethod.POST,params={"save"})
     public String addProduct(@Valid Product product, BindingResult bindingResult,@RequestParam("imageFiles") MultipartFile[] uploadFiles, Model model)
     {
         if (bindingResult.hasErrors())
@@ -226,12 +248,15 @@ public class ProductController {
     public @ResponseBody
     List<Image> listImages(@PathVariable Integer id)
     {
-		Product product=productService.findOne(id);
-		if(product==null)
+		List<Image> list=new LinkedList<Image>();
+		if(id!=null)
 		{
-			return null;
+			Product product=productService.findOne(id);
+			if(product!=null)
+			{
+				list=product.getImages();
+			}
 		}
-		List<Image> list=product.getImages();
         return list;
     }
 	

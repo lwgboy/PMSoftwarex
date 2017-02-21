@@ -396,6 +396,23 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.designBrand').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+	    	$(this)[0].$element[0].closest('form').submit();
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/brand/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('input.vendor').typeahead({
 		afterSelect: function(data)
 		{
