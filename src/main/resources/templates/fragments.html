@@ -45,10 +45,9 @@ jQuery(document).ready(function () {
 	var cTable = $('#dataTables-example').dataTable();
 	populate_basic_table("/product/list", cTable, "product");
 	var files = new Array();
-	var sid=(id || 0);
 	$.ajax(
 		    {
-			    url: "/product/images/"+sid,
+			    url: "/product/images/"+id,
 				dataType: 'json',
 				success: function(s)
 				{
@@ -163,7 +162,7 @@ jQuery(document).ready(function () {
 							th:field="*{style.id}" type="hidden" />
 					</div>
 					<div class="tab-pane fade" id="brand">
-						<input class="designBrand form-control" th:field="*{brand.name}"
+						<input class="brand form-control" th:field="*{brand.name}"
 							type="text" autocomplete="off" /> <input class="form-control"
 							th:field="*{brand.id}" type="hidden" />
 					</div>
@@ -412,7 +411,7 @@ jQuery(document).ready(function () {
 											<input
 												th:field="*{variants[__${variantStat.index}__].type.name}"
 												type="text"
-												class="variantType_brand form-control"
+												class="variantType typeahead tt-query form-control"
 												autocomplete="off" /> <input
 												th:field="*{variants[__${variantStat.index}__].type.id}"
 												type="hidden" class="form-control" />
@@ -516,7 +515,7 @@ jQuery(document).ready(function () {
 							/*]]>*/
 						</script>
 				<div class="form-group">
-					<button type="submit" name="save" class="btn btn-primary" th:switch="${button}">
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
 						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
 						<i th:case="Update" class="fa fa-floppy-o fa-lg"
 							aria-hidden="true"></i> <span th:text="${button}"></span>
