@@ -285,11 +285,12 @@ $(document).ready(function() {
 	$('input.tagType').typeahead({
 		afterSelect: function(data)
 		{
-			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
-	    	$(idx).val(data.id);
+			/*var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);*/
 			var count=$('#tag_count').val();
 			$('#addTag').append("<input name=\"tags"+count+".type.id type=\"hidden\" value=\""+data.id+"\" />");
 			$('#addTag').append("<input name=\"tags"+count+".type.name type=\"hidden\" value=\""+data.name+"\" />");
+			$('#addTag').show("fast");
 			$('#addTag').trigger('click');
 		},
 	    source:  function (query, process) 
