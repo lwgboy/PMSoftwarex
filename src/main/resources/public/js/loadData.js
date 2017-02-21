@@ -285,11 +285,16 @@ $(document).ready(function() {
 	$('input.tagType').typeahead({
 		afterSelect: function(data)
 		{
-			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
-	    	$(idx).val(data.id);
-			var count=$('#tag_count').val();
-			$('#addTag').append("<input name=\"tags"+count+".type.id type=\"hidden\" value=\""+data.id+"\" />");
-			$('#addTag').append("<input name=\"tags"+count+".type.name type=\"hidden\" value=\""+data.name+"\" />");
+			/*var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);*/
+			var count=0;
+			if($('#tag_count') && $('#tag_count').val()!=undefined)
+			{
+				count=$('#tag_count').val();
+			}
+			$('#addTag').show("fast");
+			$('#addTag').after("<input name=\"tags["+count+"].type.id type=\"hidden\" value=\""+data.id+"\" />");
+			$('#addTag').after("<input name=\"tags["+count+"].type.name type=\"hidden\" value=\""+data.name+"\" />");
 			$('#addTag').trigger('click');
 		},
 	    source:  function (query, process) 
@@ -391,6 +396,23 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.designBrand').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+	    	$(this)[0].$element[0].closest('form').submit();
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/brand/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('input.vendor').typeahead({
 		afterSelect: function(data)
 		{
