@@ -285,18 +285,40 @@ $(document).ready(function() {
 	$('input.tagType').typeahead({
 		afterSelect: function(data)
 		{
-			/*var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
-	    	$(idx).val(data.id);*/
 			var count=0;
 			for(;$('#tags'+count+'\\.type\\.id') && $('#tags'+count+'\\.type\\.id').val()!=undefined;count++ );
-			$('#addTag').show("fast");
-			$('#addTag').after("<input name=\"tags["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
-			$('#addTag').after("<input name=\"tags["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
-			$('#addTag').trigger('click');
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data.name+"</label>");
+			div.append("<input name=\"tags["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"tags["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('.taglist').append(div);
+			$('.tagType').val('');
 		},
 	    source:  function (query, process) 
 	    {
 	    	return $.get('/tagType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.variantType_brand').typeahead({
+		afterSelect: function(data)
+		{
+			var count=0;
+			for(;$('#variants'+count+'\\.type\\.id') && $('#variants'+count+'\\.type\\.id').val()!=undefined;count++ );
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data.name+"</label>");
+			div.append("<input name=\"variants["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"variants["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('.variantlist').append(div);
+			$('.variantType_brand').val('');
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/variantType/list', { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});
@@ -404,6 +426,28 @@ $(document).ready(function() {
 	    source:  function (query, process) 
 	    {
 	    	return $.get('/brand/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
+	$('input.product_vendor').typeahead({
+		afterSelect: function(data)
+		{
+			var count=0;
+			for(;$('#vendors'+count+'\\.id') && $('#vendors'+count+'\\.id').val()!=undefined;count++ );
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data.name+"</label>");
+			div.append("<input name=\"vendors["+count+"].id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"vendors["+count+"].name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('.vendorlist').append(div);
+			$('.product_vendor').val('');
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/vendor/list', { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});

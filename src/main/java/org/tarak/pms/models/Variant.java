@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -35,9 +34,10 @@ public class Variant {
     
     private String description;
     
-    @OneToOne
-    @JoinColumn(name="type")
-    private VariantType type;
+    @ManyToMany
+    @Cascade({CascadeType.ALL})
+    @JoinTable(name = "Variant_VariantTypes", joinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"), inverseJoinColumns = @JoinColumn(name = "variantVariantType_id", referencedColumnName = "variant_id"))
+    private List<VariantType> type;
     
     @Transient
     private String productName;
@@ -88,11 +88,12 @@ public class Variant {
 		this.description = description;
 	}
 
-	public VariantType getType() {
+	
+	public List<VariantType> getType() {
 		return type;
 	}
 
-	public void setType(VariantType type) {
+	public void setType(List<VariantType> type) {
 		this.type = type;
 	}
 

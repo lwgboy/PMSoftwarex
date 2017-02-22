@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -178,6 +179,10 @@ public class ProductController {
         }
         try
         {
+        	List<Tag> emptyTags=product.getTags().stream().filter(tag->tag.getType()==null).collect(Collectors.toList());
+        	product.getTags().removeAll(emptyTags);
+        	List<Vendor> emptyVendors=product.getVendors().stream().filter(vendor->vendor.getId()==null).collect(Collectors.toList());
+        	product.getVendors().removeAll(emptyVendors);
         	ProductUtils.processSKU(product,variantService);
         	productService.saveAndFlush(product);
         	int count=1;

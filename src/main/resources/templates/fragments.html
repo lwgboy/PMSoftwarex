@@ -40,83 +40,79 @@
 	</section>
 
 	<script th:fragment="footer_script">
-jQuery(document).ready(function () {
+		jQuery(document).ready(function() {
 
-	var cTable = $('#dataTables-example').dataTable();
-	populate_basic_table("/product/list", cTable, "product");
-	var files = new Array();
-	var sid=(id || 0);
-	$.ajax(
-		    {
-			    url: "/product/images/"+sid,
-				dataType: 'json',
-				success: function(s)
-				{
-					var loc=window.location.origin;
-				    $.each(s, function(i, x)
-				    {
-						files.push(loc+x.image);
-				    });
-				    
-				    $("#input-pd").fileinput({
-				        uploadUrl: "/file-upload-batch/1",
-				        uploadAsync: false,
-				        /* minFileCount: 2,
-				        maxFileCount: 5, */
-				        overwriteInitial: false,
-				        initialPreview: files,
-				        /* initialPreview: [
-				            // IMAGE DATA
-				            "http://localhost:8080/product_images/10/10_5Koala.jpg",
-				            // IMAGE DATA
-				            "http://kartik-v.github.io/bootstrap-fileinput-samples/samples/Lighthouse.jpg",
-				            // VIDEO DATA
-				            "http://kartik-v.github.io/bootstrap-fileinput-samples/samples/small.mp4",
-				            // PDF DATA
-				            'http://kartik-v.github.io/bootstrap-fileinput-samples/samples/pdf-sample.pdf',
-				            // TEXT DATA
-				            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut mauris ut libero fermentum feugiat eu et dui. Mauris condimentum rhoncus enim, sed semper neque vestibulum id. Nulla semper, turpis ut consequat imperdiet, enim turpis aliquet orci, eget venenatis elit sapien non ante. Aliquam neque ipsum, rhoncus id ipsum et, volutpat tincidunt augue. Maecenas dolor libero, gravida nec est at, commodo tempor massa. Sed id feugiat massa. Pellentesque at est eu ante aliquam viverra ac sed est.",
-				            // HTML DATA
-				            '<div class="text-center">' + 
-				            '<h3>Lorem Ipsum</h3>' + 
-				            '<p><em>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</em></p>' + 
-				            '<h5><small>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</small></h5>' + 
-				            '<hr/>' + 
-				            '</div>' + 
-				            '<div class="text-justify">' + 
-				            '<p>' + 
-				            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed convallis convallis dolor sed dignissim. Phasellus euismod mauris vel dolor maximus, sed fermentum mauris lobortis. Aliquam luctus, diam in luctus egestas, magna lacus luctus libero, scelerisque mattis ante dolor ac nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse varius orci ultricies massa euismod, at semper turpis fermentum. Quisque vitae augue vel lectus viverra facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla lacinia molestie diam, et volutpat nunc bibendum a. Cras a est sed augue commodo accumsan quis vitae nisi.' + 
-				            '</p>' + 
-				            '<p>' + 
-				            'Nunc sit amet metus et dui aliquet feugiat. Praesent lobortis, ipsum et elementum dignissim, urna libero fringilla justo, at tincidunt nisi mi sed mi. Integer vel est porttitor, tempor tortor non, lobortis felis. Curabitur porttitor nisi et volutpat iaculis. Fusce nec feugiat lectus, vitae ullamcorper lorem. Ut ultrices nunc imperdiet placerat malesuada. Proin commodo erat in egestas maximus.' + 
-				            '</p></div>'
-				        ] */
-				        initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
-				        initialPreviewFileType: 'image', // image is the default and can be overridden in config below
-				        /* initialPreviewConfig: [
-				            {caption: "Desert.jpg", size: 827000, width: "120px", url: "/file-upload-batch/2", key: 1},
-				            {caption: "Lighthouse.jpg", size: 549000, width: "120px", url: "/file-upload-batch/2", key: 2}, 
-				            {type: "video", size: 375000, filetype: "video/mp4", caption: "KrajeeSample.mp4", url: "/file-upload-batch/2", key: 3}, 
-				            {type: "pdf", size: 8000, caption: "About.pdf", url: "/file-upload-batch/2", key: 4},
-				            {type: "text", size: 1430, caption: "LoremIpsum.txt", url: "/file-upload-batch/2", key: 5}, 
-				            {type: "html", size: 35500000000, caption: "LoremIpsum.html", url: "/file-upload-batch/2", key: 6}
-				        ], */
-				        purifyHtml: true, // this by default purifies HTML data for preview
-				        /* uploadExtraData: {
-				            img_key: "1000",
-				            img_keywords: "happy, places",
-				        } */
-				    }).on('filesorted', function(e, params) {
-				        console.log('File sorted params', params);
-				    }).on('fileuploaded', function(e, params) {
-				        console.log('File uploaded params', params);
-				    });
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/product/list", cTable, "product");
+			var files = new Array();
+			var sid = (id || 0);
+			$.ajax({
+				url : "/product/images/" + sid,
+				dataType : 'json',
+				success : function(s) {
+					var loc = window.location.origin;
+					$.each(s, function(i, x) {
+						files.push(loc + x.image);
+					});
+
+					$("#input-pd").fileinput({
+						uploadUrl : "/file-upload-batch/1",
+						uploadAsync : false,
+						/* minFileCount: 2,
+						maxFileCount: 5, */
+						overwriteInitial : false,
+						initialPreview : files,
+						/* initialPreview: [
+						    // IMAGE DATA
+						    "http://localhost:8080/product_images/10/10_5Koala.jpg",
+						    // IMAGE DATA
+						    "http://kartik-v.github.io/bootstrap-fileinput-samples/samples/Lighthouse.jpg",
+						    // VIDEO DATA
+						    "http://kartik-v.github.io/bootstrap-fileinput-samples/samples/small.mp4",
+						    // PDF DATA
+						    'http://kartik-v.github.io/bootstrap-fileinput-samples/samples/pdf-sample.pdf',
+						    // TEXT DATA
+						    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut mauris ut libero fermentum feugiat eu et dui. Mauris condimentum rhoncus enim, sed semper neque vestibulum id. Nulla semper, turpis ut consequat imperdiet, enim turpis aliquet orci, eget venenatis elit sapien non ante. Aliquam neque ipsum, rhoncus id ipsum et, volutpat tincidunt augue. Maecenas dolor libero, gravida nec est at, commodo tempor massa. Sed id feugiat massa. Pellentesque at est eu ante aliquam viverra ac sed est.",
+						    // HTML DATA
+						    '<div class="text-center">' + 
+						    '<h3>Lorem Ipsum</h3>' + 
+						    '<p><em>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</em></p>' + 
+						    '<h5><small>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</small></h5>' + 
+						    '<hr/>' + 
+						    '</div>' + 
+						    '<div class="text-justify">' + 
+						    '<p>' + 
+						    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed convallis convallis dolor sed dignissim. Phasellus euismod mauris vel dolor maximus, sed fermentum mauris lobortis. Aliquam luctus, diam in luctus egestas, magna lacus luctus libero, scelerisque mattis ante dolor ac nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse varius orci ultricies massa euismod, at semper turpis fermentum. Quisque vitae augue vel lectus viverra facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla lacinia molestie diam, et volutpat nunc bibendum a. Cras a est sed augue commodo accumsan quis vitae nisi.' + 
+						    '</p>' + 
+						    '<p>' + 
+						    'Nunc sit amet metus et dui aliquet feugiat. Praesent lobortis, ipsum et elementum dignissim, urna libero fringilla justo, at tincidunt nisi mi sed mi. Integer vel est porttitor, tempor tortor non, lobortis felis. Curabitur porttitor nisi et volutpat iaculis. Fusce nec feugiat lectus, vitae ullamcorper lorem. Ut ultrices nunc imperdiet placerat malesuada. Proin commodo erat in egestas maximus.' + 
+						    '</p></div>'
+						] */
+						initialPreviewAsData : true, // identify if you are sending preview data only and not the raw markup
+						initialPreviewFileType : 'image', // image is the default and can be overridden in config below
+						/* initialPreviewConfig: [
+						    {caption: "Desert.jpg", size: 827000, width: "120px", url: "/file-upload-batch/2", key: 1},
+						    {caption: "Lighthouse.jpg", size: 549000, width: "120px", url: "/file-upload-batch/2", key: 2}, 
+						    {type: "video", size: 375000, filetype: "video/mp4", caption: "KrajeeSample.mp4", url: "/file-upload-batch/2", key: 3}, 
+						    {type: "pdf", size: 8000, caption: "About.pdf", url: "/file-upload-batch/2", key: 4},
+						    {type: "text", size: 1430, caption: "LoremIpsum.txt", url: "/file-upload-batch/2", key: 5}, 
+						    {type: "html", size: 35500000000, caption: "LoremIpsum.html", url: "/file-upload-batch/2", key: 6}
+						], */
+						purifyHtml : true, // this by default purifies HTML data for preview
+					/* uploadExtraData: {
+					    img_key: "1000",
+					    img_keywords: "happy, places",
+					} */
+					}).on('filesorted', function(e, params) {
+						console.log('File sorted params', params);
+					}).on('fileuploaded', function(e, params) {
+						console.log('File uploaded params', params);
+					});
 				}
-		    });
-		    
+			});
 
-});
-</script>
+		});
+	</script>
 
 	<div class="col-lg-9" th:fragment="preProduct(update,button)">
 		<div class="panel panel-default">
@@ -125,52 +121,52 @@ jQuery(document).ready(function () {
 			<div class="panel-body">
 				<!-- Nav tabs -->
 				<div class="col-lg-7">
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#category" data-toggle="tab"
-						aria-expanded="true">Primary Category</a></li>
-					<li class=""><a href="#division" data-toggle="tab"
-						aria-expanded="false">Primary Division</a></li>
-					<li class=""><a href="#section" data-toggle="tab"
-						aria-expanded="false">Primary Section</a></li>
-					<li class=""><a href="#style" data-toggle="tab"
-						aria-expanded="false">Style</a></li>
-					<li class=""><a href="#brand" data-toggle="tab"
-						aria-expanded="false">Brand</a></li>
-				</ul>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#category" data-toggle="tab"
+							aria-expanded="true">Primary Category</a></li>
+						<li class=""><a href="#division" data-toggle="tab"
+							aria-expanded="false">Primary Division</a></li>
+						<li class=""><a href="#section" data-toggle="tab"
+							aria-expanded="false">Primary Section</a></li>
+						<li class=""><a href="#style" data-toggle="tab"
+							aria-expanded="false">Style</a></li>
+						<li class=""><a href="#brand" data-toggle="tab"
+							aria-expanded="false">Brand</a></li>
+					</ul>
 
-				<!-- Tab panes -->
-				<div class="tab-content">
-					<div class="tab-pane fade active in" id="category">
-						<input class="category form-control" th:field="*{category.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{category.id}" type="hidden" />
-					</div>
-					<div class="tab-pane fade" id="division">
-						<input class="division form-control" th:field="*{division.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{division.id}" type="hidden" />
-					</div>
-					<div class="tab-pane fade" id="section">
-						<div id="scrollable-dropdown-menu">
-							<input class="section form-control" th:field="*{section.name}"
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane fade active in" id="category">
+							<input class="category form-control" th:field="*{category.name}"
 								type="text" autocomplete="off" /> <input class="form-control"
-								th:field="*{section.id}" type="hidden" />
+								th:field="*{category.id}" type="hidden" />
+						</div>
+						<div class="tab-pane fade" id="division">
+							<input class="division form-control" th:field="*{division.name}"
+								type="text" autocomplete="off" /> <input class="form-control"
+								th:field="*{division.id}" type="hidden" />
+						</div>
+						<div class="tab-pane fade" id="section">
+							<div id="scrollable-dropdown-menu">
+								<input class="section form-control" th:field="*{section.name}"
+									type="text" autocomplete="off" /> <input class="form-control"
+									th:field="*{section.id}" type="hidden" />
+							</div>
+						</div>
+						<div class="tab-pane fade" id="style">
+							<input class="style form-control" th:field="*{style.name}"
+								type="text" autocomplete="off" /> <input class="form-control"
+								th:field="*{style.id}" type="hidden" />
+						</div>
+						<div class="tab-pane fade" id="brand">
+							<input class="designBrand form-control" th:field="*{brand.name}"
+								type="text" autocomplete="off" /> <input class="form-control"
+								th:field="*{brand.id}" type="hidden" />
 						</div>
 					</div>
-					<div class="tab-pane fade" id="style">
-						<input class="style form-control" th:field="*{style.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{style.id}" type="hidden" />
-					</div>
-					<div class="tab-pane fade" id="brand">
-						<input class="designBrand form-control" th:field="*{brand.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{brand.id}" type="hidden" />
-					</div>
-				</div>
 				</div>
 				<div class="col-lg-2">
-					<div class="form-group"  th:if='${update}'>
+					<div class="form-group" th:if='${update}'>
 						<a th:href="|/product/clone/${id}|">
 							<button type="button" class="btn btn-outline btn-info clone">
 								<i class="fa fa-clone" aria-hidden="true"></i> Clone
@@ -183,20 +179,63 @@ jQuery(document).ready(function () {
 		</div>
 		<!-- /.panel -->
 	</div>
-					<div class="list form-group" th:fragment="tags">
-					<div class="alert alert-info alert-dismissable"
-						 th:each="var, tagStat : *{tags}">
-						<label th:text="${var.type.name}" class="alert-label"></label> <input
-							class="form-control"
-							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
-							<input
-							class="form-control"
-							th:field="*{tags[__${tagStat.index}__].type.name}" type="hidden" />
-							<button type="button" class="close" data-dismiss="alert"
-							aria-hidden="true">x</button>
-					</div>
-				</div>
+	<div class="taglist form-group" th:fragment="tags">
+		<div class="alert alert-info alert-dismissable"
+			th:each="var, tagStat : *{tags}">
+			<span th:if="${var.type}"> <label th:text="${var.type.name}"
+				class="alert-label"></label> <input class="form-control"
+				th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" /> <input
+				class="form-control"
+				th:field="*{tags[__${tagStat.index}__].type.name}" type="hidden" />
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">x</button>
+			</span>
+		</div>
+	</div>
+	<div class="variantlist form-group" th:fragment="variants">
+		<div class="alert alert-info alert-dismissable"
+			th:each="var, variantStat : *{variants}">
+			<span th:if="${var.type}"><label th:text="${var.type.name}" class="alert-label"></label> <input
+				class="form-control"
+				th:field="*{variants[__${variantStat.index}__].type.id}"
+				type="hidden" /> <input class="form-control"
+				th:field="*{variants[__${variantStat.index}__].type.name}"
+				type="hidden" />
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">x</button>
+				</span>
+		</div>
+	</div>
+	<div class="productvariantlist form-group" th:fragment="productvariants">
+		<div class="alert alert-info alert-dismissable"
+			th:each="tar, typeStat : *{variants[__${variantStat.index}__].type}">
+			<span th:if="${tar.type}"><label th:text="${tar.type.name}" class="alert-label"></label> <input
+				class="form-control"
+				th:field="*{variants[__${variantStat.index}__].type[__${typeStat.index}__].id}"
+				type="hidden" /> <input class="form-control"
+				th:field="*{variants[__${variantStat.index}__].type[__${typeStat.index}__].name}"
+				type="hidden" />
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">x</button>
+				</span>
+		</div>
+	</div>
 	
+	
+	<div class="vendorlist form-group" th:fragment="vendors">
+		<div class="alert alert-info alert-dismissable"
+			th:each="var, vendorStat : *{vendors}">
+			<span th:if="${var}"> <label th:text="${var.name}"
+				class="alert-label"></label> <input class="form-control"
+				th:field="*{vendors[__${vendorStat.index}__].id}" type="hidden" />
+				<input class="form-control"
+				th:field="*{vendors[__${vendorStat.index}__].name}" type="hidden" />
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">x</button>
+			</span>
+		</div>
+	</div>
+
 	<div th:fragment="brand(update,button)">
 		<div class="row">
 			<div class="col-lg-6">
@@ -229,43 +268,32 @@ jQuery(document).ready(function () {
 				</div>
 			</div>
 			<div class="col-lg-6">
-			<div class="form-group"  th:if='${update}'>
-				<a th:href="|/brand/clone/${id}|">
+				<div class="form-group" th:if='${update}'>
+					<a th:href="|/brand/clone/${id}|">
 						<button type="button" class="btn btn-outline btn-info clone">
 							<i class="fa fa-clone" aria-hidden="true"></i> Clone
 						</button>
 					</a>
-			</div>
-			
-				<div class="form-group" id="scrollable-dropdown-menu">
-					<label>Tags</label> <input class="tagType form-control"
-						type="text" autocomplete="off" />
-					<button type="submit" style="display: none" name="addTag"
-						id="addTag" class="btn btn-info btn-xs">
-					</button>
-					
-					
-				</div>
-				<div th:include="fragments::tags"></div>
-				
-				<div class="form-group" th:each="var, variantStat : *{variants}">
-					<label th:text="|Variant ${variantStat.count}|"></label>
-					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
-                            </button> -->
-					<div id="scrollable-dropdown-menu">
-						<input class="variantType form-control"
-							th:field="*{variants[__${variantStat.index}__].type.name}"
-							type="text" autocomplete="off" /> <input class="form-control"
-							th:field="*{variants[__${variantStat.index}__].type.id}"
-							type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<button type="submit" name="addVariant" class="btn btn-info btn-xs">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
-					</button>
 				</div>
 
+				<div class="form-group" id="scrollable-dropdown-menu">
+					<label>Tags</label> <input class="tagType form-control" type="text"
+						autocomplete="off" />
+					<button type="submit" style="display: none" name="addTag"
+						id="addTag" class="btn btn-info btn-xs"></button>
+
+
+				</div>
+				<div class="taglist" th:include="fragments::tags"></div>
+
+				<div class="form-group" id="scrollable-dropdown-menu">
+					<label>Variants</label> <input
+						class="variantType_brand form-control" type="text"
+						autocomplete="off" />
+					<button type="submit" style="display: none" name="addVariant"
+						id="addVariant" class="btn btn-info btn-xs"></button>
+				</div>
+				<div class="variantlist" th:include="fragments::variants"></div>
 
 			</div>
 		</div>
@@ -330,38 +358,26 @@ jQuery(document).ready(function () {
 					<label>Indicatory Cost</label> <input type="text"
 						th:field="*{indicatoryCost}" class="form-control" />
 				</div>
-				<div class="form-group" th:each="var, tagStat : *{tags}">
-					<label th:text="|Tag ${tagStat.count}|"></label>
-					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
-                            </button> -->
-					<div id="scrollable-dropdown-menu">
-						<input class="tagType form-control"
-							th:field="*{tags[__${tagStat.index}__].type.name}" type="text"
-							autocomplete="off" /> <input class="form-control"
-							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
-					</div>
+				<div class="form-group" id="scrollable-dropdown-menu">
+					<label>Tags</label> <input class="tagType form-control" type="text"
+						autocomplete="off" />
+					<button type="submit" style="display: none" name="addTag"
+						id="addTag" class="btn btn-info btn-xs"></button>
+
+
 				</div>
-				<div class="form-group">
-					<button type="submit" name="addTag" class="btn btn-info btn-xs">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Tag
-					</button>
+				<div class="taglist" th:include="fragments::tags"></div>
+
+				<div class="form-group" id="scrollable-dropdown-menu">
+					<label>Vendors</label> <input class="product_vendor form-control"
+						type="text" autocomplete="off" />
+					<button type="submit" style="display: none" name="addVendor"
+						id="addVendor" class="btn btn-info btn-xs"></button>
+
+
 				</div>
-				<div class="form-group" th:each="var, vendorStat : *{vendors}">
-					<label th:text="|Vendor ${vendorStat.count}|"></label>
-					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
-                            </button> -->
-					<div id="scrollable-dropdown-menu">
-						<input class="vendor form-control"
-							th:field="*{vendors[__${vendorStat.index}__].name}" type="text"
-							autocomplete="off" /> <input class="form-control"
-							th:field="*{vendors[__${vendorStat.index}__].id}" type="hidden" />
-					</div>
-				</div>
-				<div class="form-group">
-					<button type="submit" name="addVendor" class="btn btn-info btn-xs">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Vendor
-					</button>
-				</div>
+				<div class="vendorlist" th:include="fragments::vendors"></div>
+
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -407,15 +423,15 @@ jQuery(document).ready(function () {
 										</button>
 									</td>
 									<td>
-										<div id="scrollable-dropdown-menu">
-											<input
-												th:field="*{variants[__${variantStat.index}__].type.name}"
-												type="text"
-												class="variantType_brand form-control"
-												autocomplete="off" /> <input
-												th:field="*{variants[__${variantStat.index}__].type.id}"
-												type="hidden" class="form-control" />
+										<div class="form-group" id="scrollable-dropdown-menu">
+											 <input
+												class="variantType_product form-control" type="text"
+												autocomplete="off" />
+											<button type="submit" style="display: none" name="addVariant"
+												id="addVariant" class="btn btn-info btn-xs"></button>
 										</div>
+										<div class="productvariantlist"
+											th:include="fragments::productvariants"></div>
 									</td>
 									<td><input type="hidden"
 										th:field="*{variants[__${variantStat.index}__].id}"
@@ -508,14 +524,15 @@ jQuery(document).ready(function () {
 					<p th:text="${#fields.allErrors()[0]}">...</p>
 				</div>
 				<script th:inline="javascript">
-							/*<![CDATA[*/
+					/*<![CDATA[*/
 
-							var id = /*[[${product.id}]]*/'0';
+					var id = /*[[${product.id}]]*/'0';
 
-							/*]]>*/
-						</script>
+					/*]]>*/
+				</script>
 				<div class="form-group">
-					<button type="submit" name="save" class="btn btn-primary" th:switch="${button}">
+					<button type="submit" name="save" class="btn btn-primary"
+						th:switch="${button}">
 						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
 						<i th:case="Update" class="fa fa-floppy-o fa-lg"
 							aria-hidden="true"></i> <span th:text="${button}"></span>
@@ -1099,11 +1116,11 @@ jQuery(document).ready(function () {
 					<label>Vendor Firm</label>
 					<div id="scrollable-dropdown-menu">
 						<input class="vendorFirm form-control" th:field="*{vendorFirm}"
-							type="text" autocomplete="off" /> 
+							type="text" autocomplete="off" />
 					</div>
 
 				</div>
-				
+
 				<div class="form-group">
 					<label>Purchase Invoice Date</label> <input type="date"
 						data-th-field="*{purchaseInvoiceDate}" class="form-control" />
@@ -1133,8 +1150,7 @@ jQuery(document).ready(function () {
 							<tbody
 								th:each="var, purchaseInvoiceItemStat : *{purchaseInvoiceItems}">
 								<tr>
-								<th
-										th:text="|Item ${purchaseInvoiceItemStat.count}|"></th>
+									<th th:text="|Item ${purchaseInvoiceItemStat.count}|"></th>
 									<th><button type="submit" name="removePurchaseOrderItem"
 											class="btn btn-danger btn-xs"
 											th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo}: ${purchaseInvoiceItemStat.count} )">
@@ -1149,17 +1165,19 @@ jQuery(document).ready(function () {
 										type="hidden" class="form-control" /> <input
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].purchaseInvoiceId}"
 										type="hidden" class="form-control" /></th>
-										<td><label><input type="checkbox" th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].approved}" />Approved</label></td>
-										<td>
-											<button type="submit" name="addProduct"
+									<td><label><input type="checkbox"
+											th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].approved}" />Approved</label></td>
+									<td>
+										<button type="submit" name="addProduct"
 											class="btn btn-info btn-xs"
 											th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo}: ${purchaseInvoiceItemStat.count} )">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i> Add Defective Item
+											<i class="fa fa-plus-circle" aria-hidden="true"></i> Add
+											Defective Item
 										</button>
-										</td>
-									
+									</td>
+
 								</tr>
-								
+
 								<tr>
 									<th>Design</th>
 									<td>
@@ -1187,13 +1205,13 @@ jQuery(document).ready(function () {
 										</div>
 									</td>
 								</tr>
-								
+
 								<tr>
 									<th>Quantity</th>
 									<td><input type="text"
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].quantity}"
 										class="quantity form-control" autocomplete='off' /></td>
-										<th>Measurement</th>
+									<th>Measurement</th>
 									<td>
 										<div id="scrollable-dropdown-menu">
 											<input type="text"
@@ -1204,14 +1222,14 @@ jQuery(document).ready(function () {
 												class="form-control" />
 										</div>
 									</td>
-								
+
 								</tr>
 								<tr>
 									<th>Price</th>
 									<td><input type="text"
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].rate}"
 										class="rate form-control" autocomplete='off' /></td>
-										<th>Discount</th>
+									<th>Discount</th>
 									<td><input type="text"
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].discount}"
 										class="discount form-control" /></td>

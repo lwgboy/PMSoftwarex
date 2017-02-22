@@ -1,7 +1,7 @@
 package org.tarak.pms.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -49,12 +49,12 @@ public class BrandController {
 
     private void addBrand(Model model)
     {
-    	List<Variant> variants=new ArrayList<Variant>();
+/*    	List<Variant> variants=new ArrayList<Variant>();
 		variants.add(new Variant());
-		/*List<Tag> tags=new ArrayList<Tag>();
+*/		/*List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
 		*/Brand brand=new Brand();
-		brand.setVariants(variants);
+//		brand.setVariants(variants);
 		//brand.setTags(tags);
         model.addAttribute("brand", brand);
     }
@@ -84,7 +84,7 @@ public class BrandController {
 
     @RequestMapping(value = "/add", params={"addVariant"}, method = RequestMethod.POST )
     public String addVariant(Brand brand, BindingResult result,Model model) {
-        brand.getVariants().add(new Variant());
+        //brand.getVariants().add(new Variant());
         return index(model);
     }
     
@@ -117,6 +117,10 @@ public class BrandController {
             	}
         	}
         	brand.setVariants(variants);*/
+        	List<Tag> emptyTags=brand.getTags().stream().filter(tag->tag.getType()==null).collect(Collectors.toList());
+        	brand.getTags().removeAll(emptyTags);
+        	List<Variant> emptyVariants=brand.getVariants().stream().filter(variant->variant.getType()==null).collect(Collectors.toList());
+        	brand.getVariants().removeAll(emptyVariants);
         	brandService.saveAndFlush(brand);
         }
         catch(DataIntegrityViolationException e)
