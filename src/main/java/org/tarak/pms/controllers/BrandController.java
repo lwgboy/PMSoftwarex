@@ -51,11 +51,11 @@ public class BrandController {
     {
     	List<Variant> variants=new ArrayList<Variant>();
 		variants.add(new Variant());
-		List<Tag> tags=new ArrayList<Tag>();
+		/*List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
-		Brand brand=new Brand();
+		*/Brand brand=new Brand();
 		brand.setVariants(variants);
-		brand.setTags(tags);
+		//brand.setTags(tags);
         model.addAttribute("brand", brand);
     }
     

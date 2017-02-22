@@ -646,3 +646,22 @@ p + p {
 {
 	float: right;
 }
+.alert
+{
+	padding: 0px;
+	margin-bottom: 5px;
+	display: inline-block;
+}
+.alert > .alert-label
+{
+	margin-bottom: 0px;
+}
+.alert-dismissable .close, .alert-dismissible .close
+{
+	right: 0px;
+	top: 0px;
+}
+.close
+{
+	float:initial;
+}

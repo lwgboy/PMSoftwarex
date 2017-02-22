@@ -288,13 +288,10 @@ $(document).ready(function() {
 			/*var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
 	    	$(idx).val(data.id);*/
 			var count=0;
-			if($('#tag_count') && $('#tag_count').val()!=undefined)
-			{
-				count=$('#tag_count').val();
-			}
+			for(;$('#tags'+count+'\\.type\\.id') && $('#tags'+count+'\\.type\\.id').val()!=undefined;count++ );
 			$('#addTag').show("fast");
-			$('#addTag').after("<input name=\"tags["+count+"].type.id type=\"hidden\" value=\""+data.id+"\" />");
-			$('#addTag').after("<input name=\"tags["+count+"].type.name type=\"hidden\" value=\""+data.name+"\" />");
+			$('#addTag').after("<input name=\"tags["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
+			$('#addTag').after("<input name=\"tags["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
 			$('#addTag').trigger('click');
 		},
 	    source:  function (query, process) 

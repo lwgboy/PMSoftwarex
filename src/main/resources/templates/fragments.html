@@ -183,11 +183,21 @@ jQuery(document).ready(function () {
 		</div>
 		<!-- /.panel -->
 	</div>
+					<div class="list form-group" th:fragment="tags">
+					<div class="alert alert-info alert-dismissable"
+						 th:each="var, tagStat : *{tags}">
+						<label th:text="${var.type.name}" class="alert-label"></label> <input
+							class="form-control"
+							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
+							<input
+							class="form-control"
+							th:field="*{tags[__${tagStat.index}__].type.name}" type="hidden" />
+							<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">x</button>
+					</div>
+				</div>
+	
 	<div th:fragment="brand(update,button)">
-	<div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
-                            </div>
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -232,23 +242,12 @@ jQuery(document).ready(function () {
 						type="text" autocomplete="off" />
 					<button type="submit" style="display: none" name="addTag"
 						id="addTag" class="btn btn-info btn-xs">
-						<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Variant
 					</button>
 					
 					
 				</div>
-				<div class="list form-group" th:each="var, tagStat : *{tags}">
-					<input type="hidden" id="tag_count" th:value="${tagStat.count}" />
-					<div class="alert alert-info alert-dismissable"
-						th:if="*{tags[__${tagStat.index}__].type}">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-hidden="true">×</button>
-						<label th:text="${var.type.name}"></label> <input
-							class="form-control"
-							th:field="*{tags[__${tagStat.index}__].type.id}" type="hidden" />
-					</div>
-				</div>
-
+				<div th:include="fragments::tags"></div>
+				
 				<div class="form-group" th:each="var, variantStat : *{variants}">
 					<label th:text="|Variant ${variantStat.count}|"></label>
 					<!-- <button type="submit" name="removeTag" class="btn btn-danger btn-circle-sm btn-xs"><i class="fa fa-times fa-fw"></i>
