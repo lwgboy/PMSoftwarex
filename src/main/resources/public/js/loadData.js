@@ -289,8 +289,8 @@ $(document).ready(function() {
 			for(;$('#tags'+count+'\\.type\\.id') && $('#tags'+count+'\\.type\\.id').val()!=undefined;count++ );
 			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
 			div.append("<label class=\"alert-label\">"+data.name+"</label>");
-			div.append("<input name=\"tags["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
-			div.append("<input name=\"tags["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<input name=\"tags["+count+"].type.id\" id=\"tags"+count+".type.id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"tags["+count+"].type.name\" id=\"tags"+count+".type.name\" type=\"hidden\" value=\""+data.name+"\" />");
 			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
 			$('.taglist').append(div);
 			$('.tagType').val('');
@@ -307,11 +307,11 @@ $(document).ready(function() {
 		afterSelect: function(data)
 		{
 			var count=0;
-			for(;$('#variants'+count+'\\.type\\.id') && $('#variants'+count+'\\.type\\.id').val()!=undefined;count++ );
+			for(;$('#variants'+count+'\\.type0\\.id') && $('#variants'+count+'\\.type0\\.id').val()!=undefined;count++ );
 			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
 			div.append("<label class=\"alert-label\">"+data.name+"</label>");
-			div.append("<input name=\"variants["+count+"].type.id\" type=\"hidden\" value=\""+data.id+"\" />");
-			div.append("<input name=\"variants["+count+"].type.name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<input name=\"variants["+count+"].type[0].id\" id=\"variants"+count+".type0.id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"variants["+count+"].type[0].name\" id=\"variants"+count+".type0.name\" type=\"hidden\" value=\""+data.name+"\" />");
 			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
 			$('.variantlist').append(div);
 			$('.variantType_brand').val('');
@@ -439,8 +439,8 @@ $(document).ready(function() {
 			for(;$('#vendors'+count+'\\.id') && $('#vendors'+count+'\\.id').val()!=undefined;count++ );
 			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
 			div.append("<label class=\"alert-label\">"+data.name+"</label>");
-			div.append("<input name=\"vendors["+count+"].id\" type=\"hidden\" value=\""+data.id+"\" />");
-			div.append("<input name=\"vendors["+count+"].name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<input name=\"vendors["+count+"].id\" id=\"vendors"+count+".id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"vendors["+count+"].name\" id=\"vendors"+count+".name\" type=\"hidden\" value=\""+data.name+"\" />");
 			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
 			$('.vendorlist').append(div);
 			$('.product_vendor').val('');

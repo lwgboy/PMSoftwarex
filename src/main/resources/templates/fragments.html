@@ -195,11 +195,11 @@
 	<div class="variantlist form-group" th:fragment="variants">
 		<div class="alert alert-info alert-dismissable"
 			th:each="var, variantStat : *{variants}">
-			<span th:if="${var.type}"><label th:text="${var.type.name}" class="alert-label"></label> <input
+			<span th:if="${var.type[0]}"><label th:text="${var.type[0].name}" class="alert-label"></label> <input
 				class="form-control"
-				th:field="*{variants[__${variantStat.index}__].type.id}"
+				th:field="*{variants[__${variantStat.index}__].type[0].id}"
 				type="hidden" /> <input class="form-control"
-				th:field="*{variants[__${variantStat.index}__].type.name}"
+				th:field="*{variants[__${variantStat.index}__].type[0].name}"
 				type="hidden" />
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">x</button>
