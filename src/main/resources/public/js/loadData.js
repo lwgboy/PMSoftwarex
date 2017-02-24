@@ -246,6 +246,21 @@ $(document).ready(function() {
 	    }
 	})
 	
+	$('input.variantType_product').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/variantType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
 	$('input.variant').typeahead({
 		afterSelect: function(data)
 		{

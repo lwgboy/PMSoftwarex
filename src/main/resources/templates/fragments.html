@@ -209,7 +209,7 @@
 	<div class="productvariantlist form-group" th:fragment="productvariants">
 		<div class="alert alert-info alert-dismissable"
 			th:each="tar, typeStat : *{variants[__${variantStat.index}__].type}">
-			<span th:if="${tar.type}"><label th:text="${tar.type.name}" class="alert-label"></label> <input
+			<span th:if="${tar}"><label th:text="${tar.name}" class="alert-label"></label> <input
 				class="form-control"
 				th:field="*{variants[__${variantStat.index}__].type[__${typeStat.index}__].id}"
 				type="hidden" /> <input class="form-control"
