@@ -1,5 +1,6 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,9 +25,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class Product {
+public class Product implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @Column(name = "product_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -56,7 +56,7 @@
 					});
 
 					$("#input-pd").fileinput({
-						uploadUrl : "/file-upload-batch/1",
+						uploadUrl : "/product/delete",
 						uploadAsync : false,
 						/* minFileCount: 2,
 						maxFileCount: 5, */
@@ -206,7 +206,22 @@
 				</span>
 		</div>
 	</div>
-	<div class="productvariantlist form-group" th:fragment="productvariants">
+	<div class="form-group" th:fragment="variants_pi">
+		<div class="alert alert-info alert-dismissable"
+			th:each="var, variantTypeStat : *{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.type}">
+			<span th:if="${var}"><label th:text="${var.name}" class="alert-label"></label> <input
+				class="form-control"
+				th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.type[__${variantTypeStat.index}__].id}"
+				type="hidden" /> <input class="form-control"
+				th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.type[__${variantTypeStat.index}__].name}"
+				type="hidden" />
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">x</button>
+				</span>
+		</div>
+	</div>
+	
+	<div class="form-group" th:fragment="productvariants">
 		<div class="alert alert-info alert-dismissable"
 			th:each="tar, typeStat : *{variants[__${variantStat.index}__].type}">
 			<span th:if="${tar}"><label th:text="${tar.name}" class="alert-label"></label> <input
@@ -343,7 +358,6 @@
 					<label><input type="checkbox" th:field="*{taxable}" />
 						Taxable</label>
 				</div>
-
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -363,8 +377,6 @@
 						autocomplete="off" />
 					<button type="submit" style="display: none" name="addTag"
 						id="addTag" class="btn btn-info btn-xs"></button>
-
-
 				</div>
 				<div class="taglist" th:include="fragments::tags"></div>
 
@@ -373,11 +385,8 @@
 						type="text" autocomplete="off" />
 					<button type="submit" style="display: none" name="addVendor"
 						id="addVendor" class="btn btn-info btn-xs"></button>
-
-
 				</div>
 				<div class="vendorlist" th:include="fragments::vendors"></div>
-
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -400,39 +409,28 @@
 					</div>
 					<div class="panel-body">
 						<table class="table table-striped table-bordered table-hover">
-							<thead>
-								<tr>
-									<th></th>
-									<th>Variant Type</th>
-									<th>Variant</th>
-									<th class="tb-width-sm">Quantity</th>
-									<th class="tb-width-sm">WSP Margin</th>
-									<th class="tb-width-md">WSP Price</th>
-									<th class="tb-width-sm">RSP Margin</th>
-									<th class="tb-width-md">RSP Price</th>
-									<th>Route</th>
-								</tr>
-							</thead>
 							<tbody th:each="var, variantStat : *{variants}">
 								<tr>
-									<td>
+									<td rowspan="2">
 										<button type="submit" name="removeVariant"
 											class="btn btn-danger btn-circle-sm btn-xs"
 											th:value="(*{variants[__${variantStat.index}__].srNo!=0} ?*{variants[__${variantStat.index}__].srNo}: ${variantStat.count} )">
 											<i class="fa fa-times fa-fw"></i>
 										</button>
 									</td>
-									<td>
+									<td rowspan="3">
+										Variant Type
 										<div class="form-group" id="scrollable-dropdown-menu">
 											 <input
 												class="variantType_product form-control" type="text"
-												autocomplete="off" />
+												autocomplete="off" th:id="${variantStat.count}" />
 											<button type="submit" style="display: none" name="addVariant"
 												id="addVariant" class="btn btn-info btn-xs"></button>
 										</div>
 										<div class="productvariantlist"
-											th:include="fragments::productvariants"></div>
+											th:include="fragments::productvariants" th:id="|vplist${variantStat.count}|"></div>
 									</td>
+									<th>Variant</th>
 									<td><input type="hidden"
 										th:field="*{variants[__${variantStat.index}__].id}"
 										class="form-control" /> <input type="hidden"
@@ -443,26 +441,35 @@
 										th:attr="name='variants[' + ${variantStat.index} + '].srNo'"
 										class="form-control"
 										th:value="(*{variants[__${variantStat.index}__].srNo!=0} ?*{variants[__${variantStat.index}__].srNo}: ${variantStat.count} )" /></td>
-
+									<th class="tb-width-sm">Quantity</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].quantity}"
 										class="form-control" /></td>
+									</tr>
+									<tr>
+									<th class="tb-width-sm">WSP Margin</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].wspMargin}"
 										class="form-control" /></td>
+									<th class="tb-width-md">WSP Price</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].wspPrice}"
 										class="form-control" /></td>
+									</tr><tr>
+									<td>
+									<p><a href="/product/addRoute"
+										th:id="|variantRoute${variantStat.count}|"
+										class="variantRoute"><i class="fa fa-plus fa-lg"
+											aria-hidden="true">Route</i></a></p>
+									</td>
+									<th class="tb-width-sm">RSP Margin</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].rspMargin}"
 										class="form-control" /></td>
+									<th class="tb-width-md">RSP Price</th>	
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].rspPrice}"
 										class="form-control" /></td>
-									<td><a href="/product/addRoute"
-										th:id="|variantRoute${variantStat.count}|"
-										class="variantRoute"><i class="fa fa-plus fa-lg"
-											aria-hidden="true"></i></a></td>
 								</tr>
 								<tr th:if="*{variants[__${variantStat.index}__].variantRoutes}"
 									th:id="|variantRouteRow${variantStat.count}|"
@@ -903,9 +910,9 @@
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].poDate}"
 										class="form-control" autocomplete="off" />
 									</th>
-									<td>Date<input type="date"
+									<th>Date<input type="date"
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].deliveryDate}"
-										class="form-control" autocomplete="off" /></td>
+										class="form-control" autocomplete="off" /></th>
 
 									<th>Quantity</th>
 									<td><input type="text"
@@ -1164,11 +1171,15 @@
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].finYear}"
 										type="hidden" class="form-control" /> <input
 										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].purchaseInvoiceId}"
-										type="hidden" class="form-control" /></th>
+										type="hidden" class="form-control" />
+										<input
+										th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].defective}"
+										type="hidden" class="form-control" />
+										</th>
 									<td><label><input type="checkbox"
 											th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].approved}" />Approved</label></td>
 									<td>
-										<button type="submit" name="addProduct"
+										<button type="submit" name="defectProduct"
 											class="btn btn-info btn-xs"
 											th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].srNo}: ${purchaseInvoiceItemStat.count} )">
 											<i class="fa fa-plus-circle" aria-hidden="true"></i> Add
@@ -1241,43 +1252,53 @@
 											<tbody>
 												<tr>
 													<th></th>
-													<th>Design</th>
-													<th>Variant</th>
+													<th>Variant Type</th>
+													<th>Variant Name</th>
 													<th>Quantity</th>
+													<th>Price</th>
 												</tr>
 												<tr
-													th:each="prd, productItemStat : *{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems}">
+													th:each="prd, productItemStat : *{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems}" th:if="${prd.variant} and ${prd.variant.isDefective()} == true">
 													<td>
-														<button th:if="${var.brand}" type="submit"
-															name="removeProduct" class="btn btn-danger btn-xs"
-															th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].id!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].id}: ${productItemStat.count} )">
+														<input type="hidden"
+										th:attr="name='purchaseInvoiceItems[' + ${purchaseInvoiceItemStat.index} + '].productItems['+ ${productItemStat.index}+'].srNo'"
+										class="form-control"
+										th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].srNo!=0 and purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].srNo!=''} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].srNo}: ${productItemStat.count} )" />
+														
+														<button  type="submit"
+															name="removeDefectProduct" class="btn btn-danger btn-xs"
+															th:value="(*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].srNo!=0} ?*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].srNo}: ${productItemStat.count} )">
 															<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
-														</button> <input type="hidden"
+														</button>
+												<input type="hidden"
 														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].id}"
+														class="form-control" />														
+														
+														<input type="hidden"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].product.id}"
+														class="form-control" />														
+												
+														<input type="hidden"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.defective}"
+														class="form-control" />
+														<input type="hidden"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.id}"
 														class="form-control" />
 													</td>
-													<td>
-														<div id="scrollable-dropdown-menu">
-															<input type="text"
-																th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].product.name}"
-																class="product form-control" autocomplete="off" /> <input
-																type="hidden"
-																th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].product.id}"
-																class="form-control" />
-														</div>
-													</td>
-													<td>
-														<div id="scrollable-dropdown-menu">
-															<input type="text"
-																th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.name}"
-																class="product_variant form-control" autocomplete="off" />
-															<input type="hidden"
-																th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.id}"
-																class="form-control" />
-														</div>
+													<td><input class="variantType_pi form-control"
+														type="text" autocomplete="off" th:id="|${purchaseInvoiceItemStat.count-1}_${productItemStat.count-1}|" />
+														<div class="variantlist_pi" th:include="fragments::variants_pi" th:id="|pilist${purchaseInvoiceItemStat.count-1}_${productItemStat.count-1}|"></div>
+
 													</td>
 													<td><input type="text"
-														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].quantity}"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.name}"
+														class="form-control" />	
+													</td>
+													<td><input type="text"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.quantity}"
+														class="tb-width-sm form-control" /></td>
+														<td><input type="text"
+														th:field="*{purchaseInvoiceItems[__${purchaseInvoiceItemStat.index}__].productItems[__${productItemStat.index}__].variant.cost}"
 														class="tb-width-sm form-control" /></td>
 												</tr>
 											</tbody>

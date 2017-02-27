@@ -249,8 +249,16 @@ $(document).ready(function() {
 	$('input.variantType_product').typeahead({
 		afterSelect: function(data)
 		{
-			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
-	    	$(idx).val(data.id);
+			var count=$(this)[0].$element[0].id;
+			var tcount=0
+			for(;$('#variants'+count+'\\.type'+tcount+'\\.id') && $('#variants'+count+'\\.type'+tcount+'\\.id').val()!=undefined;tcount++ );
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data.name+"</label>");
+			div.append("<input name=\"variants["+count+"].type["+tcount+"].id\" id=\"variants"+count+".type"+tcount+".id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"variants["+count+"].type["+tcount+"].name\" id=\"variants"+count+".type"+tcount+".name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('#vplist'+count).append(div);
+			$('.variantType_product').val('');
 		},
 	    source:  function (query, process) 
 	    {
@@ -330,6 +338,31 @@ $(document).ready(function() {
 			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
 			$('.variantlist').append(div);
 			$('.variantType_brand').val('');
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/variantType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
+	$('input.variantType_pi').typeahead({
+		afterSelect: function(data)
+		{
+			var count=$(this)[0].$element[0].id;
+			var pii=count.split("_")[0];
+			var pi=count.split("_")[1];
+			var tcount=0
+			for(;$("#purchaseInvoiceItems"+pii+"\\.productItems"+pi+"\\.variant\\.type"+tcount+"\\.id") && $("#purchaseInvoiceItems"+pii+"\\.productItems"+pi+"\\.variant\\.type"+tcount+"\\.id").val()!=undefined;tcount++ );
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data.name+"</label>");
+			div.append("<input name=\"purchaseInvoiceItems["+pii+"].productItems["+pi+"].variant.type["+tcount+"].id\" id=\"purchaseInvoiceItems"+pii+".productItems"+pi+".variant.type"+tcount+".id\" type=\"hidden\" value=\""+data.id+"\" />");
+			div.append("<input name=\"purchaseInvoiceItems["+pii+"].productItems["+pi+"].variant.type["+tcount+"].name\" id=\"purchaseInvoiceItems"+pii+".productItems"+pi+".variant.type"+tcount+".name\" type=\"hidden\" value=\""+data.name+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('#pilist'+count).append(div);
+			$('.variantType_pi').val('');
 		},
 	    source:  function (query, process) 
 	    {

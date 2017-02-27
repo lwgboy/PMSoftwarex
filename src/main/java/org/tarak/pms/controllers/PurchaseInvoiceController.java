@@ -2,10 +2,12 @@ package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -17,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.GoodsReceiveChallan;
+import org.tarak.pms.models.Product;
+import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseInvoiceItem;
 import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseInvoiceService;
+import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.services.VariantService;
 import org.tarak.pms.utils.PurchaseInvoiceUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -32,12 +38,17 @@ import org.tarak.pms.utils.UserUtils;
 @Controller
 public class PurchaseInvoiceController {
 
-    @Autowired
+	@Autowired
     private PurchaseInvoiceService purchaseInvoiceService;
     
-    @Autowired
+	@Autowired
+    private VariantService variantService;
+	
+	@Autowired
     private GoodsReceiveChallanService goodsReceiveChallanService;
 
+    @Autowired
+    private ServiceInterface<Product, Integer> productService;
 
     @Autowired
 	private HttpSession session;
@@ -113,6 +124,21 @@ public class PurchaseInvoiceController {
 					item.setFinYear(finYear);
 				}
 			}
+			purchaseInvoice.getPurchaseInvoiceItems().stream().filter(item->item.isDefective()).forEach(piitem->
+			{
+				Product p2=productService.findOne(piitem.getProductItems().get(0).getProduct().getId());
+				piitem.getProductItems().stream().filter(pi->pi.getVariant().isDefective()).forEach(piv->
+				{
+					p2.getVariants().stream().filter(var -> var.getId()==piv.getVariant().getId()).findFirst().map(i -> {
+						i=piv.getVariant();
+						return i;
+					}).orElseGet(()->{
+						p2.getVariants().add(piv.getVariant());
+						return piv.getVariant();
+					});
+				});
+				productService.saveAndFlush(p2);
+			});
     	}
 		else
 		{
@@ -167,5 +193,28 @@ public class PurchaseInvoiceController {
     	prepareModel(model);
     	return "purchaseInvoice/edit";
     }
-   
+    @RequestMapping(value = "/add", params={"defectProduct"}, method = RequestMethod.POST )
+    public String addDefectiveItem(PurchaseInvoice purchaseInvoice, BindingResult result,Model model,@RequestParam int defectProduct) 
+	{
+		purchaseInvoice.getPurchaseInvoiceItems().stream().filter(item -> item.getSrNo() == defectProduct).findFirst()
+				.ifPresent(i -> {
+					i.setDefective(true);
+					ProductItem pi;
+					pi = (ProductItem) SerializationUtils.clone(i.getProductItems().get(0));
+					pi.setQuantity(0);
+					pi.getVariant().setDefective(true);
+					pi.getVariant().setId(null);
+					pi.getVariant().setName("");
+					i.getProductItems().add(pi);
+        });
+    	return index(model);
+    }
+    
+    @RequestMapping(value = "/add", params={"removeDefectProduct"}, method = RequestMethod.POST )
+    public String removeDefectiveItem(PurchaseInvoice purchaseInvoice, BindingResult result,Model model,@RequestParam int removeDefectProduct) 
+	{
+		purchaseInvoice.getPurchaseInvoiceItems().stream().forEach(item-> {
+			item.getProductItems().stream().filter(pitem-> pitem.getId()!=removeDefectProduct).collect(Collectors.toList());});
+    	return index(model);
+    }
 }

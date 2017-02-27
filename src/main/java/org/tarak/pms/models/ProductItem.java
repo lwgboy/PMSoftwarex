@@ -1,5 +1,7 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +14,19 @@ import javax.persistence.ManyToOne;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class ProductItem {
+public class ProductItem implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @Column(name = "Product_Item_Id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+	
+	private int srNo;
 
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Product_Id")
@@ -60,6 +69,13 @@ public class ProductItem {
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-    
-    
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
+	}
+     
 }

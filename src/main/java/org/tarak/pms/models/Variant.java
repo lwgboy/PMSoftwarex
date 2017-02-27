@@ -1,5 +1,6 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,13 +16,19 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 
 /**
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class Variant {
+public class Variant implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1015931418422537608L;
+
 	@Id
     @Column(name = "variant_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +42,6 @@ public class Variant {
     private String description;
     
     @ManyToMany
-    @Cascade({CascadeType.ALL})
     @JoinTable(name = "Variant_VariantTypes", joinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"), inverseJoinColumns = @JoinColumn(name = "variantVariantType_id", referencedColumnName = "variant_id"))
     private List<VariantType> type;
     
@@ -50,12 +56,17 @@ public class Variant {
     
     private double rspPrice;
     
+    private double cost;
+    
     private String sku;
 
     @Transient
     private String barCode;
     
     private int quantity;
+    
+    @Type(type="boolean")
+    private boolean defective=false;
     
     @ManyToMany
     @Cascade({CascadeType.ALL})
@@ -200,5 +211,25 @@ public class Variant {
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
 	}
+
+	public boolean isDefective() {
+		return defective;
+	}
+
+	public void setDefective(boolean defective) {
+		this.defective = defective;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
 	
+	@Override
+	public Object clone()throws CloneNotSupportedException{
+		return super.clone();
+		}
 }

@@ -1,5 +1,7 @@
 package org.tarak.pms.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +15,14 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by Tarak on 12/3/2016.
  */
 @Entity
-public class VariantType{
+public class VariantType implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5676456069114099310L;
+
+	@Id
     @Column(name = "variant_id", columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

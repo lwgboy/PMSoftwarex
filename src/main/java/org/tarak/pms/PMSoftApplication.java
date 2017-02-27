@@ -1,15 +1,14 @@
 package org.tarak.pms;
 
-/**
- * Created by Tarak on 12/1/2016.
- */
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class PMSoftApplication
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
         SpringApplication.run(PMSoftApplication.class, args);
     }

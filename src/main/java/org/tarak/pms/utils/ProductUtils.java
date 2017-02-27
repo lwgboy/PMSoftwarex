@@ -1,8 +1,12 @@
 package org.tarak.pms.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.VariantService;
@@ -20,7 +24,7 @@ public class ProductUtils {
     		{
     			if(variant.getSku()==null || "".equals(variant.getSku()))
     			{
-    				String vprefix=prefix+variant.getName().substring(0,3);
+    				String vprefix=prefix+variant.getName().substring(0,2);
     				if(!prefixSet.contains(vprefix))
     				{
     					prefixSet.add(vprefix);
@@ -66,5 +70,15 @@ public class ProductUtils {
 			return code+"";
 		}
 		return c;
+	}
+	
+	public static File convert(MultipartFile file) throws IOException
+	{    
+	    File convFile = new File(file.getOriginalFilename());
+	    convFile.createNewFile(); 
+	    FileOutputStream fos = new FileOutputStream(convFile); 
+	    fos.write(file.getBytes());
+	    fos.close(); 
+	    return convFile;
 	}
 }

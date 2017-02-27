@@ -4,13 +4,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -62,19 +63,19 @@ public class ProductController {
 
     private void addProduct(Model model, boolean flag,Product p)
     {
-    	List<Variant> variants=new ArrayList<Variant>();
-    	Variant variant=new Variant();
+    	/*List<Variant> variants=new ArrayList<Variant>();
+    	Variant variant=new Variant();*/
     	/*VariantRoute variantRoute=new VariantRoute();
     	Route route = new Route();
     	variantRoute.setRoute(route);
     	List<VariantRoute> variantRoutes=new ArrayList<VariantRoute>();
     	variantRoutes.add(variantRoute);
     	variant.setVariantRoutes(variantRoutes);*/
-    	variants.add(variant);
-		List<Tag> tags=new ArrayList<Tag>();
+    	//variants.add(variant);
+		/*List<Tag> tags=new ArrayList<Tag>();
 		tags.add(new Tag());
 		List<Vendor> vendors=new ArrayList<Vendor>();
-		vendors.add(new Vendor());
+		vendors.add(new Vendor());*/
 		Product product=new Product();
 		if(!flag)
 		{
@@ -84,9 +85,9 @@ public class ProductController {
 			product.setStyle(p.getStyle());
 			product.setBrand(p.getBrand());
 		}
-		product.setVariants(variants);
+		/*product.setVariants(variants);
 		product.setTags(tags);
-		product.setVendors(vendors);
+		product.setVendors(vendors);*/
         model.addAttribute("product", product);
     }
     
@@ -189,31 +190,32 @@ public class ProductController {
         	List<Image> images=new LinkedList<Image>();
         	for (MultipartFile multipartFile : uploadFiles) 
         	{
-        		
+        		if(StringUtils.isEmpty(multipartFile.getOriginalFilename())) continue;
         		String imageName=product.getId()+"_"+count++ +multipartFile.getOriginalFilename();
         		String dir_path="src/main/resources/public/product_images/"+product.getId()+"/"+imageName;
         		File f=new File(dir_path);
-                if(f.exists())
-                {
-                	logger.info("File Exists");
-                	f.delete();
-                }
                 if (f.getParentFile() != null) 
                 {
                 	logger.info("parent direcotory exists ");
                 	f.getParentFile().mkdirs();
                 }
-        		//File directory=new File(dir_path);
-                //File imageFile = new File(dir_path, imageName);
                 Image image=new Image();
                 try
                 {
-                	//directory.mkdirs();
-                    //multipartFile.transferTo(f);
-                	BufferedOutputStream stream =
-                	          new BufferedOutputStream(new FileOutputStream(f));
-                	      stream.write(multipartFile.getBytes());
-                	      stream.close();
+                	boolean compareResult = false;
+                	if(f.exists())
+                    {
+                    	logger.info("File Exists");
+                    	compareResult = FileUtils.contentEquals(f,ProductUtils.convert(multipartFile));
+                    }
+                	if(!compareResult)
+                	{
+                		BufferedOutputStream stream =
+                    	          new BufferedOutputStream(new FileOutputStream(f));
+                    	      stream.write(multipartFile.getBytes());
+                    	      stream.close();
+                	}
+
                 } catch (IOException e) 
                 {
                     e.printStackTrace();
@@ -221,7 +223,7 @@ public class ProductController {
                 image.setImage("/product_images/"+product.getId()+"/"+imageName);
                 images.add(image);
             }
-        	product.setImages(images);
+        	product.getImages().addAll(images);
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)
@@ -307,6 +309,14 @@ public class ProductController {
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody String upload(@Valid Product product, BindingResult bindingResult,
+        @RequestParam("images") MultipartFile[] uploadFiles) throws Exception     
+    {
+    	String voidResponse = "{}";
+    	return voidResponse;
+    }
+    
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody String delete(@Valid Product product, BindingResult bindingResult,
         @RequestParam("images") MultipartFile[] uploadFiles) throws Exception     
     {
     	String voidResponse = "{}";
