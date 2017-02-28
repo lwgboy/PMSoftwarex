@@ -95,7 +95,7 @@ public class BarCodeController {
 		}
 		barCode.setSelect(codes);
 		BarCodeUtils.processBarCodes(barCode,userName);
-		logger.info(barCode.getFileName());
+		logger.info(barCode.getFileName()+"");
 		return new FileSystemResource(barCode.getFileName());
     }
 	
