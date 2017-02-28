@@ -74,6 +74,31 @@ public class BarCodeController {
 		return new FileSystemResource(barCode.getFileName());
     }
     
+	@RequestMapping(value = "/prints", method = RequestMethod.POST,produces = "application/pdf" )
+	@ResponseBody
+	public FileSystemResource printBarCodes(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
+    {
+		String userName=UserUtils.getUserName(session);
+		List<String> grcIds=barCode.getSelect();
+		List<String> codes=new LinkedList<String>();
+		barCode.setSelect(new LinkedList<String>());
+		for(String id : grcIds)
+		{
+			for(GoodsReceiveChallanItem item : goodsReceiveChallanService.findOne(Integer.parseInt(id)).getGoodsReceiveChallanItems())
+			{
+				for(ProductItem pi : item.getProductItems())
+    			{
+    				pi.getVariant().setProductName(pi.getProduct().getName());
+    				codes.add(pi.getVariant().getSku()+"_"+item.getGoodsReceiveChallanId());
+    			}
+			}
+		}
+		barCode.setSelect(codes);
+		BarCodeUtils.processBarCodes(barCode,userName);
+		logger.info(barCode.getFileName());
+		return new FileSystemResource(barCode.getFileName());
+    }
+	
     @RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
     List<Variant> listCategories()

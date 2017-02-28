@@ -78,7 +78,12 @@ function populate_basic_table(url,table,type)
                 	{
                 		cols.push("<input type='checkbox' name='select' class='delete_check' value='"+x.barCode+"' />")
                 		continue;
-                	}	
+                	}
+                	if(colNames[serial]=="select_grc" )
+                	{
+                		cols.push("<input type='checkbox' name='select' class='delete_check' value='"+x.goodsReceiveChallanId+"' />")
+                		continue;
+                	}
                 	if(colNames[serial]!="view" && colNames[serial]!="edit" && colNames[serial]!="delete")
                 	{
                 		fillCols(cols,colNames[serial],x);

@@ -26,7 +26,6 @@ import org.tarak.pms.models.PurchaseInvoiceItem;
 import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseInvoiceService;
 import org.tarak.pms.services.ServiceInterface;
-import org.tarak.pms.services.VariantService;
 import org.tarak.pms.utils.PurchaseInvoiceUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -41,9 +40,6 @@ public class PurchaseInvoiceController {
 	@Autowired
     private PurchaseInvoiceService purchaseInvoiceService;
     
-	@Autowired
-    private VariantService variantService;
-	
 	@Autowired
     private GoodsReceiveChallanService goodsReceiveChallanService;
 
