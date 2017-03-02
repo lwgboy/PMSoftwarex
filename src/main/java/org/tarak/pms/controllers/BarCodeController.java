@@ -79,12 +79,13 @@ public class BarCodeController {
 	public FileSystemResource printBarCodes(@Valid BarCode barCode, BindingResult bindingResult, Model model) throws IOException, DocumentException
     {
 		String userName=UserUtils.getUserName(session);
+		String finYear=UserUtils.getFinancialYear(session);
 		List<String> grcIds=barCode.getSelect();
 		List<String> codes=new LinkedList<String>();
 		barCode.setSelect(new LinkedList<String>());
 		for(String id : grcIds)
 		{
-			for(GoodsReceiveChallanItem item : goodsReceiveChallanService.findOne(Integer.parseInt(id)).getGoodsReceiveChallanItems())
+			for(GoodsReceiveChallanItem item : goodsReceiveChallanService.findByGoodsReceiveChallanIdAndFinYear(Integer.parseInt(id),finYear).getGoodsReceiveChallanItems())
 			{
 				for(ProductItem pi : item.getProductItems())
     			{
