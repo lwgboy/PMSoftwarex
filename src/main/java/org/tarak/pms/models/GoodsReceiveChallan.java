@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -37,7 +38,7 @@ public class GoodsReceiveChallan implements Serializable {
 	
 	@Id
 	private String finYear;
-	
+	@Valid
 	@OneToOne
 	@JoinColumns(
 	{
@@ -48,9 +49,11 @@ public class GoodsReceiveChallan implements Serializable {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "GRC_DATE")
+	@Valid
 	private Date goodsReceiveChallanDate;
 
 	@ManyToOne
+	@Valid
 	@JoinColumn(columnDefinition="integer",name = "Vendor_Id")
 	private Vendor vendor;
 
@@ -67,10 +70,12 @@ public class GoodsReceiveChallan implements Serializable {
 	private double totalCost;
 
 	@ManyToOne
+	@Valid
 	@JoinColumn(columnDefinition="integer",name = "Warehouse_Id")
 	private Warehouse warehouseLocation;
 	
 	@ManyToOne
+	@Valid
 	@JoinColumn(columnDefinition="integer",name = "StockPoint_Id")
 	private StockPoint stockPoint;
 	
@@ -83,6 +88,7 @@ public class GoodsReceiveChallan implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "Transporter_Id")
+	@Valid
 	private Transporter transporter;
 
 	private double frieghtAmount;

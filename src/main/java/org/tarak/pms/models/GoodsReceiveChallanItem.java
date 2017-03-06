@@ -31,6 +31,8 @@ public class GoodsReceiveChallanItem implements Serializable {
 	@Id
 	private int srNo;
 	
+	private int poiSrNo;
+	
 	@Id
 	@GenericGenerator(name = "goodsReceiveChallanId", strategy = "org.tarak.pms.generators.GoodsReceiveChallanIdGenerator")
 	@GeneratedValue(generator = "goodsReceiveChallanId")
@@ -194,6 +196,14 @@ public class GoodsReceiveChallanItem implements Serializable {
 
 	public void setPoDate(Date poDate) {
 		this.poDate = poDate;
+	}
+
+	public int getPoiSrNo() {
+		return poiSrNo;
+	}
+
+	public void setPoiSrNo(int poiSrNo) {
+		this.poiSrNo = poiSrNo;
 	}
 
 	

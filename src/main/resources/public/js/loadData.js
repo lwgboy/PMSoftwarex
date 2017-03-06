@@ -699,4 +699,41 @@ $(document).ready(function() {
 		var id="#"+ele[0].id.replace(/\./g,"\\.").replace('variantRoute','variantRouteRow');
 		$(id).toggle("medium");
 	});
+    
+    $('.icost, .margin ').on('input', function() {
+    	var ic=($('.icost').val() | 0);
+    	var form=$(this).closest('form');
+    	$.each(form.find('.margin'),function(i,element){
+    		var id=element.id;
+    		if(id.indexOf('wspMargin')>-1)
+    		{
+    			var wspId="#"+id.replace('wspMargin','wspPrice').replace(/\./g,"\\.");
+    			$(wspId)[0].value=(element.value*ic/100 | 0) + ic;
+    		}	
+    		else if(id.indexOf('rspMargin')>-1)
+    		{
+    			var rspId="#"+id.replace('rspMargin','rspPrice').replace(/\./g,"\\.");
+    			$(rspId)[0].value=(element.value*ic/100 | 0) + ic;
+    		}	
+    	});
+	});
+
 });
+/*function checkCount(element)
+{
+	var count=0;
+	var i;
+	table=element.closest('table');
+	table.find('.piquantity').each(function(txt) {
+		count+=parseInt($(this).val());
+	});
+	var actualCount=table.closest('table').find('.quantityx').val();
+	if(count>actualCount)
+	{
+		table.find('.alert').show('medium');
+	}
+	else
+	{
+		table.find('.alert').hide('medium');
+	}
+}*/

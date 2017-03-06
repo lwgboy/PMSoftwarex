@@ -7,7 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tarak.pms.models.GoodsReceiveChallan;
+import org.tarak.pms.models.PurchaseOrder;
+import org.tarak.pms.models.Variant;
 import org.tarak.pms.repositories.GoodsReceiveChallanRepository;
+import org.tarak.pms.utils.GoodsReceiveChallanUtils;
 
 /**
  * Created by Tarak on 12/7/2016.
@@ -49,5 +52,23 @@ public class GoodsReceiveChallanServiceImplementation implements GoodsReceiveCha
 	public void deleteByGoodsReceiveChallanIdAndFinYear(int goodsReceiveChallanId, String finYear) {
 		repository.deleteByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
 	}
-    
+    @Override
+	public void saveAndProcessPO(GoodsReceiveChallan goodsReceiveChallan, GoodsReceiveChallanService goodsReceiveChallanService, PurchaseOrderService purchaseOrderService,ServiceInterface<Variant,Integer> variantService)
+	{
+		goodsReceiveChallanService.saveAndFlush(goodsReceiveChallan);
+		if(goodsReceiveChallan.getGoodsReceiveChallanItems()!=null && !goodsReceiveChallan.getGoodsReceiveChallanItems().isEmpty())
+    	{
+			PurchaseOrder po=purchaseOrderService.findByPurchaseOrderIdAndFinYear(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId(), goodsReceiveChallan.getFinYear());
+			GoodsReceiveChallanUtils.setProcessed(goodsReceiveChallan, true, po);
+			if(!po.getPurchaseOrderItems().stream().filter(i->!i.isProcessed()).findAny().isPresent())
+			{
+				po.setProcessed(true);
+			}
+			else
+			{
+				po.setProcessed(false);
+			}
+			purchaseOrderService.saveAndFlush(po);
+    	}	
+	}
  }

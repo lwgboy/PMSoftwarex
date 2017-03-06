@@ -8,6 +8,8 @@ import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
+import org.tarak.pms.models.Variant;
+import org.tarak.pms.services.ServiceInterface;
 
 public class GoodsReceiveChallanUtils 
 {
@@ -32,35 +34,47 @@ public class GoodsReceiveChallanUtils
 		List<GoodsReceiveChallanItem> goodsReceiveChallanItems=new LinkedList<GoodsReceiveChallanItem>(); 
 		for(PurchaseOrderItem purchaseOrderItem: purchaseOrderItems)
 		{
-			GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
-			goodsReceiveChallanItem.setBrand(purchaseOrderItem.getBrand());
-			goodsReceiveChallanItem.setDescription(purchaseOrderItem.getDescription());
-			goodsReceiveChallanItem.setFinYear(purchaseOrderItem.getFinYear());
-			goodsReceiveChallanItem.setMeasurement(purchaseOrderItem.getMeasurement());
-			goodsReceiveChallanItem.setQuantity(purchaseOrderItem.getQuantity());
-			goodsReceiveChallanItem.setRate(purchaseOrderItem.getRate());
-			goodsReceiveChallanItem.setSrNo(purchaseOrderItem.getSrNo());
-			goodsReceiveChallanItem.setStyle(purchaseOrderItem.getStyle());
-			goodsReceiveChallanItem.setPoDate(purchaseOrderItem.getDeliveryDate());
-			if(purchaseOrderItem.getProduct()!=null)
+			if (!purchaseOrderItem.isProcessed()) 
 			{
-				ProductItem productItem=new ProductItem();
-				productItem.setProduct(purchaseOrderItem.getProduct());
-				productItem.setVariant(purchaseOrderItem.getVariant());
-				if(goodsReceiveChallanItem.getProductItems()!=null){
-        			goodsReceiveChallanItem.getProductItems().add(productItem);
-        		}
-        		else
-        		{
-        			List<ProductItem> productItems=new LinkedList<ProductItem>();
-        			productItems.add(productItem);
-        			goodsReceiveChallanItem.setProductItems(productItems);
-        		}
+				GoodsReceiveChallanItem goodsReceiveChallanItem = new GoodsReceiveChallanItem();
+				goodsReceiveChallanItem.setBrand(purchaseOrderItem.getBrand());
+				goodsReceiveChallanItem.setDescription(purchaseOrderItem.getDescription());
+				goodsReceiveChallanItem.setFinYear(purchaseOrderItem.getFinYear());
+				goodsReceiveChallanItem.setMeasurement(purchaseOrderItem.getMeasurement());
+				goodsReceiveChallanItem.setQuantity(purchaseOrderItem.getQuantity());
+				goodsReceiveChallanItem.setRate(purchaseOrderItem.getRate());
+				goodsReceiveChallanItem.setSrNo(purchaseOrderItem.getSrNo());
+				goodsReceiveChallanItem.setStyle(purchaseOrderItem.getStyle());
+				goodsReceiveChallanItem.setPoDate(purchaseOrderItem.getDeliveryDate());
+				goodsReceiveChallanItem.setPoiSrNo(purchaseOrderItem.getSrNo());
+				if (purchaseOrderItem.getProduct() != null) 
+				{
+					ProductItem productItem = new ProductItem();
+					productItem.setProduct(purchaseOrderItem.getProduct());
+					productItem.setVariant(purchaseOrderItem.getVariant());
+					productItem.setQuantity(purchaseOrderItem.getQuantity());
+					if (goodsReceiveChallanItem.getProductItems() != null) 
+					{
+						goodsReceiveChallanItem.getProductItems().add(productItem);
+					} 
+					else 
+					{
+						List<ProductItem> productItems = new LinkedList<ProductItem>();
+						productItems.add(productItem);
+						goodsReceiveChallanItem.setProductItems(productItems);
+					}
+				}
+				goodsReceiveChallanItem.setDeliveryDate(purchaseOrderItem.getDeliveryDate());
+				goodsReceiveChallanItems.add(goodsReceiveChallanItem);
 			}
-			goodsReceiveChallanItem.setDeliveryDate(purchaseOrderItem.getDeliveryDate());
-			
-			goodsReceiveChallanItems.add(goodsReceiveChallanItem);
 		}
 		return goodsReceiveChallanItems;
 	}
+	public static void setProcessed(GoodsReceiveChallan goodsReceiveChallan,boolean flag,PurchaseOrder po)
+    {
+    	goodsReceiveChallan.getGoodsReceiveChallanItems().forEach(grcitem->{
+    		final int poiSrNo=grcitem.getPoiSrNo();
+    		po.getPurchaseOrderItems().stream().filter(i->i.getSrNo()==poiSrNo).findFirst().ifPresent(item->item.setProcessed(flag));
+    	});
+    }
 }

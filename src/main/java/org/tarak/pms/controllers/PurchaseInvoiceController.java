@@ -26,6 +26,8 @@ import org.tarak.pms.models.PurchaseInvoiceItem;
 import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseInvoiceService;
 import org.tarak.pms.services.ServiceInterface;
+import org.tarak.pms.services.VariantService;
+import org.tarak.pms.utils.ProductUtils;
 import org.tarak.pms.utils.PurchaseInvoiceUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -46,6 +48,9 @@ public class PurchaseInvoiceController {
     @Autowired
     private ServiceInterface<Product, Integer> productService;
 
+    @Autowired
+    private VariantService variantService;
+    
     @Autowired
 	private HttpSession session;
 
@@ -133,6 +138,7 @@ public class PurchaseInvoiceController {
 						return piv.getVariant();
 					});
 				});
+				ProductUtils.processSKU(p2,variantService);
 				productService.saveAndFlush(p2);
 			});
     	}
@@ -147,7 +153,10 @@ public class PurchaseInvoiceController {
         }
         try
         {
+        	boolean fresh=purchaseInvoice.getPurchaseInvoiceId()>0?false:true;
+        	PurchaseInvoice purchaseInvoiceO=fresh?null:purchaseInvoiceService.findByPurchaseInvoiceIdAndFinYear(purchaseInvoice.getPurchaseInvoiceId(), purchaseInvoice.getFinYear());
         	purchaseInvoiceService.saveAndFlush(purchaseInvoice);
+        	PurchaseInvoiceUtils.updateVariants(purchaseInvoice, purchaseInvoiceO, variantService, true,fresh);
         }
         catch(DataIntegrityViolationException e)
         {
@@ -176,6 +185,8 @@ public class PurchaseInvoiceController {
     public String deletePurchaseInvoice(@PathVariable Integer purchaseInvoiceId, Model model)
     {
     	String finYear=UserUtils.getFinancialYear(session);
+    	PurchaseInvoice purchaseInvoice=purchaseInvoiceService.findByPurchaseInvoiceIdAndFinYear(purchaseInvoiceId, finYear);
+    	PurchaseInvoiceUtils.updateVariants(purchaseInvoice,null, variantService, false,true);
     	purchaseInvoiceService.deleteByPurchaseInvoiceIdAndFinYear(purchaseInvoiceId, finYear);
     	return index(model);
     }

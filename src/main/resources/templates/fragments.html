@@ -370,7 +370,7 @@
 				</div>
 				<div class="form-group">
 					<label>Indicatory Cost</label> <input type="text"
-						th:field="*{indicatoryCost}" class="form-control" />
+						th:field="*{indicatoryCost}" class="icost form-control" />
 				</div>
 				<div class="form-group" id="scrollable-dropdown-menu">
 					<label>Tags</label> <input class="tagType form-control" type="text"
@@ -423,12 +423,12 @@
 										<div class="form-group" id="scrollable-dropdown-menu">
 											 <input
 												class="variantType_product form-control" type="text"
-												autocomplete="off" th:id="${variantStat.count}" />
+												autocomplete="off" th:id="|${variantStat.count-1}|" />
 											<button type="submit" style="display: none" name="addVariant"
 												id="addVariant" class="btn btn-info btn-xs"></button>
 										</div>
 										<div class="productvariantlist"
-											th:include="fragments::productvariants" th:id="|vplist${variantStat.count}|"></div>
+											th:include="fragments::productvariants" th:id="|vplist${variantStat.count-1}|"></div>
 									</td>
 									<th>Variant</th>
 									<td><input type="hidden"
@@ -450,7 +450,7 @@
 									<th class="tb-width-sm">WSP Margin</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].wspMargin}"
-										class="form-control" /></td>
+										class="form-control margin" /></td>
 									<th class="tb-width-md">WSP Price</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].wspPrice}"
@@ -465,7 +465,7 @@
 									<th class="tb-width-sm">RSP Margin</th>
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].rspMargin}"
-										class="form-control" /></td>
+										class="form-control  margin" /></td>
 									<th class="tb-width-md">RSP Price</th>	
 									<td><input type="text"
 										th:field="*{variants[__${variantStat.index}__].rspPrice}"
@@ -888,7 +888,7 @@
 							<tbody
 								th:each="var, goodsReceiveChallanItemStat : *{goodsReceiveChallanItems}">
 								<tr>
-									<th><button type="submit" name="removePurchaseOrderItem"
+									<th><button type="submit" name="removeGoodsReceiveChallanItem"
 											class="btn btn-danger btn-xs"
 											th:value="(*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo!=0} ?*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].srNo}: ${goodsReceiveChallanItemStat.count} )">
 											<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
@@ -901,6 +901,8 @@
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].finYear}"
 										type="hidden" class="form-control" /> <input
 										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].goodsReceiveChallanId}"
+										type="hidden" class="form-control" /><input
+										th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].poiSrNo}"
 										type="hidden" class="form-control" /></th>
 									<th colspan="3"
 										th:text="|Item ${goodsReceiveChallanItemStat.count}|"></th>
@@ -972,7 +974,7 @@
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].product.id}"
 												class="form-control" /> <input type="hidden"
 												th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[0].quantity}"
-												class="form-control"
+												class="form-control quantityx"
 												value="${goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].quantity" />
 										</div>
 									</td>
@@ -1043,14 +1045,17 @@
 													</td>
 													<td><input type="text"
 														th:field="*{goodsReceiveChallanItems[__${goodsReceiveChallanItemStat.index}__].productItems[__${productItemStat.index}__].quantity}"
-														class="tb-width-sm form-control" /></td>
+														class="tb-width-sm form-control piquantity" /></td>
 												</tr>
 											</tbody>
 										</table>
 									</th>
 								</tr>
 								<tr>
-									<td colspan="4"><p></p></td>
+									<td colspan="4"><div class="alert alert-danger" style="display:none">
+											<p>Entered quantity is more than actual quantity</p>
+										</div>
+									</td>
 								</tr>
 							</tbody>
 							<tbody>

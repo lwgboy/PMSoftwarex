@@ -21,8 +21,10 @@ import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseOrder;
+import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.GoodsReceiveChallanService;
 import org.tarak.pms.services.PurchaseOrderService;
+import org.tarak.pms.services.ServiceInterface;
 import org.tarak.pms.utils.GoodsReceiveChallanUtils;
 import org.tarak.pms.utils.UserUtils;
 
@@ -40,6 +42,8 @@ public class GoodsReceiveChallanController {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
 
+    @Autowired
+    private ServiceInterface<Variant,Integer> variantService;
 
     @Autowired
 	private HttpSession session;
@@ -53,13 +57,7 @@ public class GoodsReceiveChallanController {
 
     private void addGoodsReceiveChallan(Model model)
     {
-    	/*GoodsReceiveChallanItem goodsReceiveChallanItem=new GoodsReceiveChallanItem();
-    	List<GoodsReceiveChallanItem> goodsReceiveChallanItems=new ArrayList<GoodsReceiveChallanItem>();
-    	goodsReceiveChallanItems.add(goodsReceiveChallanItem);
-		*/
     	GoodsReceiveChallan goodsReceiveChallan=new GoodsReceiveChallan();
-		//goodsReceiveChallan.setGoodsReceiveChallanItems(goodsReceiveChallanItems);
-		
         model.addAttribute("goodsReceiveChallan", goodsReceiveChallan);
     }
     
@@ -105,6 +103,11 @@ public class GoodsReceiveChallanController {
         	if(removeGoodsReceiveChallanItem==goodsReceiveChallanItem.getSrNo())
         	{
         		index=goodsReceiveChallan.getGoodsReceiveChallanItems().indexOf(goodsReceiveChallanItem);
+        		PurchaseOrder po=purchaseOrderService.findByPurchaseOrderIdAndFinYear(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId(), goodsReceiveChallan.getFinYear());
+        		final int srNo=goodsReceiveChallanItem.getSrNo();
+        		po.getPurchaseOrderItems().stream().filter(i->i.getSrNo()==srNo).findFirst().ifPresent(item->item.setProcessed(false));
+        		po.setProcessed(false);
+        		purchaseOrderService.saveAndFlush(po);
         	}
         }
     	goodsReceiveChallan.getGoodsReceiveChallanItems().remove(index);
@@ -117,7 +120,8 @@ public class GoodsReceiveChallanController {
         {
         	if(addProduct==goodsReceiveChallanItem.getSrNo())
         	{
-        		if(goodsReceiveChallanItem.getProductItems()!=null){
+        		if(goodsReceiveChallanItem.getProductItems()!=null)
+        		{
         			goodsReceiveChallanItem.getProductItems().add(new ProductItem());
         		}
         		else
@@ -160,9 +164,18 @@ public class GoodsReceiveChallanController {
     }
     
     @RequestMapping(value = "/add", params={"poNo"}, method = RequestMethod.POST )
-    public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult result,Model model) {
+    public String removeGoodsReceiveChallanItem(GoodsReceiveChallan goodsReceiveChallan, BindingResult bindingResult,Model model) {
     	String finYear=UserUtils.getFinancialYear(session);
     	PurchaseOrder purchaseOrder=purchaseOrderService.findByPurchaseOrderIdAndFinYear(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId(),finYear);
+    	if(purchaseOrder.isProcessed())
+    	{
+    		bindingResult.rejectValue("purchaseOrder", "error.alreadyExists",null,"Purchase Order already used to create GRC");
+    		if (bindingResult.hasErrors())
+            {
+        		return index(model);
+            }
+            
+    	}
     	GoodsReceiveChallanUtils.populateGoodsReceiveChallan(purchaseOrder, goodsReceiveChallan);
         return index(model);
     }
@@ -188,8 +201,25 @@ public class GoodsReceiveChallanController {
     	}
 		else
 		{
-			bindingResult.rejectValue("name", "error.alreadyExists",null,"Invalid session. Please login again");
+			bindingResult.rejectValue("goodsReceiveChallanItems", "error.alreadyExists",null,"Invalid session. Please login again");
 			return "/";
+		}
+		if(goodsReceiveChallan.getGoodsReceiveChallanItems()!=null)
+		{
+			goodsReceiveChallan.getGoodsReceiveChallanItems().forEach(item->{
+				if (item.getPoiSrNo() != 0) 
+				{
+					final double quantity = item.getQuantity();
+					if (item.getProductItems() != null && !item.getProductItems().isEmpty()) 
+					{
+						if (quantity != item.getProductItems().stream().mapToDouble(o -> o.getQuantity()).sum()) 
+						{
+							bindingResult.rejectValue("goodsReceiveChallanItems", "error.alreadyExists", null,
+									"Total quantity mismatches for item " + item.getSrNo());
+						}
+					}
+				}
+			});
 		}
         if (bindingResult.hasErrors())
         {
@@ -197,7 +227,7 @@ public class GoodsReceiveChallanController {
         }
         try
         {
-        	goodsReceiveChallanService.saveAndFlush(goodsReceiveChallan);
+        	goodsReceiveChallanService.saveAndProcessPO(goodsReceiveChallan,goodsReceiveChallanService,purchaseOrderService,variantService);
         }
         catch(DataIntegrityViolationException e)
         {
@@ -226,7 +256,12 @@ public class GoodsReceiveChallanController {
     public String deleteGoodsReceiveChallan(@PathVariable Integer goodsReceiveChallanId, Model model)
     {
     	String finYear=UserUtils.getFinancialYear(session);
+    	GoodsReceiveChallan goodsReceiveChallan=goodsReceiveChallanService.findByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
     	goodsReceiveChallanService.deleteByGoodsReceiveChallanIdAndFinYear(goodsReceiveChallanId, finYear);
+    	PurchaseOrder po=purchaseOrderService.findByPurchaseOrderIdAndFinYear(goodsReceiveChallan.getPurchaseOrder().getPurchaseOrderId(), goodsReceiveChallan.getFinYear());
+    	po.setProcessed(false);
+    	GoodsReceiveChallanUtils.setProcessed(goodsReceiveChallan, false, po);
+    	purchaseOrderService.saveAndFlush(po);
     	return index(model);
     }
     
@@ -239,5 +274,4 @@ public class GoodsReceiveChallanController {
     	prepareModel(model);
     	return "goodsReceiveChallan/edit";
     }
-   
 }

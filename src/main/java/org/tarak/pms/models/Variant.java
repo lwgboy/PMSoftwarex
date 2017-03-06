@@ -63,7 +63,7 @@ public class Variant implements Serializable{
     @Transient
     private String barCode;
     
-    private int quantity;
+    private double quantity;
     
     @Type(type="boolean")
     private boolean defective=false;
@@ -180,11 +180,11 @@ public class Variant implements Serializable{
 		this.sku = sku;
 	}
 
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 

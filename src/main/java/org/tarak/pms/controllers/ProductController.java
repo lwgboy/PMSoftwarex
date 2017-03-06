@@ -223,7 +223,14 @@ public class ProductController {
                 image.setImage("/product_images/"+product.getId()+"/"+imageName);
                 images.add(image);
             }
-        	product.getImages().addAll(images);
+        	if(product.getImages()!=null)
+        	{
+        		product.getImages().addAll(images);
+        	}
+        	else
+        	{
+        		product.setImages(images);
+        	}
         	productService.saveAndFlush(product);
         }
         catch(DataIntegrityViolationException e)

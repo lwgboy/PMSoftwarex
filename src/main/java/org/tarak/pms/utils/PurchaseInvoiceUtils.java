@@ -7,6 +7,8 @@ import org.tarak.pms.models.GoodsReceiveChallan;
 import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.PurchaseInvoice;
 import org.tarak.pms.models.PurchaseInvoiceItem;
+import org.tarak.pms.models.Variant;
+import org.tarak.pms.services.ServiceInterface;
 
 public class PurchaseInvoiceUtils {
 	public static PurchaseInvoice populatePurchaseInvoice(GoodsReceiveChallan goodsReceiveChallan,PurchaseInvoice purchaseInvoice)
@@ -43,5 +45,43 @@ public class PurchaseInvoiceUtils {
 				purchaseInvoiceItems.add(purchaseInvoiceItem);
 		}
 		return purchaseInvoiceItems;
+	}
+	
+	public static void updateVariants(PurchaseInvoice purchaseInvoice,PurchaseInvoice purchaseInvoiceO,ServiceInterface<Variant,Integer> variantService,boolean add,boolean fresh)
+	{
+		if(fresh)
+		{
+			purchaseInvoice.getPurchaseInvoiceItems().forEach(item->{
+				item.getProductItems().forEach(productItem->{
+					Variant variant=variantService.findOne(productItem.getVariant().getId());
+					if(add)
+					{
+						variant.setQuantity(variant.getQuantity()+productItem.getQuantity());
+					}
+					else
+					{
+						variant.setQuantity(variant.getQuantity()-productItem.getQuantity());
+					}
+					variantService.saveAndFlush(variant);
+				});
+			});
+		}
+		else
+		{
+			purchaseInvoice.getPurchaseInvoiceItems().forEach(item->{
+				purchaseInvoiceO.getPurchaseInvoiceItems().forEach(itemO->{
+					if(item.getSrNo()==itemO.getSrNo())
+					{
+						if(item.getQuantity()!=itemO.getQuantity())
+						{
+							double diff=item.getQuantity()-itemO.getQuantity();
+							Variant variant=variantService.findOne(item.getProductItems().get(0).getVariant().getId());
+							variant.setQuantity(variant.getQuantity()-diff);
+							variantService.saveAndFlush(variant);
+						}
+					}
+				});
+			});
+		}
 	}
 }
