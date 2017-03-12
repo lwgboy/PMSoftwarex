@@ -3,11 +3,13 @@ package org.tarak.pms.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,7 @@ import org.tarak.pms.utils.UserUtils;
 @Controller
 public class PurchaseInvoiceController {
 
+	static Logger logger=Logger.getLogger(PurchaseInvoiceController.class);
 	@Autowired
     private PurchaseInvoiceService purchaseInvoiceService;
     
@@ -130,13 +133,20 @@ public class PurchaseInvoiceController {
 				Product p2=productService.findOne(piitem.getProductItems().get(0).getProduct().getId());
 				piitem.getProductItems().stream().filter(pi->pi.getVariant().isDefective()).forEach(piv->
 				{
-					p2.getVariants().stream().filter(var -> var.getId()==piv.getVariant().getId()).findFirst().map(i -> {
-						i=piv.getVariant();
-						return i;
-					}).orElseGet(()->{
+					logger.info("Variant is "+piv.getVariant().getName());
+					if(piv.getVariant().getId()==null)
+					{
+						variantService.saveAndFlush(piv.getVariant());
 						p2.getVariants().add(piv.getVariant());
-						return piv.getVariant();
-					});
+					}
+					else
+					{
+						int index=IntStream.range(0, p2.getVariants().size())
+					     .filter(i -> piv.getVariant().getId()==p2.getVariants().get(i).getId())
+					     .findFirst().getAsInt();
+						piv.getVariant().setId(p2.getVariants().get(index).getId());
+						p2.getVariants().set(index, piv.getVariant());
+					}
 				});
 				ProductUtils.processSKU(p2,variantService);
 				productService.saveAndFlush(p2);

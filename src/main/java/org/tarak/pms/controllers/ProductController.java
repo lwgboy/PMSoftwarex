@@ -329,5 +329,20 @@ public class ProductController {
     	String voidResponse = "{}";
     	return voidResponse;
     }
-   
+    
+    @RequestMapping(value = "/images/", method = RequestMethod.GET)
+    public String images(Model model)
+    {
+    	List<Product> products=productService.findAll();
+    	List<Image> images=new LinkedList<Image>();
+    	products.forEach(product->{
+    		product.getImages().forEach(image->{
+    			image.setProductId(product.getId());
+    		});
+    		images.addAll(product.getImages());
+    	});
+    	model.addAttribute("images", images);
+    	prepareModel(model);
+    	return "product/images";
+    }
 }
