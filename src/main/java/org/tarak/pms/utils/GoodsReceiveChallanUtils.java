@@ -8,8 +8,6 @@ import org.tarak.pms.models.GoodsReceiveChallanItem;
 import org.tarak.pms.models.ProductItem;
 import org.tarak.pms.models.PurchaseOrder;
 import org.tarak.pms.models.PurchaseOrderItem;
-import org.tarak.pms.models.Variant;
-import org.tarak.pms.services.ServiceInterface;
 
 public class GoodsReceiveChallanUtils 
 {

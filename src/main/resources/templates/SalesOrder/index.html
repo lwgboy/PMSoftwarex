@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Sales Order Knowledge Base',formTitle='Sales Order'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/salesOrder/add}" th:object="${salesOrder}"
+			method="post">
+			<div th:include="fragments::salesOrder('false','Add')"></div>
+		</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>List of SalesOrders</label>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example">
+								<thead>
+									<tr>
+										<th col="salesOrderId" key="salesOrderId">ID</th>
+										<th col="salesOrderDate">SO Date</th>
+										<th col="buyer.name">Buyer</th>
+										<th col="view">View</th>
+										<th col="edit">Edit</th>
+										<th col="delete">Delete</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>ID</th>
+										<th>SO Date</th>
+										<th>Buyer</th>
+										<th>View</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/salesOrder/list", cTable, "salesOrder");
+		});
+	</script>
+</body>
+</html>

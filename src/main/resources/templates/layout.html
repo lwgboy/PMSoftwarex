@@ -13,7 +13,8 @@
 <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
 <link href="../bootstrap-tagsinput/bootstrap-tagsinput.css"
-	th:href="@{/bootstrap-tagsinput/bootstrap-tagsinput.css}" rel="stylesheet" />
+	th:href="@{/bootstrap-tagsinput/bootstrap-tagsinput.css}"
+	rel="stylesheet" />
 
 
 <!-- Bootstrap Core CSS -->
@@ -295,8 +296,7 @@
 								class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/product/">Design</a></li>
-								<li><a href="#">Design Categories<span
-										class="fa arrow"></span></a>
+								<li><a href="#">Design Categories<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/category/">Category</a></li>
 										<li><a href="/division/">Division</a></li>
@@ -315,45 +315,34 @@
 									</ul></li>
 								<!-- <li><a href="/barCode/">Print Bar Codes</a></li> -->
 							</ul> <!-- /.nav-second-level --></li>
-						<li><a href="#"><i class="fa fa-first-order fa-fw"></i>Orders<span
+						<li><a href="#"><i class="fa fa-first-order fa-fw"></i>Purchase<span
 								class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/purchaseOrder/">Purchase Orders</a></li>
+								<li><a href="/goodsReceiveChallan/">Goods Receive Challan</a></li>
+								<li><a href="/barCode/grc">Print Bar Codes</a></li>
+								<li><a href="/purchaseInvoice/">Purchase Invoice</a></li>
+								<li><a href="/purchaseReturn/">Purchase Return</a></li>
 								<li><a href="#">Settings<span class="fa arrow"></span></a>
 									<ul class="nav nav-third-level">
 										<li><a href="/transportCarrier/">Transport Carrier</a></li>
-									</ul></li>
-							</ul></li>
-						<li><a href="#"><i class="fa fa-file-text-o fa-fw"
-								aria-hidden="true"></i>Challans<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="/goodsReceiveChallan/">Goods Receive
-										Challan</a></li>
-								<li><a href="#">Settings<span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
 										<li><a href="/stockPoint/">Stock Points</a></li>
 										<li><a href="/warehouse/">Warehouses</a></li>
-									</ul></li>
-								<li><a href="/barCode/grc">Print Bar Codes</a></li>
-							</ul></li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw"
-								aria-hidden="true"></i> Invoices<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="/purchaseInvoice/">Purchase Invoice</a></li>
-								<li><a href="#">Settings<span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
 										<li><a href="/paymentTerms/">Payment Terms</a></li>
 									</ul></li>
-							</ul></li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw"
-								aria-hidden="true"></i> Returns<span class="fa arrow"></span></a>
+							</ul>
+						</li>
+						<li><a href="#"><i class="fa fa-first-order fa-fw"></i>Sales<span
+								class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
-								<li><a href="/purchaseReturn/">Purchase Return</a></li>
-							</ul></li>
+								<li><a href="/salesOrder/">Sales Orders</a></li>
+							</ul>
+						</li>
 						<li><a href="#"><i class="fa fa-user fa-fw"></i>Stake
 								Holders<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="/vendor/">Vendors</a></li>
+								<li><a href="/buyer/">Buyers</a></li>
 								<li><a href="/transporter/">Transporters</a></li>
 							</ul></li>
 						<li><a href="#"><i class="fa fa-cog fa-fw"></i>Settings<span
@@ -372,7 +361,7 @@
 	<!-- /#wrapper -->
 
 	<!-- jQuery -->
-	
+
 	<script src="../vendor/jquery/jquery.min.js"
 		th:src="@{/vendor/jquery/jquery.min.js}"></script>
 

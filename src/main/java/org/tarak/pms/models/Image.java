@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * Created by Tarak on 12/3/2016.
@@ -22,6 +23,12 @@ public class Image {
     private String image;
     
     private String description;
+    
+    @Transient
+    private Integer productId;
+    
+    @Transient
+    private Integer variantId; 
     
     public Integer getId() {
         return id;
@@ -55,4 +62,22 @@ public class Image {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public Integer getVariantId() {
+		return variantId;
+	}
+
+	public void setVariantId(Integer variantId) {
+		this.variantId = variantId;
+	}
+	
+	
 }

@@ -138,8 +138,10 @@ function formDialog(message, onConfirm,modalId){
 function calculateTotal(form)
 {
 	var totalCost=0;
+	var totalDefectCost=0;
 	$.each(form.find(".quantity"),function(key, quantity)
 	{
+		var quantity_val=$(quantity).val();
 		rate=$("#"+quantity.id.replace('.quantity','.rate').replace(/\./g,"\\."));
 		discount=$("#"+quantity.id.replace('.quantity','.discount').replace(/\./g,"\\."));
 		var discounted_rate=rate.val();
@@ -147,7 +149,20 @@ function calculateTotal(form)
 		{
 			discounted_rate=rate.val()-rate.val()*(discount.val()/100 || 0);
 		}
-		totalCost+=parseFloat(quantity.value || 0)*parseFloat(discounted_rate || 0);
+		defective_table=$(quantity.closest('tbody')).find('.defective-table');
+		if($(defective_table).length>0)
+		{
+			$.each($(defective_table).find('.defective-quantity'),function(k,dquantity)
+			{
+				drate=$("#"+dquantity.id.replace('.quantity','.cost').replace(/\./g,"\\."));
+				totalCost+=(parseFloat($(dquantity).val() || 0)*parseFloat(drate.val()-drate.val()*(discount.val()/100 || 0)) || 0);
+				if(parseFloat(drate.val())>1)
+				{
+					quantity_val=quantity_val-$(dquantity).val();
+				}
+			});
+		}
+		totalCost+=parseFloat(quantity_val || 0)*parseFloat(discounted_rate || 0);
 	});
 	totalDiscount=$('.totalDiscount');
 	if(totalDiscount)
@@ -159,7 +174,7 @@ function calculateTotal(form)
 
 $(document).ready(function() {
 	
-	jQuery('.rate, .quantity, .discount, .totalDiscount').on('input', function() {
+	jQuery('.rate, .quantity, .discount, .totalDiscount, .defective-rate, .defective-quantity').on('input', function() {
 	    calculateTotal($(this).closest('form'));
 	});
 
