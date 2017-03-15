@@ -771,7 +771,7 @@
 			</div>
 		</div>
 	</div>
-			<div th:fragment="salesOrder(update,button)">
+	<div th:fragment="salesOrder(update,button)">
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -787,6 +787,14 @@
 					</div>
 
 				</div>
+				<div class="form-group">
+				<label>Contact Person</label>
+					<div id="scrollable-dropdown-menu">
+						<input class="contactPerson form-control" th:field="*{contactPerson}"
+							type="text" autocomplete="off" /> 
+					</div>
+				</div>
+								
 				<div id="scrollable-dropdown-menu" class="form-group">
 					<label>Transport Carrier</label> <input
 						class="transportCarrier form-control"
@@ -805,6 +813,21 @@
 					<label>PO Date</label> <input type="date"
 						data-th-field="*{salesOrderDate}" class="form-control" />
 				</div>
+				<div class="form-group">
+					<label>Selection</label> 
+					<select th:field="*{orderType}"  class="orderType form-control">
+					<option value="In-Person">In-Person</option>
+					<option value="Phone">Phone</option>
+					<option value="Order">Order</option>
+					</select>
+				</div>
+				<div id="scrollable-dropdown-menu" class="employee_holder" style="display:none">
+				<label>Employee attended</label>
+						<input class="employee form-control"
+							th:field="*{employeeAttended.name}" type="text" autocomplete="off" />
+						<input class="form-control" th:field="*{employeeAttended.id}"
+							type="hidden" />
+					</div>
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -823,6 +846,18 @@
 					<label>Delivery Date Tolerance</label> <input type="text"
 						th:field="*{dateTolerance}" class="form-control" />
 				</div>
+				<div class="form-group">
+					<label>Total Discount</label> <input type="text"
+						th:field="*{totalDiscount}" class="totalDiscount form-control" />
+				</div>
+				<div class="form-group">
+					<label>Price</label> 
+						<select th:field="*{priceType}" class="form-control">
+						<option value="RSP">RSP</option>
+						<option value="WSP">WSP</option>
+						</select>
+				</div>
+				
 			</div>
 		</div>
 		<div class="row">
@@ -905,7 +940,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td rowspan="2">
+									<td rowspan="3">
 										<button type="submit" name="removeSalesOrderItem"
 											class="btn btn-danger btn-xs"
 											th:value="(*{salesOrderItems[__${salesOrderItemStat.index}__].srNo!=0} ?*{salesOrderItems[__${salesOrderItemStat.index}__].srNo}: ${salesOrderItemStat.count} )">
@@ -949,6 +984,16 @@
 									<td><input type="text"
 										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].rate}"
 										class="rate form-control" autocomplete='off' /></td>
+								</tr>
+								<tr>
+									<th>Discount</th>
+									<td><input type="text"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].discount}"
+										class="form-control" autocomplete="off" /></td>
+
+									<th></th>
+									<td></td>
+
 								</tr>
 							</tbody>
 							<tbody>
@@ -2081,6 +2126,98 @@
 		</div>
 	</div>
 
+	<div th:fragment="employee(update,button)">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label>Employee Name</label> <input type="text" th:field="*{name}"
+						class="form-control" /><input type="hidden" th:field="*{id}"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Phone</label> <input type="text" th:field="*{phone}"
+						class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>Email</label> <input type="email" th:field="*{email}"
+						class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<label>Addresses</label>
+					</div>
+					<div class="panel-body">
+
+						<table class="table table-striped table-bordered table-hover">
+							<tbody th:each="var, addressStat : *{addressList}">
+								<tr>
+									<th colspan="4" th:text="|Address ${addressStat.count}|"></th>
+								</tr>
+								<tr>
+									<th>Address</th>
+									<td><input
+										th:field="*{addressList[__${addressStat.index}__].addressLine}"
+										class="form-control" type="text" /> <input
+										th:field="*{addressList[__${addressStat.index}__].id}"
+										type="hidden" class="form-control" /></td>
+									<th>City</th>
+									<td><input type="text"
+										th:field="*{addressList[__${addressStat.index}__].city}"
+										class="form-control" /></td>
+								</tr>
+								<tr>
+									<th>District</th>
+									<td><input type="text"
+										th:field="*{addressList[__${addressStat.index}__].district}"
+										class="form-control" /></td>
+									<th>Pincode</th>
+									<td><input type="text"
+										th:field="*{addressList[__${addressStat.index}__].pincode}"
+										class="form-control" /></td>
+								</tr>
+								<tr>
+									<th>State</th>
+									<td><input type="text"
+										th:field="*{addressList[__${addressStat.index}__].state}"
+										class="form-control" /></td>
+									<th>Country</th>
+									<td><input type="text"
+										th:field="*{addressList[__${addressStat.index}__].country}"
+										class="form-control" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="form-group">
+							<button type="submit" name="addAddresses"
+								class="btn btn-info btn-xs">
+								<i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add Address
+							</button>
+						</div>
+					</div>
+				</div>
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+					<p th:text="${#fields.allErrors()[0]}">...</p>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary" th:switch="${button}">
+						<i th:case="Add" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+						<i th:case="Update" class="fa fa-floppy-o fa-lg"
+							aria-hidden="true"></i> <span th:text="${button}"></span>
+					</button>
+					<a href="/employee/">
+						<button type="button" class="btn btn-danger" th:if='${update}'>
+							<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
+							Cancel
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div th:fragment="route(update,button)">
 		<div class="row">

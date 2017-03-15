@@ -550,6 +550,21 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.employee').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/employee/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
 	$('input.productType').typeahead({
 		afterSelect: function(data)
 		{
@@ -708,11 +723,33 @@ $(document).ready(function() {
 	    }
 	})
 	
+	$('input.contactPerson').typeahead({
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/buyer/contactPerson/'+$("#"+"buyer.id".replace(/\./g,"\\.")).val(), { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
+	
 	$('.variantRoute').on('click',function(event){
 		event.preventDefault();
 		ele=$(this);
 		var id="#"+ele[0].id.replace(/\./g,"\\.").replace('variantRoute','variantRouteRow');
 		$(id).toggle("medium");
+	});
+   
+	$('.orderType').on('change',function(event){
+		if($(this).val()=="Phone")
+		{
+			$('.employee_holder').show("medium");
+		}	
+		else
+		{
+			$('.employee_holder').hide("medium");
+		}
 	});
     
     $('.icost, .margin ').on('input', function() {

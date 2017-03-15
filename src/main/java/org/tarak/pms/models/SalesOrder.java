@@ -62,9 +62,15 @@ public class SalesOrder implements Serializable {
 	@JoinColumn(columnDefinition="integer",name = "Warehouse_Id")
 	private Warehouse transportBookingLocation;
 	
-	
-	
 	private String agency;
+	
+	private String contactPerson;
+	
+	private String priceType;
+	
+	private double totalDiscount;
+	
+	private String orderType;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryDate;
@@ -74,6 +80,10 @@ public class SalesOrder implements Serializable {
 	private int dateTolerance;
 	@Type(type="boolean")
 	private boolean processed;
+	
+	@ManyToOne
+	@JoinColumn(columnDefinition="integer",name = "Employee_Id")
+	private Employee employeeAttended;
 
 	public int getSalesOrderId() {
 		return salesOrderId;
@@ -179,6 +189,46 @@ public class SalesOrder implements Serializable {
 
 	public void setTransportCarrier(TransportCarrier transportCarrier) {
 		this.transportCarrier = transportCarrier;
+	}
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+	public double getTotalDiscount() {
+		return totalDiscount;
+	}
+
+	public void setTotalDiscount(double totalDiscount) {
+		this.totalDiscount = totalDiscount;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getPriceType() {
+		return priceType;
+	}
+
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
+
+	public Employee getEmployeeAttended() {
+		return employeeAttended;
+	}
+
+	public void setEmployeeAttended(Employee employeeAttended) {
+		employeeAttended = employeeAttended;
 	}
 	
 	

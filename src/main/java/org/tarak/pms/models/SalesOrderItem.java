@@ -50,6 +50,8 @@ public class SalesOrderItem implements Serializable {
 	@JoinColumn(columnDefinition="integer",name = "Product")
 	private Product product;
 	
+	private double discount;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryDate;
 	
@@ -180,5 +182,12 @@ public class SalesOrderItem implements Serializable {
 		this.deliveryDate = deliveryDate;
 	}
 
-	
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
 }

@@ -142,4 +142,20 @@ public class BuyerController {
     	}
     	return list;
     }
+    
+    @RequestMapping(value = "/contactPerson/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> buyerContactPerson(@PathVariable Integer id, Model model)
+    {
+    	Buyer buyer=buyerService.findOne(id);
+    	List<String> list=new LinkedList<String>();
+    	if(buyer!=null && buyer.getAddressList()!=null && buyer.getAddressList().size()>0)
+    	{
+    		for(ContactPerson contactPerson :buyer.getContactPersons())
+    		{
+    			list.add(contactPerson.getName());
+    		}
+    	}
+    	return list;
+    }
 }
