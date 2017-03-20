@@ -55,14 +55,6 @@ public class SalesOrderItem implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date deliveryDate;
 	
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	private String description;
 	
 	private double quantity;
@@ -190,4 +182,11 @@ public class SalesOrderItem implements Serializable {
 		this.discount = discount;
 	}
 
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }

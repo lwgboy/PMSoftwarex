@@ -821,13 +821,13 @@
 					<option value="Order">Order</option>
 					</select>
 				</div>
-				<div id="scrollable-dropdown-menu" class="employee_holder" style="display:none">
+				<div id="scrollable-dropdown-menu" class="employee_holder form-group" th:if="${orderType=='Phone'}">
 				<label>Employee attended</label>
 						<input class="employee form-control"
 							th:field="*{employeeAttended.name}" type="text" autocomplete="off" />
 						<input class="form-control" th:field="*{employeeAttended.id}"
 							type="hidden" />
-					</div>
+				</div>
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -932,7 +932,7 @@
 										<div id="scrollable-dropdown-menu">
 											<input type="text"
 												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.name}"
-												class="product_variant form-control" autocomplete="off" />
+												class="product_variant_price form-control" autocomplete="off" />
 											<input type="hidden"
 												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.id}"
 												class="form-control" />
@@ -989,7 +989,7 @@
 									<th>Discount</th>
 									<td><input type="text"
 										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].discount}"
-										class="form-control" autocomplete="off" /></td>
+										class="discount form-control" autocomplete="off" /></td>
 
 									<th></th>
 									<td></td>

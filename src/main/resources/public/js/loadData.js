@@ -536,6 +536,23 @@ $(document).ready(function() {
 	    			});
 	    }
 	})
+	
+	$('input.buyer').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+		},
+	    source:  function (query, process) 
+	    {
+	    	return $.get('/buyer/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
+	
 	$('input.transporter').typeahead({
 		afterSelect: function(data)
 		{
@@ -693,6 +710,23 @@ $(document).ready(function() {
 	    source:  function (query, process) 
 	    { 	
 	    	return $.get('/stockPoint/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	
+	$('input.product_variant_price').typeahead({
+		afterSelect: function(data)
+		{
+			var idx="#"+$(this)[0].$element[0].id.replace('.name','.id').replace(/\./g,"\\.");
+	    	$(idx).val(data.id);
+	    	var pid="#"+$(this)[0].$element[0].id.replace('variant.name','rate').replace(/\./g,"\\.");
+	    	$(pid).val(data.price);
+		},
+	    source:  function (query, process) 
+	    { 	
+	    	return $.get('/variant/list/'+$("#"+$(this)[0].$element[0].id.replace('.name','.id').replace('variant','product').replace(/\./g,"\\.")).val(), { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});

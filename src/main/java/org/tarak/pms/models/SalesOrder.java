@@ -78,6 +78,7 @@ public class SalesOrder implements Serializable {
 	private int quantityTolerance;
 	
 	private int dateTolerance;
+	
 	@Type(type="boolean")
 	private boolean processed;
 	
@@ -228,7 +229,7 @@ public class SalesOrder implements Serializable {
 	}
 
 	public void setEmployeeAttended(Employee employeeAttended) {
-		employeeAttended = employeeAttended;
+		this.employeeAttended = employeeAttended;
 	}
 	
 	

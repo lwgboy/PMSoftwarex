@@ -129,6 +129,10 @@ public class SalesOrderController {
 			{
 				item.setFinYear(finYear);
 			}
+			if(salesOrder.getEmployeeAttended()!=null && salesOrder.getEmployeeAttended().getId()==null)
+			{
+				salesOrder.setEmployeeAttended(null);
+			}
     	}
 		else
 		{
