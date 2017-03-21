@@ -59,6 +59,8 @@ public class SalesOrderItem implements Serializable {
 	
 	private double quantity;
 	
+	private double allocated;
+	
 	@OneToOne
 	@JoinColumn(name = "Measurement")
 	private Measurement measurement;
@@ -189,4 +191,13 @@ public class SalesOrderItem implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+	public double getAllocated() {
+		return allocated;
+	}
+
+	public void setAllocated(double allocated) {
+		this.allocated = allocated;
+	}
+	
 }

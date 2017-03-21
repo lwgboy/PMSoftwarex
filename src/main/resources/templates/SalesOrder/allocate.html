@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Sales Order Knowledge Base',formTitle='Sales Order'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/salesOrder/add}" th:object="${salesOrder}"
+			method="post">
+			<div th:include="fragments::salesOrder_allocate('true','Update')"></div>
+		</form>
+	</div>
+</body>
+</html>

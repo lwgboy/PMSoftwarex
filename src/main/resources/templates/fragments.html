@@ -771,6 +771,121 @@
 			</div>
 		</div>
 	</div>
+	<div th:fragment="salesOrder_allocate(update,button)">
+		<div class="row">
+				<div class="col-sm-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<label>Items</label>
+					</div>
+					<div class="panel-body">
+						<table class="table table-striped table-bordered table-hover">
+							<tbody
+								th:each="var, salesOrderItemStat : *{salesOrderItems}">
+								<tr>
+									<th colspan="4" th:text="|Item ${salesOrderItemStat.count}|">
+									</th>
+
+								</tr>
+								<tr th:if="${var.product == null}">
+									<th>Style</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].style.name}"
+												class="style form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].style.id}"
+												class="form-control" />
+										</div>
+									</td>
+									<th>Brand</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].brand.name}"
+												class="brand form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].brand.id}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+								<tr th:if="${var.product}">
+									<th>Design</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].product.name}"
+												class="product form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].product.id}"
+												class="form-control" />
+										</div>
+									</td>
+									<th>Variant</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.name}"
+												class="product_variant_price form-control" autocomplete="off" />
+											<input type="hidden"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.id}"
+												class="form-control" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>Quantity</th>
+									<td>
+									<input type="hidden"
+										th:attr="name='salesOrderItems[' + ${salesOrderItemStat.index} + '].srNo'"
+										class="form-control"
+										th:value="(*{salesOrderItems[__${salesOrderItemStat.index}__].srNo!=0} ?*{salesOrderItems[__${salesOrderItemStat.index}__].srNo}: ${salesOrderItemStat.count} )" />
+										<input
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].finYear}"
+										type="hidden" class="form-control" /> <input
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].salesOrderId}"
+										type="hidden" class="form-control" />
+									
+									<input type="text"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].quantity}"
+										class="quantity form-control" autocomplete='off' /></td>
+																		<th>Measurement</th>
+									<td>
+										<div id="scrollable-dropdown-menu">
+											<input type="text"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].measurement.name}"
+												class="measurement form-control" autocomplete="off" /> <input
+												type="hidden"
+												th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].measurement.id}"
+												class="form-control" />
+										</div>
+									</td>
+										
+								</tr>
+								<tr>
+									<th>Stock</th>
+									<td><input type="text"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.quantity}"
+										class="variant_quantity form-control" autocomplete='off' /></td>
+								<th>Allocate</th>
+									<td><input type="text"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].allocated}"
+										class="quantity_allocate form-control" autocomplete='off' /></td>
+								
+								</tr>
+								<tr>
+									<th></th>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div th:fragment="salesOrder(update,button)">
 		<div class="row">
 			<div class="col-lg-6">

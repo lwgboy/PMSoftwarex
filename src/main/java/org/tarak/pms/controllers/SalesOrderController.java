@@ -187,5 +187,15 @@ public class SalesOrderController {
     	prepareModel(model);
     	return "salesOrder/edit";
     }
-   
+    
+    @RequestMapping(value = "/allocate_link/{salesOrderId}", method = RequestMethod.GET)
+    public String allocateSalesOrder(@PathVariable Integer salesOrderId, Model model)
+    {
+    	String finYear=UserUtils.getFinancialYear(session);
+    	SalesOrder salesOrder=salesOrderService.findBySalesOrderIdAndFinYear(salesOrderId,finYear);
+    	model.addAttribute("salesOrder", salesOrder);
+    	prepareModel(model);
+    	return "salesOrder/allocate";
+    }
+
 }

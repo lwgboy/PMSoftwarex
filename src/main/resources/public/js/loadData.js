@@ -94,9 +94,9 @@ function populate_basic_table(url,table,type)
                 {
                 	url+="/"+x[key[k]];
                 }	
-		        if(colNames.indexOf("view")>-1)
+		        if(colNames.indexOf("allocate_link")>-1)
 		        {
-		        	cols.push("<a href='/"+type+"/view"+url+"'  id=\"view_action\""+url+" class=\"view_action\"><i class=\"fa fa-eye fa-lg\" aria-hidden=\"true\"></i> View</a>");
+		        	cols.push("<a href='/"+type+"/allocate_link"+url+"'  id=\"allocate_link_action\""+url+" class=\"allocate_link_action\"><i class=\"fa fa-product-hunt\" aria-hidden=\"true\"></i> Allocate</a>");
 		        }
 		        cols.push("<a href='/"+type+"/edit"+url+"'  id=\"edit_action\""+url+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
 		        cols.push("<a href='/"+type+"/delete"+url+"' id=\"delete_action\""+url+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
