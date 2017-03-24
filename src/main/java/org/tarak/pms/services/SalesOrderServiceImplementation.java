@@ -49,4 +49,10 @@ public class SalesOrderServiceImplementation implements SalesOrderService
 	public void deleteBySalesOrderIdAndFinYear(int salesOrderId, String finYear) {
         repository.deleteBySalesOrderIdAndFinYear(salesOrderId, finYear);		
 	}
+
+	@Override
+	public List<SalesOrder> findByFinYearAndForwardOrder(String finYear, boolean forwardOrder) {
+		return repository.findByFinYearAndForwardOrder(finYear,forwardOrder);
+		
+	}
  }

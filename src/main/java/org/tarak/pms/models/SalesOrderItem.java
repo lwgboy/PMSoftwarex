@@ -11,6 +11,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -61,6 +62,9 @@ public class SalesOrderItem implements Serializable {
 	
 	private double allocated;
 	
+	@Transient
+	private double forwardOrderQuantity;
+	
 	@OneToOne
 	@JoinColumn(name = "Measurement")
 	private Measurement measurement;
@@ -71,7 +75,9 @@ public class SalesOrderItem implements Serializable {
 	
 	@Type(type = "boolean")
 	private boolean processed;
-
+	
+	private boolean forwardOrder;
+	
 	public int getSrNo() {
 		return srNo;
 	}
@@ -199,5 +205,22 @@ public class SalesOrderItem implements Serializable {
 	public void setAllocated(double allocated) {
 		this.allocated = allocated;
 	}
+
+	public boolean isForwardOrder() {
+		return forwardOrder;
+	}
+
+	public void setForwardOrder(boolean forwardOrder) {
+		this.forwardOrder = forwardOrder;
+	}
+
+	public double getForwardOrderQuantity() {
+		return forwardOrderQuantity;
+	}
+
+	public void setForwardOrderQuantity(double forwardOrderQuantity) {
+		this.forwardOrderQuantity = forwardOrderQuantity;
+	}
+	
 	
 }

@@ -75,6 +75,11 @@ public class Variant implements Serializable{
     
     private boolean assignVariantRoute;
     
+    private double allocated;
+
+    @Transient
+    private double unallocated;
+    
     public Integer getId() {
         return id;
     }
@@ -227,9 +232,21 @@ public class Variant implements Serializable{
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-	
-	@Override
-	public Object clone()throws CloneNotSupportedException{
-		return super.clone();
-		}
+
+	public double getAllocated() {
+		return allocated;
+	}
+
+	public void setAllocated(double allocated) {
+		this.allocated = allocated;
+	}
+
+	public double getUnallocated() {
+		return unallocated;
+	}
+
+	public void setUnallocated(double unallocated) {
+		this.unallocated = unallocated;
+	}
+
 }

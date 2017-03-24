@@ -81,6 +81,8 @@ public class SalesOrder implements Serializable {
 	
 	@Type(type="boolean")
 	private boolean processed;
+
+	private boolean forwardOrder;
 	
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Employee_Id")
@@ -231,6 +233,12 @@ public class SalesOrder implements Serializable {
 	public void setEmployeeAttended(Employee employeeAttended) {
 		this.employeeAttended = employeeAttended;
 	}
-	
-	
+
+	public boolean isForwardOrder() {
+		return forwardOrder;
+	}
+
+	public void setForwardOrder(boolean forwardOrder) {
+		this.forwardOrder = forwardOrder;
+	}
 }

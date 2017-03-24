@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ import org.tarak.pms.models.SalesOrderItem;
 import org.tarak.pms.models.Style;
 import org.tarak.pms.models.Variant;
 import org.tarak.pms.services.SalesOrderService;
+import org.tarak.pms.services.VariantService;
 import org.tarak.pms.utils.UserUtils;
 
 /**
@@ -36,6 +38,9 @@ public class SalesOrderController {
     @Autowired
     private SalesOrderService salesOrderService;
 
+    @Autowired
+    private VariantService variantService;
+    
     @Autowired
 	private HttpSession session;
 
@@ -163,6 +168,39 @@ public class SalesOrderController {
         return index(model);
     }
 
+	@RequestMapping(value = "/add", params={"allocate"}, method = RequestMethod.POST )
+    public String allocateSalesOrder(@Valid SalesOrder salesOrder, BindingResult bindingResult, Model model)
+    {
+		SalesOrder so=salesOrderService.findBySalesOrderIdAndFinYear(salesOrder.getSalesOrderId(), salesOrder.getFinYear());
+		so.getSalesOrderItems().forEach(item->{
+			final int id=item.getSrNo();
+			salesOrder.getSalesOrderItems().forEach(i->{
+				if(id==i.getSrNo())
+				{
+					item.setForwardOrder(i.isForwardOrder()?true:false);
+					double diff=i.getAllocated()-item.getAllocated();
+					item.setAllocated(i.getAllocated());
+					if(item.getVariant()!=null)
+					{
+						Variant variant=variantService.findOne(item.getVariant().getId());
+						variant.setAllocated(variant.getAllocated()+diff);
+						variantService.saveAndFlush(variant);	
+					}
+				}
+			});
+		});
+		if(so.getSalesOrderItems().stream().filter(item->item.isForwardOrder()==true).findFirst().isPresent())
+		{
+			so.setForwardOrder(true);
+		}
+		else
+		{
+			so.setForwardOrder(false);
+		}
+		salesOrderService.saveAndFlush(so);
+		return index(model);
+    }
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
     List<SalesOrder> listCategories()
@@ -193,9 +231,53 @@ public class SalesOrderController {
     {
     	String finYear=UserUtils.getFinancialYear(session);
     	SalesOrder salesOrder=salesOrderService.findBySalesOrderIdAndFinYear(salesOrderId,finYear);
+    	salesOrder.getSalesOrderItems().forEach(item->{
+    		if(item.getVariant()!=null)
+    		{
+    			item.getVariant().setUnallocated(item.getVariant().getQuantity()-item.getVariant().getAllocated());
+    		}
+    	});
     	model.addAttribute("salesOrder", salesOrder);
     	prepareModel(model);
     	return "salesOrder/allocate";
     }
-
+    
+    @RequestMapping(value = "/forwardOrder", method = RequestMethod.GET)
+    public String forwardSalesOrder()
+    {
+    	return "salesOrder/forwardOrder";
+    }
+    
+    @RequestMapping(value = "/forwardOrderList", method = RequestMethod.GET)
+    public @ResponseBody
+    List<SalesOrderItem> forwardSalesOrderList()
+    {
+    	String finYear=UserUtils.getFinancialYear(session);
+    	List<SalesOrder> salesOrders=salesOrderService.findByFinYearAndForwardOrder(finYear, true);
+    	List<SalesOrderItem> items=new LinkedList<SalesOrderItem>();
+    	salesOrders.forEach(order->{
+    		if(order.isForwardOrder())
+    		{
+    			order.getSalesOrderItems().forEach(item->{
+        			if(item.isForwardOrder())
+        			{
+        				item.setSalesOrderId(order.getSalesOrderId());
+            			item.setForwardOrderQuantity(item.getQuantity()-item.getAllocated());
+            			if(item.getProduct()==null || item.getVariant()==null)
+            			{
+            				Product product=new Product();
+            				product.setName(item.getStyle().getName());
+            				Variant variant=new Variant();
+            				variant.setName(item.getBrand().getName());
+            				item.setProduct(product);
+            				item.setVariant(variant);
+            			}
+            			items.add(item);
+            			
+        			}
+        		});
+    		}
+    	});
+    	return items;
+    }
 }
