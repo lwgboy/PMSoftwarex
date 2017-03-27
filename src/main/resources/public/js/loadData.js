@@ -72,6 +72,7 @@ function populate_basic_table(url,table,type)
                 var cols = new Array();
                 var flag=false;
                 var count=0;
+                var o=0;
                 for(var serial in colNames)
             	{
                 	if(colNames[serial]=="select_sku" )
@@ -82,6 +83,12 @@ function populate_basic_table(url,table,type)
                 	if(colNames[serial]=="select_grc" )
                 	{
                 		cols.push("<input type='checkbox' name='select' class='delete_check' value='"+x.goodsReceiveChallanId+"' />")
+                		continue;
+                	}
+                	if(colNames[serial]=="select_so_item" )
+                	{
+                		cols.push("<input type='checkbox' name='salesOrderItems["+o+"].salesOrderId' class='delete_check' value='"+x.salesOrderId+"' /><input type=\"hidden\" value='"+x.finYear+"' name='salesOrderItems["+o+"].finYear' /><input type=\"hidden\" value='"+x.srNo+"' name='salesOrderItems["+o+"].srNo' />")
+                		o++;
                 		continue;
                 	}
                 	if(colNames[serial]!="view" && colNames[serial]!="edit" && colNames[serial]!="delete")
@@ -98,9 +105,19 @@ function populate_basic_table(url,table,type)
 		        {
 		        	cols.push("<a href='/"+type+"/allocate_link"+url+"'  id=\"allocate_link_action\""+url+" class=\"allocate_link_action\"><i class=\"fa fa-product-hunt\" aria-hidden=\"true\"></i> Allocate</a>");
 		        }
-		        cols.push("<a href='/"+type+"/edit"+url+"'  id=\"edit_action\""+url+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
-		        cols.push("<a href='/"+type+"/delete"+url+"' id=\"delete_action\""+url+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
-                table.fnAddData(cols);
+		        if(colNames.indexOf("print")>-1)
+		        {
+		        	cols.push("<a href='/"+type+"/print"+url+"'  id=\"print_action\""+url+" class=\"print_action\"><i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Print</a>");
+		        }
+		        if(colNames.indexOf("edit")>-1)
+		        {
+		        	cols.push("<a href='/"+type+"/edit"+url+"'  id=\"edit_action\""+url+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
+		        }
+		        if(colNames.indexOf("delete")>-1)
+		        {
+		        	cols.push("<a href='/"+type+"/delete"+url+"' id=\"delete_action\""+url+" class=\"delete_action\"><i class=\"fa fa-trash-o fa-lg\" aria-hidden=\"true\"></i> Delete</a>");
+		        }
+		        table.fnAddData(cols);
 		    });
 		},
 		error: function(e)

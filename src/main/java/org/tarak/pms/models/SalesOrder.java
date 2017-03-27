@@ -21,6 +21,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.tarak.pms.utils.PMSoftwareConstants;
 
 @Entity
 @IdClass(SalesOrderId.class)
@@ -87,6 +88,8 @@ public class SalesOrder implements Serializable {
 	@ManyToOne
 	@JoinColumn(columnDefinition="integer",name = "Employee_Id")
 	private Employee employeeAttended;
+	
+	private String stage=PMSoftwareConstants.UNFULLFILLED;
 
 	public int getSalesOrderId() {
 		return salesOrderId;
@@ -241,4 +244,14 @@ public class SalesOrder implements Serializable {
 	public void setForwardOrder(boolean forwardOrder) {
 		this.forwardOrder = forwardOrder;
 	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
+	}
+	
+	
 }

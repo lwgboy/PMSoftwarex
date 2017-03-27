@@ -1,6 +1,7 @@
 package org.tarak.pms.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tarak.pms.models.Brand;
+import org.tarak.pms.models.PickList;
 import org.tarak.pms.models.Product;
 import org.tarak.pms.models.SalesOrder;
 import org.tarak.pms.models.SalesOrderItem;
 import org.tarak.pms.models.Style;
 import org.tarak.pms.models.Variant;
+import org.tarak.pms.services.PickListService;
+import org.tarak.pms.services.SalesOrderItemService;
 import org.tarak.pms.services.SalesOrderService;
 import org.tarak.pms.services.VariantService;
+import org.tarak.pms.utils.PMSoftwareConstants;
 import org.tarak.pms.utils.UserUtils;
 
 /**
@@ -37,6 +42,12 @@ public class SalesOrderController {
 
     @Autowired
     private SalesOrderService salesOrderService;
+
+    @Autowired
+    private SalesOrderItemService salesOrderItemService;
+
+    @Autowired
+    private PickListService pickListService;
 
     @Autowired
     private VariantService variantService;
@@ -187,7 +198,15 @@ public class SalesOrderController {
 						variantService.saveAndFlush(variant);	
 					}
 				}
-			});
+		/*		if(i.getAllocated()==i.getQuantity())
+				{
+					item.setProcessed(true);
+				}
+				else
+				{
+					item.setProcessed(false);
+				}
+		*/	});
 		});
 		if(so.getSalesOrderItems().stream().filter(item->item.isForwardOrder()==true).findFirst().isPresent())
 		{
@@ -197,8 +216,52 @@ public class SalesOrderController {
 		{
 			so.setForwardOrder(false);
 		}
-		salesOrderService.saveAndFlush(so);
+		/*long count=so.getSalesOrderItems().stream().filter(item->item.isProcessed()).count();
+		if(so.getSalesOrderItems().size()==count)
+		{
+			so.setStage(PMSoftwareConstants.FULLFILLED);
+		}
+		else if(count>=1)
+		{
+			so.setStage(PMSoftwareConstants.PARTIALLYFULLFILLED);
+		}
+		else
+		{
+			so.setStage(PMSoftwareConstants.UNFULLFILLED);
+		}
+		*/salesOrderService.saveAndFlush(so);
+		return "salesOrder/unAllocated";
+    }
+	
+	@RequestMapping(value = "/add", params={"close"}, method = RequestMethod.POST )
+    public String closeSalesOrder(@Valid SalesOrder salesOrder, BindingResult bindingResult, Model model)
+    {
+		salesOrder.setStage(PMSoftwareConstants.CLOSED);
+		salesOrderService.saveAndFlush(salesOrder);
+	    addSalesOrder(model);
 		return index(model);
+    }
+	
+	@RequestMapping(value = "/add", params={"generate_picklist"}, method = RequestMethod.POST )
+    public String printSalesOrderItems(@Valid SalesOrder salesOrder, BindingResult bindingResult, Model model)
+    {
+		PickList pi=new PickList();
+		List<SalesOrderItem> salesOrderItems=new LinkedList<SalesOrderItem>();
+		pi.setSalesOrderItems(salesOrderItems);
+		salesOrder.getSalesOrderItems().forEach(item->{
+			SalesOrderItem soi=salesOrderItemService.findBySalesOrderIdAndFinYearAndSrNo(item.getSalesOrderId(),item.getFinYear(),item.getSrNo());
+			item.setProduct(soi.getProduct());
+			item.setVariant(soi.getVariant());
+			item.setQuantity(soi.getQuantity());
+			pi.getSalesOrderItems().add(soi);
+		});
+		Date date=new Date(System.currentTimeMillis());
+		pi.setPickListDate(date);
+		String finYear=UserUtils.getFinancialYear(session);
+		pi.setFinYear(finYear);
+		pickListService.saveAndFlush(pi);
+		model.addAttribute("pickList", pi);
+		return "salesOrder/printPickList";
     }
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET )
@@ -208,6 +271,62 @@ public class SalesOrderController {
         List<SalesOrder> list=salesOrderService.findAll();
         return list;
     }
+	
+	@RequestMapping(value = "/pickList", method = RequestMethod.GET )
+    public @ResponseBody
+    List<PickList> pickList()
+    {
+        List<PickList> list=pickListService.findAll();
+        return list;
+    }
+	
+	@RequestMapping(value = "/unAllocatedList", method = RequestMethod.GET )
+    public @ResponseBody
+    List<SalesOrder> listUnfullfilled()
+    {
+		String finYear=UserUtils.getFinancialYear(session);
+        List<SalesOrder> list=salesOrderService.findByFinYearAndStage(finYear,PMSoftwareConstants.UNFULLFILLED);
+        return list;
+    }
+	
+	@RequestMapping(value = "/unAllocated", method = RequestMethod.GET)
+    public String unfulfilledSalesOrder()
+    {
+    	return "salesOrder/unAllocated";
+    }
+	
+	@RequestMapping(value = "/pickListItemList/{pickListId}", method = RequestMethod.GET )
+    public @ResponseBody
+    List<SalesOrderItem> listPickListItems(@PathVariable Integer pickListId)
+    {
+		String finYear=UserUtils.getFinancialYear(session);
+		PickList pl=pickListService.findByPickListIdAndFinYear(pickListId, finYear);
+		return pl.getSalesOrderItems();
+    }
+	
+	@RequestMapping(value = "/allocatedList", method = RequestMethod.GET )
+    public @ResponseBody
+    List<SalesOrderItem> listAllocated()
+    {
+		String finYear=UserUtils.getFinancialYear(session);
+        List<SalesOrder> list=salesOrderService.findByFinYearAndStage(finYear,PMSoftwareConstants.UNFULLFILLED);
+        List<SalesOrderItem> items=new LinkedList<SalesOrderItem>();
+        list.forEach(order->{
+        	order.getSalesOrderItems().removeIf(item->item.getAllocated()!=item.getQuantity());
+        	order.getSalesOrderItems().forEach(item->{
+        	});
+        	items.addAll(order.getSalesOrderItems());
+        });
+        return items;
+    }
+	
+	@RequestMapping(value = "/allocated", method = RequestMethod.GET)
+    public String allocatedSalesOrder(Model model)
+    {
+		addSalesOrder(model);
+    	return "salesOrder/allocated";
+    }
+	
     @RequestMapping(value = "/delete/{salesOrderId}", method = RequestMethod.GET )
     public String deleteSalesOrder(@PathVariable Integer salesOrderId, Model model)
     {
@@ -225,6 +344,17 @@ public class SalesOrderController {
     	prepareModel(model);
     	return "salesOrder/edit";
     }
+    
+    @RequestMapping(value = "/print/{pickListId}", method = RequestMethod.GET)
+    public String printPickList(@PathVariable Integer pickListId, Model model)
+    {
+    	String finYear=UserUtils.getFinancialYear(session);
+    	PickList pl=pickListService.findByPickListIdAndFinYear(pickListId, finYear);
+    	model.addAttribute("pickList", pl);
+    	prepareModel(model);
+    	return "salesOrder/printPickList";
+    }
+    
     
     @RequestMapping(value = "/allocate_link/{salesOrderId}", method = RequestMethod.GET)
     public String allocateSalesOrder(@PathVariable Integer salesOrderId, Model model)

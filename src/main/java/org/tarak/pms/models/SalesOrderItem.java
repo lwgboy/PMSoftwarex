@@ -2,8 +2,10 @@ package org.tarak.pms.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -78,6 +80,17 @@ public class SalesOrderItem implements Serializable {
 	
 	private boolean forwardOrder;
 	
+	@ElementCollection
+	private List<String> barCodes;
+	
+	public List<String> getBarCodes() {
+		return barCodes;
+	}
+
+	public void setBarCodes(List<String> barCodes) {
+		this.barCodes = barCodes;
+	}
+
 	public int getSrNo() {
 		return srNo;
 	}

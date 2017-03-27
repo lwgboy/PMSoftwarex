@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Allocated Order Items Knowledge Base',formTitle='Allocated Order Items'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/salesOrder/add}"
+			th:object="${salesOrder}" method="post">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover"
+							id="dataTables-example">
+							<thead>
+								<tr>
+									<th col="select_so_item"><input type="checkbox"
+										class="select_all_check_box" /></th>
+									<th col="salesOrderId" key="salesOrderId">Sales Order ID</th>
+									<th col="product.name">Design</th>
+									<th col="variant.name">Variant</th>
+									<th col="quantity">Quantity</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Select</th>
+									<th>Sales Order ID</th>
+									<th>Design</th>
+									<th>Variant</th>
+									<th>Quantity</th>
+								</tr>
+							</tfoot>
+						</table>
+						<div class="row">
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary"
+								name="generate_picklist">
+								<i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i><span>
+									Generate Pick List</span>
+							</button>
+						</div>
+					</div>
+						
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-green">
+					<div class="panel-heading">
+						<label>List of SalesOrders</label>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered table-hover"
+								id="dataTables-example1">
+								<thead>
+									<tr>
+										<th col="pickListId" key="pickListId">ID</th>
+										<th col="pickListDate">SO Date</th>
+										<th col="print">Print</th>
+										<th col="delete">Delete</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>ID</th>
+										<th>PI Date</th>
+										<th>Print</th>
+										<th>Delete</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="footer_script">
+		$(document).ready(function() {
+			var cTable = $('#dataTables-example').dataTable();
+			populate_basic_table("/salesOrder/allocatedList", cTable, "salesOrderItem");
+			var cTable = $('#dataTables-example1').dataTable();
+			populate_basic_table("/salesOrder/pickList", cTable, "salesOrder");
+		});
+	</script>
+</body>
+</html>

@@ -897,7 +897,7 @@
 						<i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> <span
 							th:text="Allocate"></span>
 					</button>
-					<a href="/salesOrder/">
+					<a href="/salesOrder/unAllocated">
 						<button type="button" class="btn btn-danger">
 							<i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>
 							Cancel
@@ -964,6 +964,16 @@
 						type="text" autocomplete="off" /> <input class="form-control"
 						th:field="*{employeeAttended.id}" type="hidden" />
 				</div>
+				<div class="form-group">
+					<label>Stage</label> <select th:field="*{stage}"
+						class="form-control" disabled="disabled">
+						<option value="Fulfilled">Fulfilled</option>
+						<option value="Unfulfilled">Unfulfilled</option>
+						<option value="Partially Fulfilled">Partially Fulfilled</option>
+						<option value="Closed">Closed</option>
+					</select>
+				</div>
+				
 			</div>
 			<div class="col-lg-6">
 				<div class="form-group">
@@ -1169,6 +1179,10 @@
 							Cancel
 						</button>
 					</a>
+					<button type="submit" name="close" class="btn btn-danger" th:if='${update}'>
+							<i class="fa fa-eye-slash fa-lg" aria-hidden="true"></i>
+							Close Order
+						</button>
 				</div>
 			</div>
 		</div>

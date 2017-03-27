@@ -55,4 +55,9 @@ public class SalesOrderServiceImplementation implements SalesOrderService
 		return repository.findByFinYearAndForwardOrder(finYear,forwardOrder);
 		
 	}
+
+	@Override
+	public List<SalesOrder> findByFinYearAndStage(String finYear, String stage) {
+		return repository.findByFinYearAndStage(finYear,stage);
+	}
  }

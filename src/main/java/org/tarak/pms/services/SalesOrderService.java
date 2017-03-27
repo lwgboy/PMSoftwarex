@@ -12,4 +12,5 @@ public interface SalesOrderService extends ServiceInterface<SalesOrder, Integer>
 	public SalesOrder findBySalesOrderIdAndFinYear(int salesOrderId,String finYear);
 	public void deleteBySalesOrderIdAndFinYear(int salesOrderId, String finYear);
 	public List<SalesOrder> findByFinYearAndForwardOrder(String finYear,boolean forwardOrder);
+	public List<SalesOrder> findByFinYearAndStage(String finYear,String stage);
 }
