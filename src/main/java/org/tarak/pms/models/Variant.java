@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,13 +73,26 @@ public class Variant implements Serializable{
     @Cascade({CascadeType.ALL})
     @JoinTable(name = "Variant_variantRoutes", joinColumns = @JoinColumn(name = "variant_id", referencedColumnName = "variant_id"), inverseJoinColumns = @JoinColumn(name = "variantRoute_id", referencedColumnName = "variantRoute_id"))
     private List<VariantRoute> variantRoutes;
-    
+
+    @ElementCollection
+	private List<String> barCodes;
+	
+	public List<String> getBarCodes() {
+		return barCodes;
+	}
+
+	public void setBarCodes(List<String> barCodes) {
+		this.barCodes = barCodes;
+	}
+
     private boolean assignVariantRoute;
     
     private double allocated;
 
     @Transient
     private double unallocated;
+    
+    
     
     public Integer getId() {
         return id;

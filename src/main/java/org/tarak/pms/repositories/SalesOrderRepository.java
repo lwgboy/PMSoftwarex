@@ -14,5 +14,5 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer>
 	public SalesOrder findBySalesOrderIdAndFinYear(int salesOrderId, String finYear);
 	public void deleteBySalesOrderIdAndFinYear(int salesOrderId, String finYear);
 	public List<SalesOrder> findByFinYearAndForwardOrder(String finYear,boolean forwardOrder);
-	public List<SalesOrder> findByFinYearAndStage(String finYear,String stage);
+	public List<SalesOrder> findByFinYearAndStageIn(String finYear,List<String> stage);
 }

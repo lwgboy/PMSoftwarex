@@ -57,7 +57,7 @@ public class SalesOrderServiceImplementation implements SalesOrderService
 	}
 
 	@Override
-	public List<SalesOrder> findByFinYearAndStage(String finYear, String stage) {
-		return repository.findByFinYearAndStage(finYear,stage);
+	public List<SalesOrder> findByFinYearAndStageIn(String finYear, List<String> stage) {
+		return repository.findByFinYearAndStageIn(finYear,stage);
 	}
  }

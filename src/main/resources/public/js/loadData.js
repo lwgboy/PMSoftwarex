@@ -109,6 +109,10 @@ function populate_basic_table(url,table,type)
 		        {
 		        	cols.push("<a href='/"+type+"/print"+url+"'  id=\"print_action\""+url+" class=\"print_action\"><i class=\"fa fa-floppy-o\" aria-hidden=\"true\"></i> Print</a>");
 		        }
+		        if(colNames.indexOf("assign_bar_code")>-1)
+		        {
+		        	cols.push("<a href='/"+type+"/assignBarCode"+url+"' id=\"assign_bar_code\""+url+" class=\"assign_bar_code\"><i class=\"fa fa-barcode fa-lg\" aria-hidden=\"true\"></i> Assign Bar Code</a>");
+		        }
 		        if(colNames.indexOf("edit")>-1)
 		        {
 		        	cols.push("<a href='/"+type+"/edit"+url+"'  id=\"edit_action\""+url+" class=\"edit_action\"><i class=\"fa fa-pencil-square-o fa-lg\" aria-hidden=\"true\"></i> Edit</a>");
@@ -196,7 +200,7 @@ $(document).ready(function() {
 	});
 
 	
-	$('body').on('click', '.delete_action', function (e) {
+	$('body').on('click', '.delete_action,.close_action', function (e) {
 		var $form=$(this).closest('form'); 
 	    e.preventDefault();
 	    var link=e.currentTarget.href;
@@ -300,6 +304,29 @@ $(document).ready(function() {
 	    source:  function (query, process) 
 	    {
 	    	return $.get('/variantType/list', { query: query }, function (data) 
+	    			{
+	            		return process(data);
+	    			});
+	    }
+	})
+	$('input.barCodes').typeahead({
+		afterSelect: function(data)
+		{
+			var count=$(this)[0].$element[0].id;
+			var tcount=0
+			for(;$('#salesOrderItems'+count+'\\.barCodes'+tcount) && $('#salesOrderItems'+count+'\\.barCodes'+tcount).val()!=undefined;tcount++ );
+			var div=$("<div class=\"alert alert-info alert-dismissable\"></div>");
+			div.append("<label class=\"alert-label\">"+data+"</label>");
+			div.append("<input name=\"salesOrderItems["+count+"].barCodes["+tcount+"]\" id=\"salesOrderItems"+count+".barCodes"+tcount+"\" type=\"hidden\" value=\""+data+"\" />");
+			div.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">x</button></div>");
+			$('#bclist'+count).append(div);
+			$('.barCodes').val('');
+		},
+	    source:  function (query, process) 
+	    {
+	    	var idx=$(this)[0].$element[0].id;
+	    	var variant=$("#salesOrderItems"+idx+"\\.variant\\.id").val();
+	    	return $.get('/salesOrder/getBarCodes/'+variant, { query: query }, function (data) 
 	    			{
 	            		return process(data);
 	    			});
@@ -820,6 +847,18 @@ $(document).ready(function() {
     		}	
     	});
 	});
+    
+    $("#omenu").click(function(){
+    	$("#smenu").toggle("medium");
+    });
+    
+    $(".close").click(function(){
+    	if($('#actual').val()==$("#salesOrderId").val())
+    	{
+    		var form=$(this).closest('form');
+    		form.submit();
+    	}
+    });
 
 });
 /*function checkCount(element)

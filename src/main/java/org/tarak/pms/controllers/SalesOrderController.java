@@ -233,11 +233,13 @@ public class SalesOrderController {
 		return "salesOrder/unAllocated";
     }
 	
-	@RequestMapping(value = "/add", params={"close"}, method = RequestMethod.POST )
+	@RequestMapping(value = "/close", method = RequestMethod.POST )
     public String closeSalesOrder(@Valid SalesOrder salesOrder, BindingResult bindingResult, Model model)
     {
-		salesOrder.setStage(PMSoftwareConstants.CLOSED);
-		salesOrderService.saveAndFlush(salesOrder);
+		String finYear=UserUtils.getFinancialYear(session);
+    	SalesOrder so=salesOrderService.findBySalesOrderIdAndFinYear(salesOrder.getSalesOrderId(), finYear);
+		so.setStage(PMSoftwareConstants.CLOSED);
+		salesOrderService.saveAndFlush(so);
 	    addSalesOrder(model);
 		return index(model);
     }
@@ -264,6 +266,23 @@ public class SalesOrderController {
 		return "salesOrder/printPickList";
     }
 	
+	@RequestMapping(value = "/add", params={"assignBarCode"}, method = RequestMethod.POST )
+    public String assignBarCodeSalesOrderItems(@Valid PickList pickList, BindingResult bindingResult, Model model)
+    {
+		pickList.getSalesOrderItems().forEach(item->{
+			SalesOrderItem soi=salesOrderItemService.findBySalesOrderIdAndFinYearAndSrNo(item.getSalesOrderId(),item.getFinYear(),item.getSrNo());
+			List<String> codes=new ArrayList<String>();
+			if(item.getBarCodes()!=null)
+			{
+				codes.addAll(item.getBarCodes());
+				soi.setBarCodes(codes);
+			}
+			soi.setProcessed(item.isProcessed());
+			salesOrderItemService.saveAndFlush(soi);
+		});
+		return "salesOrder/allocated";
+    }
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET )
     public @ResponseBody
     List<SalesOrder> listCategories()
@@ -285,7 +304,19 @@ public class SalesOrderController {
     List<SalesOrder> listUnfullfilled()
     {
 		String finYear=UserUtils.getFinancialYear(session);
-        List<SalesOrder> list=salesOrderService.findByFinYearAndStage(finYear,PMSoftwareConstants.UNFULLFILLED);
+		List<String> stages=new ArrayList<String>();
+		stages.add(PMSoftwareConstants.UNFULLFILLED);
+		stages.add(PMSoftwareConstants.PARTIALLYFULLFILLED);
+        List<SalesOrder> list=salesOrderService.findByFinYearAndStageIn(finYear,stages);
+        list.forEach(order->{
+        	order.getSalesOrderItems().forEach(item->{
+        		order.setTotalQuantity(order.getTotalQuantity()+item.getQuantity());
+        		order.setAllocated(order.getAllocated()+item.getAllocated());
+        		order.setUnallocated(order.getUnallocated()+item.getQuantity()-item.getAllocated());
+        		order.setForwardOrderQuantity(order.getForwardOrderQuantity()+item.getForwardOrderQuantity());
+        	});
+        	order.setPfulfilled(order.getAllocated()/(order.getUnallocated()+order.getAllocated()+order.getForwardOrderQuantity()));
+        });
         return list;
     }
 	
@@ -293,6 +324,15 @@ public class SalesOrderController {
     public String unfulfilledSalesOrder()
     {
     	return "salesOrder/unAllocated";
+    }
+	
+	@RequestMapping(value = "/assignBarCode/{pickListId}", method = RequestMethod.GET )
+    public String showPickListItems(@PathVariable Integer pickListId,Model model)
+    {
+		String finYear=UserUtils.getFinancialYear(session);
+		PickList pl=pickListService.findByPickListIdAndFinYear(pickListId, finYear);
+		model.addAttribute("pickList",pl);
+		return "salesOrder/assignBarCode";
     }
 	
 	@RequestMapping(value = "/pickListItemList/{pickListId}", method = RequestMethod.GET )
@@ -309,7 +349,10 @@ public class SalesOrderController {
     List<SalesOrderItem> listAllocated()
     {
 		String finYear=UserUtils.getFinancialYear(session);
-        List<SalesOrder> list=salesOrderService.findByFinYearAndStage(finYear,PMSoftwareConstants.UNFULLFILLED);
+		List<String> stages=new ArrayList<String>();
+		stages.add(PMSoftwareConstants.UNFULLFILLED);
+		stages.add(PMSoftwareConstants.PARTIALLYFULLFILLED);
+        List<SalesOrder> list=salesOrderService.findByFinYearAndStageIn(finYear,stages);
         List<SalesOrderItem> items=new LinkedList<SalesOrderItem>();
         list.forEach(order->{
         	order.getSalesOrderItems().removeIf(item->item.getAllocated()!=item.getQuantity());
@@ -378,6 +421,15 @@ public class SalesOrderController {
     	return "salesOrder/forwardOrder";
     }
     
+    @RequestMapping(value = "/closeConfirm/{salesOrderId}", method = RequestMethod.GET)
+    public String closeSalesOrder(@PathVariable Integer salesOrderId, Model model)
+    {
+    	SalesOrder so=new SalesOrder();
+    	so.setSalesOrderId(salesOrderId);
+    	model.addAttribute("salesOrder", so);
+    	return "salesOrder/closeConfirm";
+    }
+    
     @RequestMapping(value = "/forwardOrderList", method = RequestMethod.GET)
     public @ResponseBody
     List<SalesOrderItem> forwardSalesOrderList()
@@ -409,5 +461,18 @@ public class SalesOrderController {
     		}
     	});
     	return items;
+    }
+    
+    @RequestMapping(value = "/getBarCodes/{variantId}", method = RequestMethod.GET )
+    public @ResponseBody
+    List<String> listBarCodes(@PathVariable Integer variantId)
+    {
+        Variant variant=variantService.findOne(variantId);
+        List<String> list=null;
+        if(variant!=null)
+        {
+        	list=variant.getBarCodes();
+        }
+        return list;
     }
 }

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -91,6 +92,21 @@ public class SalesOrder implements Serializable {
 	
 	private String stage=PMSoftwareConstants.UNFULLFILLED;
 
+	@Transient
+	private double totalQuantity;
+	
+	@Transient
+	private double allocated;
+	
+	@Transient
+	private double unallocated;
+	
+	@Transient
+	private double forwardOrderQuantity;
+	
+	@Transient
+	private double pfulfilled;
+	
 	public int getSalesOrderId() {
 		return salesOrderId;
 	}
@@ -251,6 +267,46 @@ public class SalesOrder implements Serializable {
 
 	public void setStage(String stage) {
 		this.stage = stage;
+	}
+
+	public double getTotalQuantity() {
+		return totalQuantity;
+	}
+
+	public void setTotalQuantity(double totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+
+	public double getAllocated() {
+		return allocated;
+	}
+
+	public void setAllocated(double allocated) {
+		this.allocated = allocated;
+	}
+
+	public double getUnallocated() {
+		return unallocated;
+	}
+
+	public void setUnallocated(double unallocated) {
+		this.unallocated = unallocated;
+	}
+
+	public double getForwardOrderQuantity() {
+		return forwardOrderQuantity;
+	}
+
+	public void setForwardOrderQuantity(double forwardOrderQuantity) {
+		this.forwardOrderQuantity = forwardOrderQuantity;
+	}
+
+	public double getPfulfilled() {
+		return pfulfilled;
+	}
+
+	public void setPfulfilled(double pfulfilled) {
+		this.pfulfilled = pfulfilled;
 	}
 	
 	

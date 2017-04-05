@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Pick List Knowledge Base',formTitle='Pick List'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form action="#" th:action="@{/salesOrder/add}"
+			th:object="${pickList}" method="post">
+			<div class="row">
+				<div class="col-sm-12">
+						<label>Pick List Id : </label><span th:text="${pickListId}"></span>
+						<input type="hidden" th:field="*{pickListId}" />
+						<input type="hidden" th:field="*{finYear}" />
+						<p></p>
+						<label>Pick List Date : </label><span th:text="${pickListDate}"></span>	
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover"
+							title="Pick List ${pickListId}" id="dataTables-example">
+							<tbody  th:each="var, salesOrderItemStat : *{salesOrderItems}">
+								<tr>
+									<th col="salesOrderId" key="salesOrderId">Sales Order ID</th>
+									<td th:text="${var.salesOrderId}"></td>
+									<th col="quantity">Quantity</th>
+									<td th:text="${var.quantity}"></td>
+								</tr>
+								<tr>
+									<th col="product.name">Design</th>
+									<td th:text="${var.product.name}"></td>
+									<th col="variant.name">Variant
+									<input type="hidden"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].variant.id}"
+										class="form-control" /> <input type="hidden"
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].srNo}"
+										class="form-control" /> <input
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].finYear}"
+										type="hidden" class="form-control" /> <input
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].salesOrderId}"
+										type="hidden" class="form-control" />
+									</th>
+									<td th:text="${var.variant.name}"></td>	
+																	
+								</tr>
+								<tr>
+								<td>Processed</td>
+								<td> <input
+										th:field="*{salesOrderItems[__${salesOrderItemStat.index}__].processed}"
+										type="checkbox" /></td>
+								<th>Bar Codes</th>
+								<td>
+									<input type="text" class="form-control barCodes" th:id="|${salesOrderItemStat.count-1}|"/>
+									<div class="barCodeslist"
+											th:include="fragments::barCodes"
+											th:id="|bclist${salesOrderItemStat.count-1}|">
+									</div>
+								</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary" name="assignBarCode">
+							<i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i><span>
+								Assign Bar Codes</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+<!-- 	<script layout:fragment="footer_script">
+		$(document).ready(
+				function() {
+					var cTable = $('#dataTables-example').dataTable();
+					populate_basic_table("/salesOrder/pickListItemList/"+$('#pickListId').val(), cTable,
+							"salesOrderItem");
+				});
+	</script>
+ --></body>
+</html>

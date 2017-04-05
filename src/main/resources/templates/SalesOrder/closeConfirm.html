@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="form"
+	th:with="formHeading='Sales Order Knowledge Base',formTitle='Sales Order'">
+<head>
+<title>PMSoftware</title>
+</head>
+<body>
+	<div layout:fragment="form_fields">
+		<form th:action="@{/salesOrder/close}" th:object="${salesOrder}"
+			method="post">
+			<div class="form-group">
+				<label>Enter Sales Order Id</label> <input class="form-control"
+					th:field="*{finYear}" type="hidden" /> <input class="form-control"
+					th:field="*{salesOrderId}" type="hidden" /> <input type="text"
+					th.value="${salesOrder.salesOrderId}" id="actual" />
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-danger close" name="close">
+					<i class="fa fa-eye-slash fa-lg" aria-hidden="true"></i> Confirm
+				</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
